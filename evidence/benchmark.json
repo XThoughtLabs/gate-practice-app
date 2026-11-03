@@ -1,0 +1,35 @@
+{
+  "boundary": "TestClient in-process request including application and SQLite; no TCP",
+  "dataset_tasks": 500,
+  "warmup_requests": 20,
+  "concurrency": 1,
+  "clock": "perf_counter_ns",
+  "units": "milliseconds",
+  "runs": [
+    {
+      "repetition": 1,
+      "requests": 100,
+      "p50_ms": 2.3161,
+      "p95_ms": 3.0479,
+      "min_ms": 1.7012,
+      "max_ms": 3.593
+    },
+    {
+      "repetition": 2,
+      "requests": 100,
+      "p50_ms": 2.13765,
+      "p95_ms": 3.174,
+      "min_ms": 1.7254,
+      "max_ms": 3.4139
+    },
+    {
+      "repetition": 3,
+      "requests": 100,
+      "p50_ms": 2.09875,
+      "p95_ms": 2.6231,
+      "min_ms": 1.7363,
+      "max_ms": 2.9763
+    }
+  ],
+  "acceptance_threshold": null
+}

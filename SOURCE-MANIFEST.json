@@ -1,0 +1,152 @@
+{
+  "format": "workflow-source-manifest-v1",
+  "created_date": "2026-11-03",
+  "files": [
+    {
+      "path": ".coveragerc",
+      "bytes": 67,
+      "sha256": "bb8f1dfb17deb4017b2f047441cdfcf95bc6a85ffb24a40ec8f68fa4304b4b64"
+    },
+    {
+      "path": ".gitattributes",
+      "bytes": 72,
+      "sha256": "102e8b390b74ba236486300792ffc65027f7bc30b9a793cd93c266e14431b74c"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 94,
+      "sha256": "c425c2502563b40ae0021f47f76b98d48943d2b0887e1f3711000180a6f58a84"
+    },
+    {
+      "path": "BASELINE.md",
+      "bytes": 6209,
+      "sha256": "620b9b5186b97bab19bd84b3f7062cc90b86e6ead8d3704c1f1a34ae7bd30a1e"
+    },
+    {
+      "path": "evidence/bandit.json",
+      "bytes": 2528,
+      "sha256": "f28e9f0550457d37a4276127b8dceb70108c6964b7650616b3d1c6752f297f22"
+    },
+    {
+      "path": "evidence/bandit.log",
+      "bytes": 222,
+      "sha256": "b5392bf3d1991a555ba2fd9dedfadf14e445178dd5edc4e5ff71ca75e6c27706"
+    },
+    {
+      "path": "evidence/benchmark.json",
+      "bytes": 727,
+      "sha256": "109a91244dc73d569989f2788cba1277b4c268ac718b41300bb909021777d12c"
+    },
+    {
+      "path": "evidence/benchmark.log",
+      "bytes": 977,
+      "sha256": "fafee722e946d690afb02e3852d34f07c60e316774196ea125ff987f488f8fd9"
+    },
+    {
+      "path": "evidence/commands.json",
+      "bytes": 1935,
+      "sha256": "2a9b78c5a800c02f4cd2ddbe8d74199c6c4e4959ba8cf0bda5c0a23910b68626"
+    },
+    {
+      "path": "evidence/coverage-report.log",
+      "bytes": 561,
+      "sha256": "9e4cbcbe672c681cc29dc1e186d3b318e78541f9aebbf735f99d5d53111e96c0"
+    },
+    {
+      "path": "evidence/coverage.json",
+      "bytes": 40395,
+      "sha256": "4e43b4c557f3519582a8e830c9ce6feb42d8ec846bdda60e8fa80ec667ddf63b"
+    },
+    {
+      "path": "evidence/coverage.log",
+      "bytes": 52,
+      "sha256": "1bc48ce4d953534e8ca3aa533cc76507e3887082569c6d07f356f71576155956"
+    },
+    {
+      "path": "evidence/dependency-check.log",
+      "bytes": 38,
+      "sha256": "03acbfbdec1a544285efd2ee1f166bc5e53355cad1d88362e6caec08cd9cf681"
+    },
+    {
+      "path": "evidence/environment.json",
+      "bytes": 1117,
+      "sha256": "acca009f513b2936d3adf94340b034293693880e6e56040b23212c5397b72ebd"
+    },
+    {
+      "path": "evidence/starter-tests.log",
+      "bytes": 568,
+      "sha256": "dd4325222ce4fb31960ad044c0da951cd6cdc334274dee72ea6271c1acdcb10a"
+    },
+    {
+      "path": "OPEN-ISSUES.md",
+      "bytes": 1343,
+      "sha256": "ff1a8a3f8e7f4267f97ffd978f9d047bba9a929bfff1365357d9a5c7b5c2f502"
+    },
+    {
+      "path": "pytest.ini",
+      "bytes": 41,
+      "sha256": "6a96ba0e2d5a8296fb90f474da9d2f0173d3e41eba18965513f711104155f913"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2678,
+      "sha256": "b5a445b58d56f8bc61a93b2ca6e45bd9972c3442f186a391b3e82fc48b173f2c"
+    },
+    {
+      "path": "requirements.in",
+      "bytes": 92,
+      "sha256": "6937b08ce6510292771293e8c38b169ae690a0083367dd74ef4c8420a2f982c5"
+    },
+    {
+      "path": "requirements.lock",
+      "bytes": 515,
+      "sha256": "8d8c777bb797920fda33e681c830ab9ffb25ab20b2b3f3ebebb4409b5d2c5b29"
+    },
+    {
+      "path": "SPEC.md",
+      "bytes": 7951,
+      "sha256": "92a2ea84dff9c84d26c20ccbe2641f8cf1e06a95dcbd945dc39bc7da807b22dc"
+    },
+    {
+      "path": "TASK.md",
+      "bytes": 6296,
+      "sha256": "ee3281d1c7ef179d99c32a730ce1a1b19ccaafa30b6c71065cfc139a02155cca"
+    },
+    {
+      "path": "tests/conftest.py",
+      "bytes": 680,
+      "sha256": "3d864f8a1303b751d4e2406ebe0a7f7dd3a01380d5912d694c546ae030e7a518"
+    },
+    {
+      "path": "tests/test_api.py",
+      "bytes": 5321,
+      "sha256": "24d399a7e32d6f69c713b1eb76c264458f5495a3462bd0aa3225f39ada980fa9"
+    },
+    {
+      "path": "tools/benchmark.py",
+      "bytes": 2182,
+      "sha256": "6f4f3bbcc85e926155f9e9cdbfe2f11d03a159141997256d96e16d5cb893e80c"
+    },
+    {
+      "path": "workflow/__init__.py",
+      "bytes": 96,
+      "sha256": "096b0f4004f94fb825f762e164e9dc800d07e1f62a01ce9fbe95b346986ccbcb"
+    },
+    {
+      "path": "workflow/api.py",
+      "bytes": 4832,
+      "sha256": "5cd9e1c5cc56b6d5268da01a8544de770806d3c51d3d9b265fba094d233df532"
+    },
+    {
+      "path": "workflow/service.py",
+      "bytes": 4809,
+      "sha256": "4fcca511d1d5fa7ffc74c594d4cbf42e8497a5730b05ccef2903f788f0751368"
+    },
+    {
+      "path": "workflow/store.py",
+      "bytes": 5277,
+      "sha256": "368c4c46507c9a49c786d54722d33214bf6364af5b44f25502756ab101105aa1"
+    }
+  ],
+  "exclusion": "This manifest does not hash itself; the release archive is hashed out of band."
+}

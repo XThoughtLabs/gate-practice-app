@@ -1,0 +1,86 @@
+[
+  {
+    "command": [
+      "python",
+      "-m",
+      "pip",
+      "check"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.49564330000430346,
+    "log": "evidence/dependency-check.log",
+    "log_sha256": "03acbfbdec1a544285efd2ee1f166bc5e53355cad1d88362e6caec08cd9cf681"
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "coverage",
+      "run",
+      "-m",
+      "pytest",
+      "-q",
+      "-p",
+      "no:cacheprovider",
+      "--basetemp",
+      "<TRIAL_ROOT>\\runtime-temp\\public-pytest"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.489159000106156,
+    "log": "evidence/starter-tests.log",
+    "log_sha256": "dd4325222ce4fb31960ad044c0da951cd6cdc334274dee72ea6271c1acdcb10a"
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "coverage",
+      "json",
+      "-o",
+      "evidence/coverage.json"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.27896799985319376,
+    "log": "evidence/coverage.log",
+    "log_sha256": "1bc48ce4d953534e8ca3aa533cc76507e3887082569c6d07f356f71576155956"
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "coverage",
+      "report"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.26317529985681176,
+    "log": "evidence/coverage-report.log",
+    "log_sha256": "9e4cbcbe672c681cc29dc1e186d3b318e78541f9aebbf735f99d5d53111e96c0"
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "bandit",
+      "-r",
+      "workflow",
+      "-f",
+      "json",
+      "-o",
+      "evidence/bandit.json"
+    ],
+    "exit_code": 1,
+    "elapsed_seconds": 0.4572114001493901,
+    "log": "evidence/bandit.log",
+    "log_sha256": "b5392bf3d1991a555ba2fd9dedfadf14e445178dd5edc4e5ff71ca75e6c27706"
+  },
+  {
+    "command": [
+      "python",
+      "tools/benchmark.py"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.694171899929643,
+    "log": "evidence/benchmark.log",
+    "log_sha256": "fafee722e946d690afb02e3852d34f07c60e316774196ea125ff987f488f8fd9"
+  }
+]
