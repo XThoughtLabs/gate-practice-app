@@ -1,0 +1,6 @@
+dependency-check	0	0.305
+starter-tests	1	2.172
+coverage-json	0	0.143
+coverage-report	0	0.131
+bandit	1	0.223
+benchmark	1	0.425

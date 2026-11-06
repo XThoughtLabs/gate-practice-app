@@ -1,0 +1,55 @@
+# Code owners. With the candidate/a ruleset's code-owner review, a PR that changes any
+# path below cannot merge without an approval from @XThoughtLabs, the CEO's account.
+# It covers every path the gate protects (gate.guard G-1, G-1a, G-1b, and quality.toml's
+# [guard] lists), and every path the guard marks for a person in needs_code_owner
+# (G-1b-mark, G-1c, G-4a, G-8), so that a mark binds a person and not only a comment.
+# GitHub matches these paths in their exact letter case; the guard matches any case.
+
+# Gate control: G-1 and quality.toml extra_protected.
+/.github/                 @XThoughtLabs
+/acceptance/              @XThoughtLabs
+/quality.toml             @XThoughtLabs
+/CODEOWNERS               @XThoughtLabs
+/SPEC.md                  @XThoughtLabs
+/TASK.md                  @XThoughtLabs
+/BASELINE.md              @XThoughtLabs
+/OPEN-ISSUES.md           @XThoughtLabs
+/SOURCE-MANIFEST.json     @XThoughtLabs
+/evidence/                @XThoughtLabs
+/security-review.md       @XThoughtLabs
+/prompts/                 @XThoughtLabs
+/.claude/                 @XThoughtLabs
+/.mcp.json                @XThoughtLabs
+
+# What controls the tests and the security tools, in any folder: G-1a.
+pytest.ini                @XThoughtLabs
+.pytest.ini               @XThoughtLabs
+pytest.toml               @XThoughtLabs
+.pytest.toml              @XThoughtLabs
+.bandit                   @XThoughtLabs
+bandit.yaml               @XThoughtLabs
+bandit.yml                @XThoughtLabs
+.gitleaks.toml            @XThoughtLabs
+.gitleaksignore           @XThoughtLabs
+.gitattributes            @XThoughtLabs
+/pytest.py                @XThoughtLabs
+/pytest/                  @XThoughtLabs
+/_pytest/                 @XThoughtLabs
+
+# Configuration files read by pytest, coverage and the security tools, in any folder: G-1b, G-1b-mark.
+pyproject.toml            @XThoughtLabs
+setup.cfg                 @XThoughtLabs
+tox.ini                   @XThoughtLabs
+.coveragerc               @XThoughtLabs
+
+# Every conftest.py, the root one included: G-1a, G-1c.
+conftest.py               @XThoughtLabs
+
+# Tests: G-2 to G-4a.
+tests/                    @XThoughtLabs
+test_*.py                 @XThoughtLabs
+*_test.py                 @XThoughtLabs
+
+# Dependencies: G-7, G-8.
+/requirements.lock        @XThoughtLabs
+/requirements.in          @XThoughtLabs

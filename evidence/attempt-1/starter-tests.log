@@ -1,0 +1,641 @@
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                               [100%]
+==================================== ERRORS ====================================
+________________________ ERROR at setup of test_health _________________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+____________ ERROR at setup of test_authentication_required[/users] ____________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+____________ ERROR at setup of test_authentication_required[/tasks] ____________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+___________ ERROR at setup of test_authentication_required[/tasks/1] ___________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+________ ERROR at setup of test_authentication_required[/tasks/export] _________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_______________________ ERROR at setup of test_bad_token _______________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________________ ERROR at setup of test_users _________________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+________________________ ERROR at setup of test_create _________________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+________________________ ERROR at setup of test_get_own ________________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_____________________ ERROR at setup of test_unknown_task ______________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+___________________ ERROR at setup of test_empty_collection ____________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+____________________ ERROR at setup of test_list_full_page _____________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_create[body0] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_create[body1] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_create[body2] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_create[body3] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_create[body4] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_create[body5] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_create[body6] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_create[body7] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_create[body8] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+__________________ ERROR at setup of test_invalid_assignee[4] __________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_assignee[999] _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_progress_and_complete _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_cannot_skip_progress __________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_____________________ ERROR at setup of test_admin_reopens _____________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+____________________ ERROR at setup of test_observer_create ____________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_observer_cannot_patch _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_patch[body0] __________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_patch[body1] __________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_patch[body2] __________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_patch[body3] __________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_invalid_patch[body4] __________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_______________________ ERROR at setup of test_work_log ________________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+____________________ ERROR at setup of test_invalid_work[0] ____________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+___________________ ERROR at setup of test_invalid_work[-1] ____________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+___________________ ERROR at setup of test_invalid_work[481] ___________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+__________________ ERROR at setup of test_invalid_work[True] ___________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+___________________ ERROR at setup of test_invalid_work[1.5] ___________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_______________ ERROR at setup of test_idempotency_same_process ________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_____________________ ERROR at setup of test_export_simple _____________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+_________________ ERROR at setup of test_overdue_ordinary_case _________________
+
+self = PosixPath('/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/tmp/public-pytest'
+
+/usr/local/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+=============================== warnings summary ===============================
+../.venv/lib/python3.13/site-packages/fastapi/testclient.py:1
+  /tmp/claude-0/-home-claude/f7dff47a-70c5-5496-b2e0-375412683548/scratchpad/wf/run-baseline-1/.venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR tests/test_api.py::test_health - FileNotFoundError: [Errno 2] No such f...
+ERROR tests/test_api.py::test_authentication_required[/users] - FileNotFoundE...
+ERROR tests/test_api.py::test_authentication_required[/tasks] - FileNotFoundE...
+ERROR tests/test_api.py::test_authentication_required[/tasks/1] - FileNotFoun...
+ERROR tests/test_api.py::test_authentication_required[/tasks/export] - FileNo...
+ERROR tests/test_api.py::test_bad_token - FileNotFoundError: [Errno 2] No suc...
+ERROR tests/test_api.py::test_users - FileNotFoundError: [Errno 2] No such fi...
+ERROR tests/test_api.py::test_create - FileNotFoundError: [Errno 2] No such f...
+ERROR tests/test_api.py::test_get_own - FileNotFoundError: [Errno 2] No such ...
+ERROR tests/test_api.py::test_unknown_task - FileNotFoundError: [Errno 2] No ...
+ERROR tests/test_api.py::test_empty_collection - FileNotFoundError: [Errno 2]...
+ERROR tests/test_api.py::test_list_full_page - FileNotFoundError: [Errno 2] N...
+ERROR tests/test_api.py::test_invalid_create[body0] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_create[body1] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_create[body2] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_create[body3] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_create[body4] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_create[body5] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_create[body6] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_create[body7] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_create[body8] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_assignee[4] - FileNotFoundError: [Errno...
+ERROR tests/test_api.py::test_invalid_assignee[999] - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_progress_and_complete - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_cannot_skip_progress - FileNotFoundError: [Errn...
+ERROR tests/test_api.py::test_admin_reopens - FileNotFoundError: [Errno 2] No...
+ERROR tests/test_api.py::test_observer_create - FileNotFoundError: [Errno 2] ...
+ERROR tests/test_api.py::test_observer_cannot_patch - FileNotFoundError: [Err...
+ERROR tests/test_api.py::test_invalid_patch[body0] - FileNotFoundError: [Errn...
+ERROR tests/test_api.py::test_invalid_patch[body1] - FileNotFoundError: [Errn...
+ERROR tests/test_api.py::test_invalid_patch[body2] - FileNotFoundError: [Errn...
+ERROR tests/test_api.py::test_invalid_patch[body3] - FileNotFoundError: [Errn...
+ERROR tests/test_api.py::test_invalid_patch[body4] - FileNotFoundError: [Errn...
+ERROR tests/test_api.py::test_work_log - FileNotFoundError: [Errno 2] No such...
+ERROR tests/test_api.py::test_invalid_work[0] - FileNotFoundError: [Errno 2] ...
+ERROR tests/test_api.py::test_invalid_work[-1] - FileNotFoundError: [Errno 2]...
+ERROR tests/test_api.py::test_invalid_work[481] - FileNotFoundError: [Errno 2...
+ERROR tests/test_api.py::test_invalid_work[True] - FileNotFoundError: [Errno ...
+ERROR tests/test_api.py::test_invalid_work[1.5] - FileNotFoundError: [Errno 2...
+ERROR tests/test_api.py::test_idempotency_same_process - FileNotFoundError: [...
+ERROR tests/test_api.py::test_export_simple - FileNotFoundError: [Errno 2] No...
+ERROR tests/test_api.py::test_overdue_ordinary_case - FileNotFoundError: [Err...
+1 warning, 42 errors in 0.97s
+EXIT=1
