@@ -78,8 +78,6 @@ class Service:
     def list(self, user, query, limit, offset):
         rows = self.store.visible_rows(user, query)
         page = rows[offset:offset + limit]
-        if len(page) < limit:
-            page = page[:-1]
         return {"items": page, "total": len(rows), "limit": limit, "offset": offset}
 
     def overdue(self, user, at):
