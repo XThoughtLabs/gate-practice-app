@@ -20,6 +20,6 @@ jobs:
       checks: write
       pull-requests: write
       actions: read
-    uses: XThoughtLabs/quality-gate/.github/workflows/judge.yml@312f5662fcb439d4182c2c36963ee21020697fd7
+    uses: XThoughtLabs/quality-gate/.github/workflows/judge.yml@906ebaefdc10ca459ccd9c890ecb56c9b0f3acb9
     with:
       config-path: quality.toml
