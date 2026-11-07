@@ -1,0 +1,23 @@
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 4 files tracked by git with 5 Code rules:
+  Scanning 4 files with 5 python rules.
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 0 (0 blocking)
+ • Rules run: 5
+ • Targets scanned: 4
+ • Parsed lines: ~100.0%
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 5 rules on 4 files: 0 findings.
+If Semgrep missed a finding, please send us feedback to let us know!
+See https://semgrep.dev/docs/reporting-false-negatives/
+{"version":"1.183.0","results":[],"errors":[],"paths":{"scanned":["workflow/__init__.py","workflow/api.py","workflow/service.py","workflow/store.py"]},"time":{"rules":[],"rules_parse_time":0.0004849433898925781,"profiling_times":{"config_time":0.09954690933227539,"core_time":0.2221822738647461,"ignores_time":9.441375732421875e-05,"total_time":0.33000755310058594},"parsing_time":{"total_time":0.03643012046813965,"per_file_time":{"mean":0.006071686744689941,"std_dev":3.255782321787137e-05},"very_slow_stats":{"time_ratio":0.0,"count_ratio":0.0},"very_slow_files":[]},"scanning_time":{"total_time":0.04837393760681152,"per_file_time":{"mean":0.01209348440170288,"std_dev":2.144514295920885e-05},"very_slow_stats":{"time_ratio":0.0,"count_ratio":0.0},"very_slow_files":[]},"matching_time":{"total_time":0.009277820587158203,"per_file_and_rule_time":{"mean":0.001546303431193034,"std_dev":5.471387219636705e-06},"very_slow_stats":{"time_ratio":0.0,"count_ratio":0.0},"very_slow_rules_on_files":[]},"tainting_time":{"total_time":0.0,"per_def_and_rule_time":{"mean":0.0,"std_dev":0.0},"very_slow_stats":{"time_ratio":0.0,"count_ratio":0.0},"very_slow_rules_on_defs":[]},"fixpoint_timeouts":[],"prefiltering":{"project_level_time":0.0,"file_level_time":0.0,"rules_with_project_prefilters_ratio":0.0,"rules_with_file_prefilters_ratio":0.8,"rules_selected_ratio":0.3,"rules_matched_ratio":0.3},"targets":[],"total_bytes":0,"max_memory_bytes":99783680},"engine_requested":"OSS","skipped_rules":[],"profiling_results":[]}
