@@ -1,0 +1,25 @@
+{
+  "conclusions": {
+    "gate/archive": "success",
+    "gate/final": "failure"
+  },
+  "reasons": [
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/env failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/acceptance failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/security failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/env failed in the publish job"
+    }
+  ],
+  "verdict": "blocked"
+}
