@@ -1,0 +1,48 @@
+{
+  "env_failures": [
+    "publish"
+  ],
+  "human": [],
+  "independent_review": {
+    "head_sha": "27f099818a1a0a6f1de795be645f643f93eea520",
+    "state": "pending"
+  },
+  "merges": [
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "1604b44da373ab8fbded46b0c3b78138622fe477",
+      "merge_sha": "191d202628383c9e18f397f52f3eff49f614d701",
+      "merged_by": null,
+      "pr": 2,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": null,
+      "head_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merge_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merged_by": "XThoughtLabs",
+      "pr": null,
+      "via_pr": false
+    }
+  ],
+  "reports_untrusted": false,
+  "resources": {
+    "actions_minutes": 1.6,
+    "codex_runs": 0
+  },
+  "review_verdicts": [],
+  "rounds": [
+    {
+      "cumulative": "99c468c6fdcfda9fecb2c4be4d7ab6b7d35a75f035a177b81bad3b5489a4a35a",
+      "head_sha": "05455d076fe510be61a9790cb6fd8fe564b115ec",
+      "round": "99c468c6fdcfda9fecb2c4be4d7ab6b7d35a75f035a177b81bad3b5489a4a35a"
+    }
+  ],
+  "semi_automatic_steps": [
+    "The independent review is started by hand on the laptop.",
+    "A person approves and merges each PR."
+  ]
+}
