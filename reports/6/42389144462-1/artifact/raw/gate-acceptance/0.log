@@ -1,0 +1,4339 @@
+F..F...........FFFFFFFFFF........................FF.........F...FFFFF.F. [ 20%]
+F....F.................................................................. [ 40%]
+.................................................F..F......FFFFFFFFFFFFF [ 60%]
+FFFFFFFFFF.F...................................FFFFFFF..F........F...... [ 80%]
+....FFFFFFFF.F.FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF...FFFFFFFFFFFFFF.    [100%]
+=================================== FAILURES ===================================
+________________ test_pub_01_last_page_keeps_the_remaining_task ________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9208590>
+
+    def test_pub_01_last_page_keeps_the_remaining_task(client):
+        """PUB-01 (SPEC.md section 3): with three tasks, limit=2&offset=2 returns the third; total stays 3."""
+        created = sorted(create_task(client, "alice", title=f"Alice task {number}")["id"] for number in (1, 2, 3))
+>       assert page(client, "alice", limit=2, offset=2) == ([created[2]], 3)
+E       assert ([], 3) == ([3], 3)
+E         
+E         At index 0 diff: [] != [3]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         3,
+E         -     ],
+E         +     [],
+E         ?     +
+E               3,
+E           )
+
+acceptance/test_open_issues_pub.py:83: AssertionError
+_ test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-1-limit-2-offset-0] _
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ffc9d0>, count = 1
+limit = 2, offset = 0, positions = [0]
+
+    @pytest.mark.parametrize(
+        ("count", "limit", "offset", "positions"),
+        PAGING_BOUNDARIES,
+        ids=[f"tasks-{count}-limit-{limit}-offset-{offset}" for count, limit, offset, _ in PAGING_BOUNDARIES],
+    )
+    def test_pub_01_paging_boundaries_keep_every_remaining_task(client, count, limit, offset, positions):
+        """PUB-01 (SPEC.md section 3): empty, one-item, exact-page and partial last pages hold every
+        remaining task, and total is the whole collection."""
+        created = sorted(create_task(client, "alice", title=f"Paged task {number}")["id"] for number in range(count))
+>       assert page(client, "alice", limit=limit, offset=offset) == ([created[p] for p in positions], count)
+E       assert ([], 1) == ([1], 1)
+E         
+E         At index 0 diff: [] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         1,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_open_issues_pub.py:115: AssertionError
+_ test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-5-limit-2-offset-4] _
+
+client = <starlette.testclient.TestClient object at 0x7f55b914bdf0>, count = 5
+limit = 2, offset = 4, positions = [4]
+
+    @pytest.mark.parametrize(
+        ("count", "limit", "offset", "positions"),
+        PAGING_BOUNDARIES,
+        ids=[f"tasks-{count}-limit-{limit}-offset-{offset}" for count, limit, offset, _ in PAGING_BOUNDARIES],
+    )
+    def test_pub_01_paging_boundaries_keep_every_remaining_task(client, count, limit, offset, positions):
+        """PUB-01 (SPEC.md section 3): empty, one-item, exact-page and partial last pages hold every
+        remaining task, and total is the whole collection."""
+        created = sorted(create_task(client, "alice", title=f"Paged task {number}")["id"] for number in range(count))
+>       assert page(client, "alice", limit=limit, offset=offset) == ([created[p] for p in positions], count)
+E       assert ([], 5) == ([5], 5)
+E         
+E         At index 0 diff: [] != [5]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         5,
+E         -     ],
+E         +     [],
+E         ?     +
+E               5,
+E           )
+
+acceptance/test_open_issues_pub.py:115: AssertionError
+_________ test_pub_01_last_page_of_a_search_keeps_the_remaining_match __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b91299d0>
+
+    def test_pub_01_last_page_of_a_search_keeps_the_remaining_match(client):
+        """PUB-01 (SPEC.md section 3): a partial final page of a search retains every remaining match."""
+        titles = ["Match one", "Other", "Match two", "Match three", "Other again"]
+        created = [create_task(client, "alice", title=title)["id"] for title in titles]
+        matches = sorted([created[0], created[2], created[3]])
+>       assert page(client, "alice", q="match", limit=2, offset=2) == ([matches[2]], 3)
+E       assert ([], 3) == ([4], 3)
+E         
+E         At index 0 diff: [] != [4]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         4,
+E         -     ],
+E         +     [],
+E         ?     +
+E               3,
+E           )
+
+acceptance/test_open_issues_pub.py:123: AssertionError
+__________ test_pub_02_export_recovers_a_title_with_comma_and_quotes ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d9f20>
+
+    def test_pub_02_export_recovers_a_title_with_comma_and_quotes(client):
+        """PUB-02 (SPEC.md section 3): a standard CSV parser recovers 'Review, phase "B"' in one title
+        field, with exactly the documented columns."""
+        title = 'Review, phase "B"'
+        task = create_task(client, "alice", title=title)
+>       assert export_rows(client) == [HEADER, [str(task["id"]), title, "todo", ""]]
+E       assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+E         
+E         At index 1 diff: ['1', 'Review', ' phase "B"', 'todo', ''] != ['1', 'Review, phase "B"', 'todo', '']
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               [
+E                   'id',
+E                   'title',
+E                   'status',
+E                   'assignee_id',
+E               ],
+E               [
+E                   '1',
+E         +         'Review',
+E         -         'Review, phase "B"',
+E         ?          -------
+E         +         ' phase "B"',
+E                   'todo',
+E                   '',
+E               ],
+E           ]
+
+acceptance/test_open_issues_pub.py:134: AssertionError
+_________ test_pub_02_export_recovers_unicode_and_line_breaks[unicode] _________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90dbac0>
+title = 'Überprüfung, „Phase B“ — 東京 ✓ 🚀'
+
+    @pytest.mark.parametrize(
+        "title", STRUCTURED_TITLES, ids=["unicode", "line-feed", "crlf-comma-quotes", "quoted", "comma", "mixed"]
+    )
+    def test_pub_02_export_recovers_unicode_and_line_breaks(client, title):
+        """PUB-02 (SPEC.md section 3): Unicode, embedded line breaks, commas and quotes survive the export
+        unchanged in one field; content is not stripped."""
+        task = create_task(client, "alice", title=title)
+>       assert export_rows(client) == [HEADER, [str(task["id"]), title, "todo", ""]]
+E       AssertionError: assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+E         
+E         At index 1 diff: ['1', 'Überprüfung', ' „Phase B“ — 東京 ✓ 🚀', 'todo', ''] != ['1', 'Überprüfung, „Phase B“ — 東京 ✓ 🚀', 'todo', '']
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               [
+E                   'id',
+E                   'title',
+E                   'status',
+E                   'assignee_id',
+E               ],
+E               [
+E                   '1',
+E         +         'Überprüfung',
+E         -         'Überprüfung, „Phase B“ — 東京 ✓ 🚀',
+E         ?          ------------
+E         +         ' „Phase B“ — 東京 ✓ 🚀',
+E                   'todo',
+E                   '',
+E               ],
+E           ]
+
+acceptance/test_open_issues_pub.py:154: AssertionError
+________ test_pub_02_export_recovers_unicode_and_line_breaks[line-feed] ________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a030>
+title = 'first line\nsecond line'
+
+    @pytest.mark.parametrize(
+        "title", STRUCTURED_TITLES, ids=["unicode", "line-feed", "crlf-comma-quotes", "quoted", "comma", "mixed"]
+    )
+    def test_pub_02_export_recovers_unicode_and_line_breaks(client, title):
+        """PUB-02 (SPEC.md section 3): Unicode, embedded line breaks, commas and quotes survive the export
+        unchanged in one field; content is not stripped."""
+        task = create_task(client, "alice", title=title)
+>       assert export_rows(client) == [HEADER, [str(task["id"]), title, "todo", ""]]
+E       AssertionError: assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+E         
+E         At index 1 diff: ['1', 'first line'] != ['1', 'first line\nsecond line', 'todo', '']
+E         Left contains one more item: ['second line', 'todo', '']
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               [
+E                   'id',
+E                   'title',
+E                   'status',
+E                   'assignee_id',
+E               ],
+E               [
+E                   '1',
+E         -         'first line\n'
+E         ?                    --
+E         +         'first line',
+E         ?                     +
+E         +     ],
+E         +     [
+E                   'second line',
+E                   'todo',
+E                   '',
+E               ],
+E           ]
+
+acceptance/test_open_issues_pub.py:154: AssertionError
+____ test_pub_02_export_recovers_unicode_and_line_breaks[crlf-comma-quotes] ____
+
+client = <starlette.testclient.TestClient object at 0x7f55b914a250>
+title = 'first line\r\nsecond, "quoted" line'
+
+    @pytest.mark.parametrize(
+        "title", STRUCTURED_TITLES, ids=["unicode", "line-feed", "crlf-comma-quotes", "quoted", "comma", "mixed"]
+    )
+    def test_pub_02_export_recovers_unicode_and_line_breaks(client, title):
+        """PUB-02 (SPEC.md section 3): Unicode, embedded line breaks, commas and quotes survive the export
+        unchanged in one field; content is not stripped."""
+        task = create_task(client, "alice", title=title)
+>       assert export_rows(client) == [HEADER, [str(task["id"]), title, "todo", ""]]
+E       assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+E         
+E         At index 1 diff: ['1', 'first line'] != ['1', 'first line\r\nsecond, "quoted" line', 'todo', '']
+E         Left contains one more item: ['second', ' "quoted" line', 'todo', '']
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               [
+E                   'id',
+E                   'title',
+E                   'status',
+E                   'assignee_id',
+E               ],
+E               [
+E                   '1',
+E         -         'first line\r\n'
+E         ?                    ----
+E         +         'first line',
+E         ?                     +
+E         +     ],
+E         +     [
+E         +         'second',
+E         -         'second, "quoted" line',
+E         ?          -------
+E         +         ' "quoted" line',
+E                   'todo',
+E                   '',
+E               ],
+E           ]
+
+acceptance/test_open_issues_pub.py:154: AssertionError
+_________ test_pub_02_export_recovers_unicode_and_line_breaks[quoted] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b914bac0>
+title = '"Fully quoted"'
+
+    @pytest.mark.parametrize(
+        "title", STRUCTURED_TITLES, ids=["unicode", "line-feed", "crlf-comma-quotes", "quoted", "comma", "mixed"]
+    )
+    def test_pub_02_export_recovers_unicode_and_line_breaks(client, title):
+        """PUB-02 (SPEC.md section 3): Unicode, embedded line breaks, commas and quotes survive the export
+        unchanged in one field; content is not stripped."""
+        task = create_task(client, "alice", title=title)
+>       assert export_rows(client) == [HEADER, [str(task["id"]), title, "todo", ""]]
+E       assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+E         
+E         At index 1 diff: ['1', 'Fully quoted', 'todo', ''] != ['1', '"Fully quoted"', 'todo', '']
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               [
+E                   'id',
+E                   'title',
+E                   'status',
+E                   'assignee_id',
+E               ],
+E               [
+E                   '1',
+E         -         '"Fully quoted"',
+E         ?          -            -
+E         +         'Fully quoted',
+E                   'todo',
+E                   '',
+E               ],
+E           ]
+
+acceptance/test_open_issues_pub.py:154: AssertionError
+__________ test_pub_02_export_recovers_unicode_and_line_breaks[comma] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a580>
+title = 'Trailing comma,'
+
+    @pytest.mark.parametrize(
+        "title", STRUCTURED_TITLES, ids=["unicode", "line-feed", "crlf-comma-quotes", "quoted", "comma", "mixed"]
+    )
+    def test_pub_02_export_recovers_unicode_and_line_breaks(client, title):
+        """PUB-02 (SPEC.md section 3): Unicode, embedded line breaks, commas and quotes survive the export
+        unchanged in one field; content is not stripped."""
+        task = create_task(client, "alice", title=title)
+>       assert export_rows(client) == [HEADER, [str(task["id"]), title, "todo", ""]]
+E       AssertionError: assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+E         
+E         At index 1 diff: ['1', 'Trailing comma', '', 'todo', ''] != ['1', 'Trailing comma,', 'todo', '']
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               [
+E                   'id',
+E                   'title',
+E                   'status',
+E                   'assignee_id',
+E               ],
+E               [
+E                   '1',
+E         -         'Trailing comma,',
+E         ?                        -
+E         +         'Trailing comma',
+E         +         '',
+E                   'todo',
+E                   '',
+E               ],
+E           ]
+
+acceptance/test_open_issues_pub.py:154: AssertionError
+__________ test_pub_02_export_recovers_unicode_and_line_breaks[mixed] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9013350>
+title = 'Mixed: "a", b; c\td'
+
+    @pytest.mark.parametrize(
+        "title", STRUCTURED_TITLES, ids=["unicode", "line-feed", "crlf-comma-quotes", "quoted", "comma", "mixed"]
+    )
+    def test_pub_02_export_recovers_unicode_and_line_breaks(client, title):
+        """PUB-02 (SPEC.md section 3): Unicode, embedded line breaks, commas and quotes survive the export
+        unchanged in one field; content is not stripped."""
+        task = create_task(client, "alice", title=title)
+>       assert export_rows(client) == [HEADER, [str(task["id"]), title, "todo", ""]]
+E       assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+E         
+E         At index 1 diff: ['1', 'Mixed: "a"', ' b; c\td', 'todo', ''] != ['1', 'Mixed: "a", b; c\td', 'todo', '']
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               [
+E                   'id',
+E                   'title',
+E                   'status',
+E                   'assignee_id',
+E               ],
+E               [
+E                   '1',
+E         -         'Mixed: "a", b; c\td',
+E         ?                    ---------
+E         +         'Mixed: "a"',
+E         +         ' b; c\td',
+E                   'todo',
+E                   '',
+E               ],
+E           ]
+
+acceptance/test_open_issues_pub.py:154: AssertionError
+______ test_pub_02_export_keeps_exact_columns_for_many_structured_titles _______
+
+client = <starlette.testclient.TestClient object at 0x7f55b93ab350>
+
+    def test_pub_02_export_keeps_exact_columns_for_many_structured_titles(client):
+        """PUB-02 (SPEC.md section 3): with many structured titles at once, every row has exactly the
+        documented columns and its own title."""
+        bob = next(
+            entry["id"]
+            for entry in users(client)
+            if entry["role"] == "member" and "bob" in str(entry["name"]).lower()
+        )
+        expected = {}
+        for number, title in enumerate(STRUCTURED_TITLES + ['Review, phase "B"']):
+            assignee = bob if number % 2 else None
+            task = create_task(client, "alice", title=title, assignee_id=assignee)
+            expected[str(task["id"])] = [str(task["id"]), title, "todo", "" if assignee is None else str(bob)]
+        rows = export_rows(client)
+        assert rows[0] == HEADER
+>       assert all(len(row) == 4 for row in rows), rows
+E       AssertionError: [['id', 'title', 'status', 'assignee_id'], ['1', 'Überprüfung', ' „Phase B“ — 東京 ✓ 🚀', 'todo', ''], ['2', 'first line'], ['second line', 'todo', '3'], ['3', 'first line'], ['second', ' "quoted" line', 'todo', ''], ...]
+E       assert False
+E        +  where False = all(<generator object test_pub_02_export_keeps_exact_columns_for_many_structured_titles.<locals>.<genexpr> at 0x7f55b92b0a00>)
+
+acceptance/test_open_issues_pub.py:172: AssertionError
+_ test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/history-invalid] _
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e7570>
+method = 'GET', path = '/tasks/{task_id}/history', body = None
+credential = 'invalid'
+
+    @pytest.mark.parametrize("credential", sorted(CREDENTIALS))
+    @pytest.mark.parametrize(
+        ("method", "path", "body"), PROTECTED, ids=[f"{method} {path}" for method, path, _ in PROTECTED]
+    )
+    def test_spec_1_business_endpoints_require_a_valid_token(client, method, path, body, credential):
+        """SPEC.md section 1: every business endpoint returns 401 for a missing or invalid token."""
+        task = create_task(client, "alice", title="Protected task")
+        response = client.request(
+            method, path.format(task_id=task["id"]), json=body, headers=CREDENTIALS[credential]
+        )
+>       assert response.status_code == 401, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_1_identity_and_visibility.py:168: AssertionError
+_ test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/history-missing] _
+
+client = <starlette.testclient.TestClient object at 0x7f55b91286b0>
+method = 'GET', path = '/tasks/{task_id}/history', body = None
+credential = 'missing'
+
+    @pytest.mark.parametrize("credential", sorted(CREDENTIALS))
+    @pytest.mark.parametrize(
+        ("method", "path", "body"), PROTECTED, ids=[f"{method} {path}" for method, path, _ in PROTECTED]
+    )
+    def test_spec_1_business_endpoints_require_a_valid_token(client, method, path, body, credential):
+        """SPEC.md section 1: every business endpoint returns 401 for a missing or invalid token."""
+        task = create_task(client, "alice", title="Protected task")
+        response = client.request(
+            method, path.format(task_id=task["id"]), json=body, headers=CREDENTIALS[credential]
+        )
+>       assert response.status_code == 401, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_1_identity_and_visibility.py:168: AssertionError
+________________ test_spec_1_member_cannot_read_unrelated_task _________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9011150>
+
+    def test_spec_1_member_cannot_read_unrelated_task(client):
+        """SPEC.md section 1: an unreadable task returns 404 with {"detail":"task not found"}."""
+        task = create_task(client, "alice", title="Alice's private task")
+        response = client.get(f"/tasks/{task['id']}", headers=auth("bob"))
+>       assert response.status_code == 404
+E       assert 200 == 404
+E        +  where 200 = <Response [200 OK]>.status_code
+
+acceptance/test_spec_1_identity_and_visibility.py:222: AssertionError
+_________ test_spec_1_member_loses_read_access_when_no_longer_assigned _________
+
+client = <starlette.testclient.TestClient object at 0x7f55b6e60270>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_1_member_loses_read_access_when_no_longer_assigned(client, ids):
+        """SPEC.md section 1: a member reads only tasks they created or are currently assigned."""
+        task = create_task(client, "admin", title="Moves from Bob to Alice", assignee_id=ids["bob"])
+        assert client.get(f"/tasks/{task['id']}", headers=auth("bob")).status_code == 200
+        moved = client.patch(f"/tasks/{task['id']}", json={"assignee_id": ids["alice"]}, headers=auth("admin"))
+        assert moved.status_code == 200, moved.text
+        response = client.get(f"/tasks/{task['id']}", headers=auth("bob"))
+>       assert response.status_code == 404
+E       assert 200 == 404
+E        +  where 200 = <Response [200 OK]>.status_code
+
+acceptance/test_spec_1_identity_and_visibility.py:241: AssertionError
+__________ test_spec_1_member_list_contains_only_visible_tasks[alice] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d8380>
+mixed = {'alice': [1, 2, 6], 'bob': [3, 4, 6], 'all': [1, 2, 3, 4, 5, 6]}
+actor = 'alice'
+
+    @pytest.mark.parametrize("actor", ["alice", "bob"])
+    def test_spec_1_member_list_contains_only_visible_tasks(client, mixed, actor):
+        """SPEC.md section 1: a member's task list holds only tasks they created or are assigned."""
+>       assert listed(client, actor) == (mixed[actor], 3)
+E       assert ([1, 2], 3) == ([1, 2, 6], 3)
+E         
+E         At index 0 diff: [1, 2] != [1, 2, 6]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   1,
+E                   2,
+E         -         6,
+E               ],
+E               3,
+E           )
+
+acceptance/test_spec_1_identity_and_visibility.py:248: AssertionError
+___________ test_spec_1_member_list_contains_only_visible_tasks[bob] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e7df0>
+mixed = {'alice': [1, 2, 6], 'bob': [3, 4, 6], 'all': [1, 2, 3, 4, 5, 6]}
+actor = 'bob'
+
+    @pytest.mark.parametrize("actor", ["alice", "bob"])
+    def test_spec_1_member_list_contains_only_visible_tasks(client, mixed, actor):
+        """SPEC.md section 1: a member's task list holds only tasks they created or are assigned."""
+>       assert listed(client, actor) == (mixed[actor], 3)
+E       assert ([3, 4], 3) == ([3, 4, 6], 3)
+E         
+E         At index 0 diff: [3, 4] != [3, 4, 6]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   3,
+E                   4,
+E         -         6,
+E               ],
+E               3,
+E           )
+
+acceptance/test_spec_1_identity_and_visibility.py:248: AssertionError
+_____________ test_spec_1_admin_and_observer_list_all_tasks[admin] _____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b6dde580>
+mixed = {'alice': [1, 2, 6], 'bob': [3, 4, 6], 'all': [1, 2, 3, 4, 5, 6]}
+actor = 'admin'
+
+    @pytest.mark.parametrize("actor", ["admin", "observer"])
+    def test_spec_1_admin_and_observer_list_all_tasks(client, mixed, actor):
+        """SPEC.md section 1: an administrator or observer lists all tasks."""
+>       assert listed(client, actor) == (mixed["all"], 6)
+E       assert ([1, 2, 3, 4, 5], 6) == ([1, 2, 3, 4, 5, 6], 6)
+E         
+E         At index 0 diff: [1, 2, 3, 4, 5] != [1, 2, 3, 4, 5, 6]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   1,
+E                   2,
+E                   3,
+E                   4,
+E                   5,
+E         -         6,
+E               ],
+E               6,
+E           )
+
+acceptance/test_spec_1_identity_and_visibility.py:254: AssertionError
+___________ test_spec_1_admin_and_observer_list_all_tasks[observer] ____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e5040>
+mixed = {'alice': [1, 2, 6], 'bob': [3, 4, 6], 'all': [1, 2, 3, 4, 5, 6]}
+actor = 'observer'
+
+    @pytest.mark.parametrize("actor", ["admin", "observer"])
+    def test_spec_1_admin_and_observer_list_all_tasks(client, mixed, actor):
+        """SPEC.md section 1: an administrator or observer lists all tasks."""
+>       assert listed(client, actor) == (mixed["all"], 6)
+E       assert ([1, 2, 3, 4, 5], 6) == ([1, 2, 3, 4, 5, 6], 6)
+E         
+E         At index 0 diff: [1, 2, 3, 4, 5] != [1, 2, 3, 4, 5, 6]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   1,
+E                   2,
+E                   3,
+E                   4,
+E                   5,
+E         -         6,
+E               ],
+E               6,
+E           )
+
+acceptance/test_spec_1_identity_and_visibility.py:254: AssertionError
+_____ test_spec_1_member_list_total_leaks_no_global_count[2-2-positions1] ______
+
+client = <starlette.testclient.TestClient object at 0x7f55b9013020>
+mixed = {'alice': [1, 2, 6], 'bob': [3, 4, 6], 'all': [1, 2, 3, 4, 5, 6]}
+limit = 2, offset = 2, positions = [2]
+
+    @pytest.mark.parametrize(("limit", "offset", "positions"), [(1, 0, [0]), (2, 2, [2]), (2, 3, [])])
+    def test_spec_1_member_list_total_leaks_no_global_count(client, mixed, limit, offset, positions):
+        """SPEC.md section 1: no global task count leaks through a member's paged list."""
+        expected = [mixed["bob"][position] for position in positions]
+>       assert listed(client, "bob", limit=limit, offset=offset) == (expected, 3)
+E       assert ([], 3) == ([6], 3)
+E         
+E         At index 0 diff: [] != [6]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         6,
+E         -     ],
+E         +     [],
+E         ?     +
+E               3,
+E           )
+
+acceptance/test_spec_1_identity_and_visibility.py:261: AssertionError
+____________ test_spec_1_member_search_returns_only_visible_matches ____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9128270>
+
+    def test_spec_1_member_search_returns_only_visible_matches(client):
+        """SPEC.md section 1: search obeys the visibility rule, in its items and its total."""
+        alice_task = create_task(client, "alice", title="Budget review")["id"]
+        bob_task = create_task(client, "bob", title="Budget plan")["id"]
+        create_task(client, "admin", title="Budget nobody else sees")
+>       assert listed(client, "bob", q="budget") == ([bob_task], 1)
+E       assert ([], 1) == ([2], 1)
+E         
+E         At index 0 diff: [] != [2]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         2,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_1_identity_and_visibility.py:269: AssertionError
+___________ test_spec_1_member_cannot_read_history_of_unrelated_task ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9013570>
+
+    def test_spec_1_member_cannot_read_history_of_unrelated_task(client):
+        """SPEC.md sections 1 and 6.1: history obeys the visibility rule; unreadable is a uniform 404."""
+        task = create_task(client, "alice", title="Alice's task with history")
+        response = client.get(f"/tasks/{task['id']}/history", headers=auth("bob"))
+        assert response.status_code == 404
+>       assert response.json() == NOT_FOUND
+E       AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+E         
+E         Differing items:
+E         {'detail': 'Not Found'} != {'detail': 'task not found'}
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           {
+E         -     'detail': 'task not found',
+E         ?                ^^^^^^   ^
+E         +     'detail': 'Not Found',
+E         ?                ^   ^
+E           }
+
+acceptance/test_spec_1_identity_and_visibility.py:313: AssertionError
+_________________ test_spec_3_list_is_ordered_by_increasing_id _________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b6ad9f20>
+
+    def test_spec_3_list_is_ordered_by_increasing_id(client):
+        """SPEC.md section 3: the list is ordered by increasing ID, on every page."""
+        created = [
+            create_task(client, title=title, priority=priority)["id"]
+            for title, priority in [("charlie", 1), ("alpha", 5), ("bravo", 3), ("delta", 2)]
+        ]
+        # Edit the first task so that an order by update time, title or priority would differ.
+        edited = client.patch(f"/tasks/{created[0]}", json={"title": "zulu"}, headers=auth("alice"))
+        assert edited.status_code == 200, edited.text
+>       assert item_ids(list_tasks(client)) == sorted(created)
+E       assert [1, 2, 3] == [1, 2, 3, 4]
+E         
+E         Right contains one more item: 4
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               1,
+E               2,
+E               3,
+E         -     4,
+E           ]
+
+acceptance/test_spec_3_existing_endpoints.py:258: AssertionError
+________________ test_spec_3_list_accepts_limits_1_and_100[100] ________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912acf0>, limit = 100
+
+    @pytest.mark.parametrize("limit", [1, 100])
+    def test_spec_3_list_accepts_limits_1_and_100(client, limit):
+        """SPEC.md section 3: limit is 1–100; both limits are accepted."""
+        created = sorted(create_task(client, title=f"Task {number}")["id"] for number in range(3))
+        body = list_tasks(client, limit=limit)
+        assert body["limit"] == limit
+>       assert item_ids(body) == created[:limit]
+E       assert [1, 2] == [1, 2, 3]
+E         
+E         Right contains one more item: 3
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               1,
+E               2,
+E         -     3,
+E           ]
+
+acceptance/test_spec_3_existing_endpoints.py:277: AssertionError
+______________ test_spec_3_total_counts_every_match_before_paging ______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b93ab8a0>
+
+    def test_spec_3_total_counts_every_match_before_paging(client):
+        """SPEC.md section 3: total counts the complete matching collection before paging."""
+        titles = ["Weekly report", "Lunch", "Monthly report", "Holiday", "Annual REPORT"]
+        created = [create_task(client, title=title)["id"] for title in titles]
+        matches = sorted([created[0], created[2], created[4]])
+        first = list_tasks(client, q="report", limit=2, offset=0)
+        assert (item_ids(first), first["total"]) == (matches[:2], 3)
+        last = list_tasks(client, q="report", limit=2, offset=2)
+>       assert (item_ids(last), last["total"]) == (matches[2:], 3)
+E       assert ([], 3) == ([5], 3)
+E         
+E         At index 0 diff: [] != [5]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         5,
+E         -     ],
+E         +     [],
+E         ?     +
+E               3,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:301: AssertionError
+________________ test_spec_3_search_is_case_insensitive[report] ________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9013240>
+q = 'report'
+
+    @pytest.mark.parametrize("q", ["report", "REPORT", "RePoRt"])
+    def test_spec_3_search_is_case_insensitive(client, q):
+        """SPEC.md section 3: q is a case-insensitive substring of the title."""
+        match = create_task(client, title="Quarterly Report")["id"]
+        create_task(client, title="Quarterly summary")
+>       assert search(client, q) == ([match], 1)
+E       assert ([], 1) == ([1], 1)
+E         
+E         At index 0 diff: [] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         1,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:309: AssertionError
+________________ test_spec_3_search_is_case_insensitive[REPORT] ________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b6ad98c0>
+q = 'REPORT'
+
+    @pytest.mark.parametrize("q", ["report", "REPORT", "RePoRt"])
+    def test_spec_3_search_is_case_insensitive(client, q):
+        """SPEC.md section 3: q is a case-insensitive substring of the title."""
+        match = create_task(client, title="Quarterly Report")["id"]
+        create_task(client, title="Quarterly summary")
+>       assert search(client, q) == ([match], 1)
+E       assert ([], 1) == ([1], 1)
+E         
+E         At index 0 diff: [] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         1,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:309: AssertionError
+________________ test_spec_3_search_is_case_insensitive[RePoRt] ________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9012f10>
+q = 'RePoRt'
+
+    @pytest.mark.parametrize("q", ["report", "REPORT", "RePoRt"])
+    def test_spec_3_search_is_case_insensitive(client, q):
+        """SPEC.md section 3: q is a case-insensitive substring of the title."""
+        match = create_task(client, title="Quarterly Report")["id"]
+        create_task(client, title="Quarterly summary")
+>       assert search(client, q) == ([match], 1)
+E       assert ([], 1) == ([1], 1)
+E         
+E         At index 0 diff: [] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         1,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:309: AssertionError
+__________________ test_spec_3_search_matches_the_description __________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e48d0>
+
+    def test_spec_3_search_matches_the_description(client):
+        """SPEC.md section 3: q is a substring of the title or the description."""
+        match = create_task(client, title="Plain title", description="find the NEEDLE here")["id"]
+        create_task(client, title="Other title", description="only hay")
+>       assert search(client, "needle") == ([match], 1)
+E       assert ([], 1) == ([1], 1)
+E         
+E         At index 0 diff: [] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         1,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:316: AssertionError
+______________ test_spec_3_empty_search_returns_all_visible_tasks ______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90db570>
+
+    def test_spec_3_empty_search_returns_all_visible_tasks(client):
+        """SPEC.md section 3: an empty q means all visible tasks."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["one", "two", "three"])
+>       assert search(client, "") == (created, 3)
+E       assert ([1, 2], 3) == ([1, 2, 3], 3)
+E         
+E         At index 0 diff: [1, 2] != [1, 2, 3]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   1,
+E                   2,
+E         -         3,
+E               ],
+E               3,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:322: AssertionError
+___ test_spec_3_search_treats_like_wildcards_as_literal_characters[percent] ____
+
+client = <starlette.testclient.TestClient object at 0x7f55b90da140>, q = '%'
+expected = ['percent']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([1, 2, 3, 4], 5) == ([1], 1)
+E         
+E         At index 0 diff: [1, 2, 3, 4] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   1,
+E         +         2,
+E         +         3,
+E         +         4,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     5,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError
+_ test_spec_3_search_treats_like_wildcards_as_literal_characters[digit-percent] _
+
+client = <starlette.testclient.TestClient object at 0x7f55b9012030>, q = '0%'
+expected = ['percent']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([1], 2) == ([1], 1)
+E         
+E         At index 1 diff: 2 != 1
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   1,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     2,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError
+_ test_spec_3_search_treats_like_wildcards_as_literal_characters[double-percent] _
+
+client = <starlette.testclient.TestClient object at 0x7f55b6ad9590>, q = '%%'
+expected = []
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([1, 2, 3, 4], 5) == ([], 0)
+E         
+E         At index 0 diff: [1, 2, 3, 4] != []
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         +     [
+E         +         1,
+E         +         2,
+E         +         3,
+E         +         4,
+E         -     [],
+E         ?     -
+E         +     ],
+E         -     0,
+E         ?     ^
+E         +     5,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError
+__ test_spec_3_search_treats_like_wildcards_as_literal_characters[underscore] __
+
+client = <starlette.testclient.TestClient object at 0x7f55b9013020>, q = '_'
+expected = ['underscore']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([1, 2, 3, 4], 5) == ([3], 1)
+E         
+E         At index 0 diff: [1, 2, 3, 4] != [3]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E         +         1,
+E         +         2,
+E                   3,
+E         +         4,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     5,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError
+_ test_spec_3_search_treats_like_wildcards_as_literal_characters[letter-underscore-letter] _
+
+client = <starlette.testclient.TestClient object at 0x7f55b6ad9d00>, q = 'e_c'
+expected = ['underscore']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([3], 2) == ([3], 1)
+E         
+E         At index 1 diff: 2 != 1
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   3,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     2,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError
+_ test_spec_3_search_treats_like_wildcards_as_literal_characters[upper-case-underscore] _
+
+client = <starlette.testclient.TestClient object at 0x7f55b93ab680>
+q = 'SNAKE_CASE', expected = ['underscore']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([3], 2) == ([3], 1)
+E         
+E         At index 1 diff: 2 != 1
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   3,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     2,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError
+_ test_spec_3_search_treats_like_wildcards_as_literal_characters[underscore-x] _
+
+client = <starlette.testclient.TestClient object at 0x7f55b912b680>, q = '_x'
+expected = []
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([], 1) == ([], 0)
+E         
+E         At index 1 diff: 1 != 0
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [],
+E         -     0,
+E         ?     ^
+E         +     1,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError
+__ test_spec_3_search_treats_like_wildcards_as_literal_characters[backslash] ___
+
+client = <starlette.testclient.TestClient object at 0x7f55b912b790>, q = '\\'
+expected = ['backslash']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([], 1) == ([5], 1)
+E         
+E         At index 0 diff: [] != [5]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         5,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError
+____________ test_spec_3_search_is_a_literal_substring[inner-space] ____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e5bf0>, q = 'a b'
+expected = ['spaced']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [("a b", ["spaced"]), (" beta", ["spaced"]), ("alphabeta", ["joined"])],
+        ids=["inner-space", "leading-space", "no-space"],
+    )
+    def test_spec_3_search_is_a_literal_substring(client, q, expected):
+        """SPEC.md section 3: q is a literal substring; its spaces are part of it."""
+        created = {
+            "spaced": create_task(client, title="alpha beta")["id"],
+            "joined": create_task(client, title="alphabeta")["id"],
+            "reversed": create_task(client, title="beta alpha")["id"],
+        }
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([], 1) == ([1], 1)
+E         
+E         At index 0 diff: [] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         1,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:369: AssertionError
+___________ test_spec_3_search_is_a_literal_substring[leading-space] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8f75f20>, q = ' beta'
+expected = ['spaced']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [("a b", ["spaced"]), (" beta", ["spaced"]), ("alphabeta", ["joined"])],
+        ids=["inner-space", "leading-space", "no-space"],
+    )
+    def test_spec_3_search_is_a_literal_substring(client, q, expected):
+        """SPEC.md section 3: q is a literal substring; its spaces are part of it."""
+        created = {
+            "spaced": create_task(client, title="alpha beta")["id"],
+            "joined": create_task(client, title="alphabeta")["id"],
+            "reversed": create_task(client, title="beta alpha")["id"],
+        }
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([], 1) == ([1], 1)
+E         
+E         At index 0 diff: [] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         1,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:369: AssertionError
+_____________ test_spec_3_search_is_a_literal_substring[no-space] ______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b6ad9480>
+q = 'alphabeta', expected = ['joined']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [("a b", ["spaced"]), (" beta", ["spaced"]), ("alphabeta", ["joined"])],
+        ids=["inner-space", "leading-space", "no-space"],
+    )
+    def test_spec_3_search_is_a_literal_substring(client, q, expected):
+        """SPEC.md section 3: q is a literal substring; its spaces are part of it."""
+        created = {
+            "spaced": create_task(client, title="alpha beta")["id"],
+            "joined": create_task(client, title="alphabeta")["id"],
+            "reversed": create_task(client, title="beta alpha")["id"],
+        }
+        wanted = sorted(created[name] for name in expected)
+>       assert search(client, q) == (wanted, len(wanted))
+E       assert ([], 1) == ([2], 1)
+E         
+E         At index 0 diff: [] != [2]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         2,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:369: AssertionError
+_______________ test_spec_3_search_text_is_data_not_sql[or-true] _______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b93ab9b0>
+q = "' OR '1'='1"
+
+    @pytest.mark.parametrize(
+        "q",
+        ["' OR '1'='1", "' OR 1=1 --", "%' OR '%'='", "x'; DROP TABLE tasks; --", '" OR ""="'],
+        ids=["or-true", "or-comment", "wildcard-or", "drop-table", "double-quote-or"],
+    )
+    def test_spec_3_search_text_is_data_not_sql(client, q):
+        """SPEC.md section 3: search text is data, not SQL; it matches nothing here and harms nothing."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["alpha", "beta", "gamma"])
+>       assert search(client, q) == ([], 0)
+E       assert ([1, 2], 3) == ([], 0)
+E         
+E         At index 0 diff: [1, 2] != []
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         +     [
+E         +         1,
+E         +         2,
+E         -     [],
+E         ?     -
+E         +     ],
+E         -     0,
+E         ?     ^
+E         +     3,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:380: AssertionError
+_____________ test_spec_3_search_text_is_data_not_sql[or-comment] ______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a580>
+q = "' OR 1=1 --"
+
+    @pytest.mark.parametrize(
+        "q",
+        ["' OR '1'='1", "' OR 1=1 --", "%' OR '%'='", "x'; DROP TABLE tasks; --", '" OR ""="'],
+        ids=["or-true", "or-comment", "wildcard-or", "drop-table", "double-quote-or"],
+    )
+    def test_spec_3_search_text_is_data_not_sql(client, q):
+        """SPEC.md section 3: search text is data, not SQL; it matches nothing here and harms nothing."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["alpha", "beta", "gamma"])
+>       assert search(client, q) == ([], 0)
+               ^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_3_existing_endpoints.py:380: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_3_existing_endpoints.py:112: in search
+    body = list_tasks(client, actor, q=q, limit=100)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a580>
+actor = 'admin', params = {'q': "' OR 1=1 --", 'limit': 100}
+
+    def list_tasks(client, actor="admin", **params):
+        response = client.get("/tasks", params=params, headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: Internal Server Error
+E       assert 500 == 200
+E        +  where 500 = <Response [500 Internal Server Error]>.status_code
+
+acceptance/test_spec_3_existing_endpoints.py:103: AssertionError
+_____________ test_spec_3_search_text_is_data_not_sql[wildcard-or] _____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912bac0>
+q = "%' OR '%'='"
+
+    @pytest.mark.parametrize(
+        "q",
+        ["' OR '1'='1", "' OR 1=1 --", "%' OR '%'='", "x'; DROP TABLE tasks; --", '" OR ""="'],
+        ids=["or-true", "or-comment", "wildcard-or", "drop-table", "double-quote-or"],
+    )
+    def test_spec_3_search_text_is_data_not_sql(client, q):
+        """SPEC.md section 3: search text is data, not SQL; it matches nothing here and harms nothing."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["alpha", "beta", "gamma"])
+>       assert search(client, q) == ([], 0)
+E       assert ([1, 2], 3) == ([], 0)
+E         
+E         At index 0 diff: [1, 2] != []
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         +     [
+E         +         1,
+E         +         2,
+E         -     [],
+E         ?     -
+E         +     ],
+E         -     0,
+E         ?     ^
+E         +     3,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:380: AssertionError
+_____________ test_spec_3_search_text_is_data_not_sql[drop-table] ______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e48d0>
+q = "x'; DROP TABLE tasks; --"
+
+    @pytest.mark.parametrize(
+        "q",
+        ["' OR '1'='1", "' OR 1=1 --", "%' OR '%'='", "x'; DROP TABLE tasks; --", '" OR ""="'],
+        ids=["or-true", "or-comment", "wildcard-or", "drop-table", "double-quote-or"],
+    )
+    def test_spec_3_search_text_is_data_not_sql(client, q):
+        """SPEC.md section 3: search text is data, not SQL; it matches nothing here and harms nothing."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["alpha", "beta", "gamma"])
+>       assert search(client, q) == ([], 0)
+               ^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_3_existing_endpoints.py:380: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_3_existing_endpoints.py:112: in search
+    body = list_tasks(client, actor, q=q, limit=100)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e48d0>
+actor = 'admin', params = {'q': "x'; DROP TABLE tasks; --", 'limit': 100}
+
+    def list_tasks(client, actor="admin", **params):
+        response = client.get("/tasks", params=params, headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: Internal Server Error
+E       assert 500 == 200
+E        +  where 500 = <Response [500 Internal Server Error]>.status_code
+
+acceptance/test_spec_3_existing_endpoints.py:103: AssertionError
+___________ test_spec_3_search_text_is_data_not_sql[double-quote-or] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d9150>
+q = '" OR ""="'
+
+    @pytest.mark.parametrize(
+        "q",
+        ["' OR '1'='1", "' OR 1=1 --", "%' OR '%'='", "x'; DROP TABLE tasks; --", '" OR ""="'],
+        ids=["or-true", "or-comment", "wildcard-or", "drop-table", "double-quote-or"],
+    )
+    def test_spec_3_search_text_is_data_not_sql(client, q):
+        """SPEC.md section 3: search text is data, not SQL; it matches nothing here and harms nothing."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["alpha", "beta", "gamma"])
+        assert search(client, q) == ([], 0)
+>       assert search(client, "") == (created, 3)
+E       assert ([1, 2], 3) == ([1, 2, 3], 3)
+E         
+E         At index 0 diff: [1, 2] != [1, 2, 3]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   1,
+E                   2,
+E         -         3,
+E               ],
+E               3,
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:381: AssertionError
+__________ test_spec_3_overdue_needs_due_at_strictly_earlier_than_at ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90128b0>
+
+    def test_spec_3_overdue_needs_due_at_strictly_earlier_than_at(client):
+        """SPEC.md section 3: overdue means due_at strictly earlier than at; equality is not overdue."""
+        create_task(client, title="Due exactly at", due_at="2026-03-01T10:00:00Z")
+        earlier = create_task(client, title="Due a second earlier", due_at="2026-03-01T09:59:59Z")["id"]
+        create_task(client, title="Due a second later", due_at="2026-03-01T10:00:01Z")
+        create_task(client, title="No due date")
+>       assert overdue_ids(client, AT) == [earlier]
+E       assert [1, 2] == [2]
+E         
+E         At index 0 diff: 1 != 2
+E         Left contains one more item: 2
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E         +     1,
+E               2,
+E           ]
+
+acceptance/test_spec_3_existing_endpoints.py:395: AssertionError
+_____________ test_spec_3_overdue_compares_instants_across_offsets _____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90119d0>
+
+    def test_spec_3_overdue_compares_instants_across_offsets(client):
+        """SPEC.md sections 2 and 3: due_at and at are compared as instants, whatever their offsets."""
+        half_past = create_task(client, title="Due 10:30 UTC", due_at="2026-03-01T11:30:00+01:00")["id"]
+        quarter_past = create_task(client, title="Due 10:15 UTC", due_at="2026-03-01T10:15:00Z")["id"]
+>       assert overdue_ids(client, "2026-03-01T12:30:00+02:00") == [quarter_past]
+E       assert [1, 2] == [2]
+E         
+E         At index 0 diff: 1 != 2
+E         Left contains one more item: 2
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E         +     1,
+E               2,
+E           ]
+
+acceptance/test_spec_3_existing_endpoints.py:413: AssertionError
+______________ test_spec_4_upgrade_preserves_tasks_and_work_logs _______________
+
+pre_upgrade = {'db_path': '/tmp/pytest-of-runner/pytest-1/test_spec_4_upgrade_preserves_0/workflow.sqlite3', 'ids': {'admin': 1, 'al...d': 3, 'actor_id': 2, 'minutes': 20, ...}], 4: [{'id': 4, 'task_id': 4, 'actor_id': 1, 'minutes': 15, ...}], ...}, ...}
+
+    def test_spec_4_upgrade_preserves_tasks_and_work_logs(pre_upgrade):
+        """SPEC.md section 4: schema/data changes preserve the tasks and work logs of an existing database."""
+        with running_app(pre_upgrade["db_path"]) as client:
+>           assert listed_ids(client) == sorted(pre_upgrade["tasks"])
+E           assert [1, 2, 3, 4] == [1, 2, 3, 4, 5]
+E             
+E             Right contains one more item: 5
+E             
+E             Full diff: (-: missing in left side, +: extra in left side)
+E               [
+E                   1,
+E                   2,
+E                   3,
+E                   4,
+E             -     5,
+E               ]
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:254: AssertionError
+___________ test_spec_6_1_pre_upgrade_task_gets_one_migration_event ____________
+
+pre_upgrade = {'db_path': '/tmp/pytest-of-runner/pytest-1/test_spec_6_1_pre_upgrade_task0/workflow.sqlite3', 'ids': {'admin': 1, 'al...d': 3, 'actor_id': 2, 'minutes': 20, ...}], 4: [{'id': 4, 'task_id': 4, 'actor_id': 1, 'minutes': 15, ...}], ...}, ...}
+
+    def test_spec_6_1_pre_upgrade_task_gets_one_migration_event(pre_upgrade):
+        """SPEC.md section 6.1: each pre-upgrade task gets one initial event, origin migration, from null to its
+        stored status, by its creator; no past transitions are invented."""
+        with running_app(pre_upgrade["db_path"]) as client:
+            for task_id, task in pre_upgrade["tasks"].items():
+>               events = history(client, task_id)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:265: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e7ac0>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:116: AssertionError
+_ test_spec_6_1_migration_event_is_not_repeated_or_rewritten_on_later_restarts _
+
+pre_upgrade = {'db_path': '/tmp/pytest-of-runner/pytest-1/test_spec_6_1_migration_event_0/workflow.sqlite3', 'ids': {'admin': 1, 'al...d': 3, 'actor_id': 2, 'minutes': 20, ...}], 4: [{'id': 4, 'task_id': 4, 'actor_id': 1, 'minutes': 15, ...}], ...}, ...}
+
+    def test_spec_6_1_migration_event_is_not_repeated_or_rewritten_on_later_restarts(pre_upgrade):
+        """SPEC.md section 6.1: the one migration event survives later restarts unchanged and is not added again."""
+        with running_app(pre_upgrade["db_path"]) as client:
+>           first = {task_id: history(client, task_id) for task_id in pre_upgrade["tasks"]}
+                              ^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:277: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90127a0>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:116: AssertionError
+______ test_spec_6_1_transition_after_upgrade_appends_an_operation_event _______
+
+pre_upgrade = {'db_path': '/tmp/pytest-of-runner/pytest-1/test_spec_6_1_transition_after0/workflow.sqlite3', 'ids': {'admin': 1, 'al...d': 3, 'actor_id': 2, 'minutes': 20, ...}], 4: [{'id': 4, 'task_id': 4, 'actor_id': 1, 'minutes': 15, ...}], ...}, ...}
+
+    def test_spec_6_1_transition_after_upgrade_appends_an_operation_event(pre_upgrade):
+        """SPEC.md section 6.1: after the migration event, a new transition is sequence 2 with origin operation."""
+        task_id = pre_upgrade["waiting"]
+        task = pre_upgrade["tasks"][task_id]
+        with running_app(pre_upgrade["db_path"]) as client:
+            set_status(client, "alice", task_id, "in_progress")
+>           events = history(client, task_id)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:290: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e4af0>, task_id = 2
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:116: AssertionError
+__ test_spec_6_1_task_created_after_upgrade_gets_an_operation_creation_event ___
+
+pre_upgrade = {'db_path': '/tmp/pytest-of-runner/pytest-1/test_spec_6_1_task_created_aft0/workflow.sqlite3', 'ids': {'admin': 1, 'al...d': 3, 'actor_id': 2, 'minutes': 20, ...}], 4: [{'id': 4, 'task_id': 4, 'actor_id': 1, 'minutes': 15, ...}], ...}, ...}
+
+    def test_spec_6_1_task_created_after_upgrade_gets_an_operation_creation_event(pre_upgrade):
+        """SPEC.md section 6.1: tasks created after the upgrade get a creation event with origin operation."""
+        with running_app(pre_upgrade["db_path"]) as client:
+            created = create_task(client, "bob", title="Created after the upgrade")
+>           events = history(client, created["id"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:300: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e57b0>, task_id = 6
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:116: AssertionError
+________ test_spec_6_1_restart_adds_no_migration_event_to_current_tasks ________
+
+tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-1/test_spec_6_1_restart_adds_no_0')
+
+    def test_spec_6_1_restart_adds_no_migration_event_to_current_tasks(tmp_path):
+        """SPEC.md sections 4 and 6.1: restarting on an already upgraded file keeps each history as it was;
+        tasks created after the upgrade never receive a migration event."""
+        db_path = str(tmp_path / "workflow.sqlite3")
+        with running_app(db_path) as client:
+            task = create_task(client, "alice", title="Current task")
+            set_status(client, "alice", task["id"], "in_progress")
+>           before = history(client, task["id"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:312: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b9012360>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_4_6_1_upgrade_of_existing_database.py:116: AssertionError
+________________ test_spec_4_acknowledged_task_survives_restart ________________
+
+db_path = '/tmp/pytest-of-runner/pytest-1/test_spec_4_acknowledged_task_0/workflow.sqlite3'
+
+    def test_spec_4_acknowledged_task_survives_restart(db_path):
+        """SPEC.md section 4: an acknowledged task survives closing and recreating the application."""
+        with running_app(db_path) as client:
+            created = create_task(
+                client,
+                title="Durable — 東京",
+                description="Survives a restart",
+                priority=5,
+                assignee_id=member_id(client, "bob"),
+                due_at="2026-05-01T08:00:00+02:00",
+            )
+            set_status(client, created["id"], "in_progress")
+            before = get_task(client, created["id"])
+        with running_app(db_path) as client:
+            assert get_task(client, created["id"]) == before
+>           assert [item["id"] for item in all_tasks(client)[0]] == [created["id"]]
+E           assert [] == [1]
+E             
+E             Right contains one more item: 1
+E             
+E             Full diff: (-: missing in left side, +: extra in left side)
+E             + []
+E             - [
+E             -     1,
+E             - ]
+
+acceptance/test_spec_4_durability_retries_concurrency.py:148: AssertionError
+_________ test_spec_4_simultaneous_work_entries_are_each_recorded_once _________
+
+db_path = '/tmp/pytest-of-runner/pytest-1/test_spec_4_simultaneous_work_0/workflow.sqlite3'
+
+    def test_spec_4_simultaneous_work_entries_are_each_recorded_once(db_path):
+        """SPEC.md section 4: simultaneous accepted work entries are each recorded once and summed."""
+        minutes = list(range(1, 17))
+        with running_app(db_path) as client:
+            task = create_task(client, title="Busy task")
+            responses = run_together(
+                len(minutes),
+                lambda index: log_work(client, task["id"], minutes[index], "admin" if index % 2 else "alice"),
+            )
+            assert [response.status_code for response in responses] == [200] * len(minutes)
+>           assert_work(client, task["id"], minutes)
+
+acceptance/test_spec_4_durability_retries_concurrency.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d86b0>, task_id = 1
+expected_minutes = [1, 2, 3, 4, 5, 6, ...]
+
+    def assert_work(client, task_id, expected_minutes):
+        """Each expected entry is recorded once and work_minutes is their sum."""
+        items = work_items(client, task_id)
+        assert sorted(item["minutes"] for item in items) == sorted(expected_minutes), items
+>       assert get_task(client, task_id)["work_minutes"] == sum(expected_minutes)
+E       assert 10 == 136
+E        +  where 136 = sum([1, 2, 3, 4, 5, 6, ...])
+
+acceptance/test_spec_4_durability_retries_concurrency.py:127: AssertionError
+_______ test_spec_4_idempotent_retry_after_restart_returns_the_same_task _______
+
+db_path = '/tmp/pytest-of-runner/pytest-1/test_spec_4_idempotent_retry_a0/workflow.sqlite3'
+
+    def test_spec_4_idempotent_retry_after_restart_returns_the_same_task(db_path):
+        """SPEC.md section 4: an idempotent retry after an application restart returns the same task."""
+        body = {"title": "Order synthetic paper", "description": "Two boxes"}
+        with running_app(db_path) as client:
+            first = post_with_key(client, "alice", "paper-order", body)
+            assert first.status_code == 201, first.text
+        with running_app(db_path) as client:
+            second = post_with_key(client, "alice", "paper-order", body)
+            assert second.status_code == 201, second.text
+>           assert second.json()["id"] == first.json()["id"]
+E           assert 2 == 1
+
+acceptance/test_spec_4_durability_retries_concurrency.py:237: AssertionError
+__________ test_spec_4_concurrent_idempotent_retries_create_one_task ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912b570>
+
+    def test_spec_4_concurrent_idempotent_retries_create_one_task(client):
+        """SPEC.md section 4: concurrent retries with the same actor/key/body create one task."""
+        body = {"title": "Concurrent request", "priority": 2}
+        responses = run_together(8, lambda index: post_with_key(client, "alice", "concurrent-key", body))
+        assert [response.status_code for response in responses] == [201] * 8
+>       assert len({response.json()["id"] for response in responses}) == 1
+E       assert 8 == 1
+E        +  where 8 = len({1, 2, 3, 4, 5, 6, ...})
+
+acceptance/test_spec_4_durability_retries_concurrency.py:310: AssertionError
+__________ test_spec_4_concurrent_conflicting_bodies_create_one_task ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e5d00>
+
+    def test_spec_4_concurrent_conflicting_bodies_create_one_task(client):
+        """SPEC.md section 4: concurrent different bodies with one actor/key: one 201, every other 409."""
+        responses = run_together(
+            8, lambda index: post_with_key(client, "alice", "contested-key", {"title": f"Variant {index}"})
+        )
+>       assert sorted(response.status_code for response in responses) == [201] + [409] * 7
+E       assert [201, 201, 20...201, 201, ...] == [201, 409, 40...409, 409, ...]
+E         
+E         At index 1 diff: 201 != 409
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               201,
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E               409,
+E           ]
+
+acceptance/test_spec_4_durability_retries_concurrency.py:319: AssertionError
+___ test_spec_5_text_with_sql_metacharacters_is_stored_and_found[apostrophe] ___
+
+client = <starlette.testclient.TestClient object at 0x7f55b90dbac0>
+title = "O'Brien's task"
+
+    @pytest.mark.parametrize("title", SQL_TEXT, ids=["apostrophe", "double-quotes", "drop", "delete", "like-chars", "or-true"])
+    def test_spec_5_text_with_sql_metacharacters_is_stored_and_found(client, title):
+        """SPEC.md sections 3 and 5: valid input with SQL metacharacters never causes an internal error;
+        it is stored exactly and found as literal text."""
+        other = create_task(client, title="Unrelated neighbour")
+        created = create_task(client, title=title, description=title)
+        response = client.get(f"/tasks/{created['id']}", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        assert (response.json()["title"], response.json()["description"]) == (title, title)
+>       assert search(client, title) == ([created["id"]], 1)
+               ^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_5_errors_and_compatibility.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90dbac0>
+q = "O'Brien's task"
+
+    def search(client, q):
+        response = client.get("/tasks", params={"q": q, "limit": 100}, headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: Internal Server Error
+E       assert 500 == 200
+E        +  where 500 = <Response [500 Internal Server Error]>.status_code
+
+acceptance/test_spec_5_errors_and_compatibility.py:62: AssertionError
+_ test_spec_5_text_with_sql_metacharacters_is_stored_and_found[double-quotes] __
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d98c0>
+title = 'Say "hello"'
+
+    @pytest.mark.parametrize("title", SQL_TEXT, ids=["apostrophe", "double-quotes", "drop", "delete", "like-chars", "or-true"])
+    def test_spec_5_text_with_sql_metacharacters_is_stored_and_found(client, title):
+        """SPEC.md sections 3 and 5: valid input with SQL metacharacters never causes an internal error;
+        it is stored exactly and found as literal text."""
+        other = create_task(client, title="Unrelated neighbour")
+        created = create_task(client, title=title, description=title)
+        response = client.get(f"/tasks/{created['id']}", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        assert (response.json()["title"], response.json()["description"]) == (title, title)
+>       assert search(client, title) == ([created["id"]], 1)
+E       assert ([], 1) == ([2], 1)
+E         
+E         At index 0 diff: [] != [2]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         2,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_5_errors_and_compatibility.py:86: AssertionError
+______ test_spec_5_text_with_sql_metacharacters_is_stored_and_found[drop] ______
+
+client = <starlette.testclient.TestClient object at 0x7f55b90106b0>
+title = '1; DROP TABLE tasks; --'
+
+    @pytest.mark.parametrize("title", SQL_TEXT, ids=["apostrophe", "double-quotes", "drop", "delete", "like-chars", "or-true"])
+    def test_spec_5_text_with_sql_metacharacters_is_stored_and_found(client, title):
+        """SPEC.md sections 3 and 5: valid input with SQL metacharacters never causes an internal error;
+        it is stored exactly and found as literal text."""
+        other = create_task(client, title="Unrelated neighbour")
+        created = create_task(client, title=title, description=title)
+        response = client.get(f"/tasks/{created['id']}", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        assert (response.json()["title"], response.json()["description"]) == (title, title)
+>       assert search(client, title) == ([created["id"]], 1)
+E       assert ([], 1) == ([2], 1)
+E         
+E         At index 0 diff: [] != [2]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         2,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_5_errors_and_compatibility.py:86: AssertionError
+_____ test_spec_5_text_with_sql_metacharacters_is_stored_and_found[delete] _____
+
+client = <starlette.testclient.TestClient object at 0x7f55b912ae00>
+title = "Robert'); DELETE FROM tasks; --"
+
+    @pytest.mark.parametrize("title", SQL_TEXT, ids=["apostrophe", "double-quotes", "drop", "delete", "like-chars", "or-true"])
+    def test_spec_5_text_with_sql_metacharacters_is_stored_and_found(client, title):
+        """SPEC.md sections 3 and 5: valid input with SQL metacharacters never causes an internal error;
+        it is stored exactly and found as literal text."""
+        other = create_task(client, title="Unrelated neighbour")
+        created = create_task(client, title=title, description=title)
+        response = client.get(f"/tasks/{created['id']}", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        assert (response.json()["title"], response.json()["description"]) == (title, title)
+>       assert search(client, title) == ([created["id"]], 1)
+               ^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_5_errors_and_compatibility.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b912ae00>
+q = "Robert'); DELETE FROM tasks; --"
+
+    def search(client, q):
+        response = client.get("/tasks", params={"q": q, "limit": 100}, headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: Internal Server Error
+E       assert 500 == 200
+E        +  where 500 = <Response [500 Internal Server Error]>.status_code
+
+acceptance/test_spec_5_errors_and_compatibility.py:62: AssertionError
+___ test_spec_5_text_with_sql_metacharacters_is_stored_and_found[like-chars] ___
+
+client = <starlette.testclient.TestClient object at 0x7f55b9011ae0>
+title = '50% off_sale \\ backslash'
+
+    @pytest.mark.parametrize("title", SQL_TEXT, ids=["apostrophe", "double-quotes", "drop", "delete", "like-chars", "or-true"])
+    def test_spec_5_text_with_sql_metacharacters_is_stored_and_found(client, title):
+        """SPEC.md sections 3 and 5: valid input with SQL metacharacters never causes an internal error;
+        it is stored exactly and found as literal text."""
+        other = create_task(client, title="Unrelated neighbour")
+        created = create_task(client, title=title, description=title)
+        response = client.get(f"/tasks/{created['id']}", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        assert (response.json()["title"], response.json()["description"]) == (title, title)
+>       assert search(client, title) == ([created["id"]], 1)
+E       assert ([], 1) == ([2], 1)
+E         
+E         At index 0 diff: [] != [2]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         -     [
+E         -         2,
+E         -     ],
+E         +     [],
+E         ?     +
+E               1,
+E           )
+
+acceptance/test_spec_5_errors_and_compatibility.py:86: AssertionError
+____ test_spec_5_text_with_sql_metacharacters_is_stored_and_found[or-true] _____
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e59d0>
+title = "' OR '1'='1"
+
+    @pytest.mark.parametrize("title", SQL_TEXT, ids=["apostrophe", "double-quotes", "drop", "delete", "like-chars", "or-true"])
+    def test_spec_5_text_with_sql_metacharacters_is_stored_and_found(client, title):
+        """SPEC.md sections 3 and 5: valid input with SQL metacharacters never causes an internal error;
+        it is stored exactly and found as literal text."""
+        other = create_task(client, title="Unrelated neighbour")
+        created = create_task(client, title=title, description=title)
+        response = client.get(f"/tasks/{created['id']}", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        assert (response.json()["title"], response.json()["description"]) == (title, title)
+>       assert search(client, title) == ([created["id"]], 1)
+E       assert ([1], 2) == ([2], 1)
+E         
+E         At index 0 diff: [1] != [2]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E         -         2,
+E         ?         ^
+E         +         1,
+E         ?         ^
+E               ],
+E         -     1,
+E         ?     ^
+E         +     2,
+E         ?     ^
+E           )
+
+acceptance/test_spec_5_errors_and_compatibility.py:86: AssertionError
+______________ test_spec_5_list_keeps_its_documented_field_names _______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d85a0>
+
+    def test_spec_5_list_keeps_its_documented_field_names(client):
+        """SPEC.md sections 3 and 5: the task list keeps items, total, limit and offset."""
+        create_task(client, title="Listed")
+        response = client.get("/tasks", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        body = response.json()
+        assert {"items", "total", "limit", "offset"} <= set(body), body
+>       assert TASK_FIELDS <= set(body["items"][0]), body
+                                  ^^^^^^^^^^^^^^^^
+E       IndexError: list index out of range
+
+acceptance/test_spec_5_errors_and_compatibility.py:106: IndexError
+___________ test_spec_5_create_app_keeps_its_data_in_the_given_file ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-runner/pytest-1/test_spec_5_create_app_keeps_i0')
+
+    def test_spec_5_create_app_keeps_its_data_in_the_given_file(tmp_path):
+        """SPEC.md section 5: workflow.api:create_app(db_path) is the entry point; its data lives in that file."""
+        first_path = str(tmp_path / "first.sqlite3")
+        second_path = str(tmp_path / "second.sqlite3")
+        with running_app(first_path) as client:
+            created = create_task(client, title="Only in the first file")
+        assert os.path.isfile(first_path)
+        with running_app(second_path) as client:
+            assert search(client, "") == ([], 0)
+        with running_app(first_path) as client:
+>           assert search(client, "") == ([created["id"]], 1)
+E           assert ([], 1) == ([1], 1)
+E             
+E             At index 0 diff: [] != [1]
+E             
+E             Full diff: (-: missing in left side, +: extra in left side)
+E               (
+E             -     [
+E             -         1,
+E             -     ],
+E             +     [],
+E             ?     +
+E                   1,
+E               )
+
+acceptance/test_spec_5_errors_and_compatibility.py:132: AssertionError
+_______________ test_spec_6_1_history_starts_with_creation_event _______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d8e20>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_1_history_starts_with_creation_event(client, ids):
+        """SPEC.md section 6.1: each new task has a creation event, sequence 1, from null to todo."""
+        task = create_task(client, "alice", title="New task")
+>       events = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d8e20>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+________________ test_spec_6_1_history_body_is_an_items_object _________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b93aabe0>
+
+    def test_spec_6_1_history_body_is_an_items_object(client):
+        """SPEC.md section 6.1: GET /tasks/{id}/history returns {"items":[...]}."""
+        task = create_task(client, title="Shaped")
+        response = client.get(f"/tasks/{task['id']}/history", headers=auth("alice"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:168: AssertionError
+___________ test_spec_6_1_creation_event_actor_is_the_creator[admin] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b6ad8f30>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, actor = 'admin'
+
+    @pytest.mark.parametrize("actor", ["admin", "bob"])
+    def test_spec_6_1_creation_event_actor_is_the_creator(client, ids, actor):
+        """SPEC.md section 6.1: the creation event's actor is the task's creator."""
+        task = create_task(client, actor, title=f"Created by {actor}")
+>       events = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:178: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b6ad8f30>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+____________ test_spec_6_1_creation_event_actor_is_the_creator[bob] ____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b681dae0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, actor = 'bob'
+
+    @pytest.mark.parametrize("actor", ["admin", "bob"])
+    def test_spec_6_1_creation_event_actor_is_the_creator(client, ids, actor):
+        """SPEC.md section 6.1: the creation event's actor is the task's creator."""
+        task = create_task(client, actor, title=f"Created by {actor}")
+>       events = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:178: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b681dae0>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_______________ test_spec_6_1_each_transition_appends_one_event ________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b681e9c0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_1_each_transition_appends_one_event(client, ids):
+        """SPEC.md section 6.1: each successful transition appends exactly one event with its actor."""
+        task = create_task(client, "alice", title="Travelling task", assignee_id=ids["bob"])
+        set_status(client, task["id"], "in_progress", "alice")
+        set_status(client, task["id"], "done", "bob")
+        set_status(client, task["id"], "in_progress", "admin")
+>       events = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:192: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b681e9c0>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+________ test_spec_6_1_changed_at_is_aware_utc_and_follows_the_sequence ________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e09040>
+
+    def test_spec_6_1_changed_at_is_aware_utc_and_follows_the_sequence(client):
+        """SPEC.md section 6.1: changed_at is an aware UTC timestamp; events are ordered by sequence."""
+        task = create_task(client, title="Timed")
+        set_status(client, task["id"], "in_progress")
+        set_status(client, task["id"], "done")
+>       events = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:205: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e09040>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+__________________ test_spec_6_1_sequence_is_counted_per_task __________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9013f00>
+
+    def test_spec_6_1_sequence_is_counted_per_task(client):
+        """SPEC.md section 6.1: sequence is per task and starts at 1, whatever other tasks do."""
+        first = create_task(client, title="First")["id"]
+        second = create_task(client, title="Second")["id"]
+        set_status(client, first, "in_progress")
+        set_status(client, second, "in_progress")
+        set_status(client, second, "done")
+        set_status(client, first, "done")
+        third = create_task(client, title="Third")["id"]
+>       assert [event["sequence"] for event in history(client, first)] == [1, 2, 3]
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:220: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b9013f00>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_______ test_spec_6_1_status_change_with_other_fields_appends_one_event ________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9010380>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_1_status_change_with_other_fields_appends_one_event(client, ids):
+        """SPEC.md section 6.1: a PATCH that changes the status and other fields appends one event."""
+        task = create_task(client, title="Combined edit")
+        response = patch_task(client, task["id"], {"status": "in_progress", "title": "Renamed", "priority": 1})
+        assert response.status_code == 200, response.text
+>       events = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:230: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b9010380>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+______________ test_spec_6_1_no_event_for_unchanged_status[todo] _______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912ae00>
+status = 'todo'
+
+    @pytest.mark.parametrize("status", ["todo", "in_progress"])
+    def test_spec_6_1_no_event_for_unchanged_status(client, status):
+        """SPEC.md section 6.1: no event is created for an unchanged status."""
+        task = create_task(client, title="Steady")
+        if status == "in_progress":
+            set_status(client, task["id"], "in_progress")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:244: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b912ae00>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+___________ test_spec_6_1_no_event_for_unchanged_status[in_progress] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b681de10>
+status = 'in_progress'
+
+    @pytest.mark.parametrize("status", ["todo", "in_progress"])
+    def test_spec_6_1_no_event_for_unchanged_status(client, status):
+        """SPEC.md section 6.1: no event is created for an unchanged status."""
+        task = create_task(client, title="Steady")
+        if status == "in_progress":
+            set_status(client, task["id"], "in_progress")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:244: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b681de10>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_________________ test_spec_6_1_no_event_for_non_status_edits __________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b681fbd0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_1_no_event_for_non_status_edits(client, ids):
+        """SPEC.md section 6.1: no event is created for edits that do not change the status."""
+        task = create_task(client, title="Edited")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:254: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b681fbd0>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+____ test_spec_6_1_no_event_for_rejected_requests[invalid-companion-field] _____
+
+client = <starlette.testclient.TestClient object at 0x7f55b6adb790>
+case = 'invalid-companion-field'
+
+    @pytest.mark.parametrize("case", sorted(REJECTED_PATCHES))
+    def test_spec_6_1_no_event_for_rejected_requests(client, case):
+        """SPEC.md section 6.1: a rejected request creates no event and leaves the status unchanged."""
+        actor, body, expected = REJECTED_PATCHES[case]
+        task = create_task(client, "alice", title="Guarded")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:285: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b6adb790>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+____________ test_spec_6_1_no_event_for_rejected_requests[observer] ____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e5040>
+case = 'observer'
+
+    @pytest.mark.parametrize("case", sorted(REJECTED_PATCHES))
+    def test_spec_6_1_no_event_for_rejected_requests(client, case):
+        """SPEC.md section 6.1: a rejected request creates no event and leaves the status unchanged."""
+        actor, body, expected = REJECTED_PATCHES[case]
+        task = create_task(client, "alice", title="Guarded")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:285: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e5040>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_______ test_spec_6_1_no_event_for_rejected_requests[skipped-transition] _______
+
+client = <starlette.testclient.TestClient object at 0x7f55b90da250>
+case = 'skipped-transition'
+
+    @pytest.mark.parametrize("case", sorted(REJECTED_PATCHES))
+    def test_spec_6_1_no_event_for_rejected_requests(client, case):
+        """SPEC.md section 6.1: a rejected request creates no event and leaves the status unchanged."""
+        actor, body, expected = REJECTED_PATCHES[case]
+        task = create_task(client, "alice", title="Guarded")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:285: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90da250>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+____ test_spec_6_1_no_event_for_rejected_requests[unknown-companion-field] _____
+
+client = <starlette.testclient.TestClient object at 0x7f55b90dbf00>
+case = 'unknown-companion-field'
+
+    @pytest.mark.parametrize("case", sorted(REJECTED_PATCHES))
+    def test_spec_6_1_no_event_for_rejected_requests(client, case):
+        """SPEC.md section 6.1: a rejected request creates no event and leaves the status unchanged."""
+        actor, body, expected = REJECTED_PATCHES[case]
+        task = create_task(client, "alice", title="Guarded")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:285: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90dbf00>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_________ test_spec_6_1_no_event_for_rejected_requests[unknown-status] _________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e09260>
+case = 'unknown-status'
+
+    @pytest.mark.parametrize("case", sorted(REJECTED_PATCHES))
+    def test_spec_6_1_no_event_for_rejected_requests(client, case):
+        """SPEC.md section 6.1: a rejected request creates no event and leaves the status unchanged."""
+        actor, body, expected = REJECTED_PATCHES[case]
+        task = create_task(client, "alice", title="Guarded")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:285: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e09260>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+________ test_spec_6_1_no_event_for_rejected_requests[unrelated-member] ________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e0af10>
+case = 'unrelated-member'
+
+    @pytest.mark.parametrize("case", sorted(REJECTED_PATCHES))
+    def test_spec_6_1_no_event_for_rejected_requests(client, case):
+        """SPEC.md section 6.1: a rejected request creates no event and leaves the status unchanged."""
+        actor, body, expected = REJECTED_PATCHES[case]
+        task = create_task(client, "alice", title="Guarded")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:285: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e0af10>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_________________ test_spec_6_1_no_event_for_a_rejected_reopen _________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebc9e0>
+
+    def test_spec_6_1_no_event_for_a_rejected_reopen(client):
+        """SPEC.md sections 2 and 6.1: a member's refused reopen of a done task creates no event.
+        Its status code is checked in test_spec_2_member_cannot_reopen_done_task; here only the refusal."""
+        task = create_task(client, "alice", title="Closed")
+        set_status(client, task["id"], "in_progress")
+        set_status(client, task["id"], "done")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:298: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebc9e0>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+___________ test_spec_6_1_no_event_for_an_idempotent_creation_retry ____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e78a0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_1_no_event_for_an_idempotent_creation_retry(client, ids):
+        """SPEC.md section 6.1: an idempotent creation retry creates no event."""
+        headers = {**auth("alice"), "Idempotency-Key": "history-retry"}
+        first = client.post("/tasks", json={"title": "Retried"}, headers=headers)
+        second = client.post("/tasks", json={"title": "Retried"}, headers=headers)
+        assert (first.status_code, second.status_code) == (201, 201), (first.text, second.text)
+        assert second.json()["id"] == first.json()["id"]
+>       events = history(client, first.json()["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:312: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e78a0>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+___________ test_spec_6_1_history_is_readable_by_task_readers[admin] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90da140>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, actor = 'admin'
+
+    @pytest.mark.parametrize("actor", ["admin", "observer", "alice", "bob"], ids=["admin", "observer", "creator", "assignee"])
+    def test_spec_6_1_history_is_readable_by_task_readers(client, ids, actor):
+        """SPEC.md section 6.1: history uses the same read permissions as the task."""
+        task = create_task(client, "alice", title="Readable history", assignee_id=ids["bob"])
+        set_status(client, task["id"], "in_progress")
+>       assert history(client, task["id"], actor) == history(client, task["id"], "admin")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:325: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90da140>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_________ test_spec_6_1_history_is_readable_by_task_readers[observer] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d9480>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, actor = 'observer'
+
+    @pytest.mark.parametrize("actor", ["admin", "observer", "alice", "bob"], ids=["admin", "observer", "creator", "assignee"])
+    def test_spec_6_1_history_is_readable_by_task_readers(client, ids, actor):
+        """SPEC.md section 6.1: history uses the same read permissions as the task."""
+        task = create_task(client, "alice", title="Readable history", assignee_id=ids["bob"])
+        set_status(client, task["id"], "in_progress")
+>       assert history(client, task["id"], actor) == history(client, task["id"], "admin")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:325: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d9480>, task_id = 1
+actor = 'observer'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+__________ test_spec_6_1_history_is_readable_by_task_readers[creator] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d9ae0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, actor = 'alice'
+
+    @pytest.mark.parametrize("actor", ["admin", "observer", "alice", "bob"], ids=["admin", "observer", "creator", "assignee"])
+    def test_spec_6_1_history_is_readable_by_task_readers(client, ids, actor):
+        """SPEC.md section 6.1: history uses the same read permissions as the task."""
+        task = create_task(client, "alice", title="Readable history", assignee_id=ids["bob"])
+        set_status(client, task["id"], "in_progress")
+>       assert history(client, task["id"], actor) == history(client, task["id"], "admin")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:325: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d9ae0>, task_id = 1
+actor = 'alice'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_________ test_spec_6_1_history_is_readable_by_task_readers[assignee] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e0abe0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, actor = 'bob'
+
+    @pytest.mark.parametrize("actor", ["admin", "observer", "alice", "bob"], ids=["admin", "observer", "creator", "assignee"])
+    def test_spec_6_1_history_is_readable_by_task_readers(client, ids, actor):
+        """SPEC.md section 6.1: history uses the same read permissions as the task."""
+        task = create_task(client, "alice", title="Readable history", assignee_id=ids["bob"])
+        set_status(client, task["id"], "in_progress")
+>       assert history(client, task["id"], actor) == history(client, task["id"], "admin")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:325: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e0abe0>, task_id = 1
+actor = 'bob'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+______________ test_spec_6_1_history_of_former_assignee_is_hidden ______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a8b0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_1_history_of_former_assignee_is_hidden(client, ids):
+        """SPEC.md sections 1 and 6.1: a member no longer assigned cannot read the history; uniform 404."""
+        task = create_task(client, "admin", title="Moved on", assignee_id=ids["bob"])
+        assert patch_task(client, task["id"], {"assignee_id": ids["alice"]}, "admin").status_code == 200
+        response = client.get(f"/tasks/{task['id']}/history", headers=auth("bob"))
+        assert response.status_code == 404
+>       assert response.json() == NOT_FOUND
+E       AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+E         
+E         Differing items:
+E         {'detail': 'Not Found'} != {'detail': 'task not found'}
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           {
+E         -     'detail': 'task not found',
+E         ?                ^^^^^^   ^
+E         +     'detail': 'Not Found',
+E         ?                ^   ^
+E           }
+
+acceptance/test_spec_6_1_status_history.py:335: AssertionError
+___________ test_spec_6_1_history_of_missing_task_returns_404[admin] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a470>
+actor = 'admin'
+
+    @pytest.mark.parametrize("actor", ["admin", "alice", "observer"])
+    def test_spec_6_1_history_of_missing_task_returns_404(client, actor):
+        """SPEC.md sections 1 and 6.1: the history of a missing task returns 404 with {"detail":"task not found"}."""
+        response = client.get(f"/tasks/{MISSING_TASK_ID}/history", headers=auth(actor))
+        assert response.status_code == 404
+>       assert response.json() == NOT_FOUND
+E       AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+E         
+E         Differing items:
+E         {'detail': 'Not Found'} != {'detail': 'task not found'}
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           {
+E         -     'detail': 'task not found',
+E         ?                ^^^^^^   ^
+E         +     'detail': 'Not Found',
+E         ?                ^   ^
+E           }
+
+acceptance/test_spec_6_1_status_history.py:343: AssertionError
+___________ test_spec_6_1_history_of_missing_task_returns_404[alice] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9010160>
+actor = 'alice'
+
+    @pytest.mark.parametrize("actor", ["admin", "alice", "observer"])
+    def test_spec_6_1_history_of_missing_task_returns_404(client, actor):
+        """SPEC.md sections 1 and 6.1: the history of a missing task returns 404 with {"detail":"task not found"}."""
+        response = client.get(f"/tasks/{MISSING_TASK_ID}/history", headers=auth(actor))
+        assert response.status_code == 404
+>       assert response.json() == NOT_FOUND
+E       AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+E         
+E         Differing items:
+E         {'detail': 'Not Found'} != {'detail': 'task not found'}
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           {
+E         -     'detail': 'task not found',
+E         ?                ^^^^^^   ^
+E         +     'detail': 'Not Found',
+E         ?                ^   ^
+E           }
+
+acceptance/test_spec_6_1_status_history.py:343: AssertionError
+_________ test_spec_6_1_history_of_missing_task_returns_404[observer] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b93aa8b0>
+actor = 'observer'
+
+    @pytest.mark.parametrize("actor", ["admin", "alice", "observer"])
+    def test_spec_6_1_history_of_missing_task_returns_404(client, actor):
+        """SPEC.md sections 1 and 6.1: the history of a missing task returns 404 with {"detail":"task not found"}."""
+        response = client.get(f"/tasks/{MISSING_TASK_ID}/history", headers=auth(actor))
+        assert response.status_code == 404
+>       assert response.json() == NOT_FOUND
+E       AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+E         
+E         Differing items:
+E         {'detail': 'Not Found'} != {'detail': 'task not found'}
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           {
+E         -     'detail': 'task not found',
+E         ?                ^^^^^^   ^
+E         +     'detail': 'Not Found',
+E         ?                ^   ^
+E           }
+
+acceptance/test_spec_6_1_status_history.py:343: AssertionError
+____________________ test_spec_6_1_history_survives_restart ____________________
+
+db_path = '/tmp/pytest-of-runner/pytest-1/test_spec_6_1_history_survives0/workflow.sqlite3'
+
+    def test_spec_6_1_history_survives_restart(db_path):
+        """SPEC.md section 6.1: history survives closing and recreating the application."""
+        with running_app(db_path) as client:
+            task = create_task(client, title="Remembered")
+            set_status(client, task["id"], "in_progress")
+            set_status(client, task["id"], "done")
+>           before = history(client, task["id"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:355: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b681d260>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_________ test_spec_6_1_history_is_not_editable_through_the_api[POST] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebce20>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, method = 'POST'
+
+    @pytest.mark.parametrize("method", ["POST", "PUT", "PATCH", "DELETE"])
+    def test_spec_6_1_history_is_not_editable_through_the_api(client, ids, method):
+        """SPEC.md section 6.1: history is not editable through the API; the attempt is refused and changes nothing."""
+        task = create_task(client, title="Fixed history")
+        set_status(client, task["id"], "in_progress")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:366: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebce20>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+__________ test_spec_6_1_history_is_not_editable_through_the_api[PUT] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebe690>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, method = 'PUT'
+
+    @pytest.mark.parametrize("method", ["POST", "PUT", "PATCH", "DELETE"])
+    def test_spec_6_1_history_is_not_editable_through_the_api(client, ids, method):
+        """SPEC.md section 6.1: history is not editable through the API; the attempt is refused and changes nothing."""
+        task = create_task(client, title="Fixed history")
+        set_status(client, task["id"], "in_progress")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:366: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebe690>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_________ test_spec_6_1_history_is_not_editable_through_the_api[PATCH] _________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a690>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, method = 'PATCH'
+
+    @pytest.mark.parametrize("method", ["POST", "PUT", "PATCH", "DELETE"])
+    def test_spec_6_1_history_is_not_editable_through_the_api(client, ids, method):
+        """SPEC.md section 6.1: history is not editable through the API; the attempt is refused and changes nothing."""
+        task = create_task(client, title="Fixed history")
+        set_status(client, task["id"], "in_progress")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:366: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a690>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+________ test_spec_6_1_history_is_not_editable_through_the_api[DELETE] _________
+
+client = <starlette.testclient.TestClient object at 0x7f55b9012360>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, method = 'DELETE'
+
+    @pytest.mark.parametrize("method", ["POST", "PUT", "PATCH", "DELETE"])
+    def test_spec_6_1_history_is_not_editable_through_the_api(client, ids, method):
+        """SPEC.md section 6.1: history is not editable through the API; the attempt is refused and changes nothing."""
+        task = create_task(client, title="Fixed history")
+        set_status(client, task["id"], "in_progress")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:366: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b9012360>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+________________ test_spec_6_1_task_patch_cannot_write_history _________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b93ab350>
+
+    def test_spec_6_1_task_patch_cannot_write_history(client):
+        """SPEC.md sections 2 and 6.1: history is not a patchable field; the attempt returns 422."""
+        task = create_task(client, title="No back door")
+>       before = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:385: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b93ab350>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_______ test_spec_6_1_earlier_events_are_not_rewritten_by_later_changes ________
+
+client = <starlette.testclient.TestClient object at 0x7f55b681caf0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_1_earlier_events_are_not_rewritten_by_later_changes(client, ids):
+        """SPEC.md section 6.1: later changes append; they never rewrite earlier events."""
+        task = create_task(client, "alice", title="Long life", assignee_id=ids["bob"])
+        set_status(client, task["id"], "in_progress", "alice")
+>       earlier = history(client, task["id"])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:395: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b681caf0>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+_______ test_spec_6_1_concurrent_identical_transitions_append_one_event ________
+
+client = <starlette.testclient.TestClient object at 0x7f55b681d9d0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_1_concurrent_identical_transitions_append_one_event(client, ids):
+        """SPEC.md section 6.1: the update and its event commit atomically; of simultaneous identical
+        transitions only one is an actual transition, so exactly one event is appended."""
+        task = create_task(client, "alice", title="Raced", assignee_id=ids["bob"])
+        actors = ["alice", "bob", "admin", "alice", "bob", "admin", "alice", "bob"]
+        responses = run_together(
+            len(actors), lambda index: patch_task(client, task["id"], {"status": "in_progress"}, actors[index])
+        )
+        assert [response.status_code for response in responses] == [200] * len(actors)
+>       events = history(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_1_status_history.py:414: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b681d9d0>, task_id = 1
+actor = 'admin'
+
+    def history(client, task_id, actor="admin"):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth(actor))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_1_status_history.py:135: AssertionError
+__________ test_spec_6_2_member_cannot_patch_unrelated_task[priority] __________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d9bf0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, change = 'priority'
+
+    @pytest.mark.parametrize("change", sorted(UNRELATED_BODIES))
+    def test_spec_6_2_member_cannot_patch_unrelated_task(client, ids, change):
+        """SPEC.md section 6.2: a member neither creator nor assignee cannot read the task, so PATCH is a
+        uniform 404 that changes neither the task nor its history."""
+        task = create_task(client, "alice", title="Alice's own")
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d9bf0>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+___________ test_spec_6_2_member_cannot_patch_unrelated_task[status] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e0a8b0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, change = 'status'
+
+    @pytest.mark.parametrize("change", sorted(UNRELATED_BODIES))
+    def test_spec_6_2_member_cannot_patch_unrelated_task(client, ids, change):
+        """SPEC.md section 6.2: a member neither creator nor assignee cannot read the task, so PATCH is a
+        uniform 404 that changes neither the task nor its history."""
+        task = create_task(client, "alice", title="Alice's own")
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e0a8b0>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+___________ test_spec_6_2_member_cannot_patch_unrelated_task[title] ____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebce20>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, change = 'title'
+
+    @pytest.mark.parametrize("change", sorted(UNRELATED_BODIES))
+    def test_spec_6_2_member_cannot_patch_unrelated_task(client, ids, change):
+        """SPEC.md section 6.2: a member neither creator nor assignee cannot read the task, so PATCH is a
+        uniform 404 that changes neither the task nor its history."""
+        task = create_task(client, "alice", title="Alice's own")
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:148: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebce20>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+_______ test_spec_6_2_member_cannot_patch_task_assigned_to_someone_else ________
+
+client = <starlette.testclient.TestClient object at 0x7f55b6adb9b0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_2_member_cannot_patch_task_assigned_to_someone_else(client, ids):
+        """SPEC.md section 6.2: a member who did not create a task and is not its assignee cannot patch it."""
+        task = create_task(client, "admin", title="Admin's, for Alice", assignee_id=ids["alice"])
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:158: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b6adb9b0>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+_______ test_spec_6_2_member_cannot_grant_self_access_by_assigning_self ________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e5150>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_2_member_cannot_grant_self_access_by_assigning_self(client, ids):
+        """SPEC.md section 6.2: authorization uses the stored pre-update assignment; sending one's own ID
+        in an unauthorized patch grants nothing."""
+        task = create_task(client, "alice", title="Alice's own")
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90e5150>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+______________ test_spec_6_2_assignee_may_reassign_the_task_away _______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d8d10>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_2_assignee_may_reassign_the_task_away(client, ids):
+        """SPEC.md section 6.2: authorization uses the stored pre-update assignment, so the current assignee
+        may hand the task to another; afterwards they no longer have access."""
+        task = create_task(client, "admin", title="Admin's, for Bob", assignee_id=ids["bob"])
+        response = patch_task(client, task["id"], {"assignee_id": ids["alice"]}, "bob")
+        assert response.status_code == 200, response.text
+        assert get_task(client, task["id"])["assignee_id"] == ids["alice"]
+        again = patch_task(client, task["id"], {"title": "Bob again"}, "bob")
+>       assert again.status_code == 404
+E       assert 200 == 404
+E        +  where 200 = <Response [200 OK]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:187: AssertionError
+__________________ test_spec_6_2_former_assignee_cannot_patch __________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d8e20>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}
+
+    def test_spec_6_2_former_assignee_cannot_patch(client, ids):
+        """SPEC.md section 6.2: only the current assignee may patch; a former assignee gets a uniform 404."""
+        task = create_task(client, "admin", title="Moves from Bob to Alice", assignee_id=ids["bob"])
+        assert patch_task(client, task["id"], {"assignee_id": ids["alice"]}, "admin").status_code == 200
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:196: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90d8e20>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+______________ test_spec_6_2_observer_patch_returns_403[assignee] ______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e0abe0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, change = 'assignee'
+
+    @pytest.mark.parametrize("change", sorted(OBSERVER_BODIES))
+    def test_spec_6_2_observer_patch_returns_403(client, ids, change):
+        """SPEC.md section 6.2: a readable task patched by an observer returns 403 and changes neither
+        the task nor its history."""
+        task = create_task(client, "alice", title="Watched", assignee_id=ids["bob"])
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:216: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8e0abe0>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+_____________ test_spec_6_2_observer_patch_returns_403[everything] _____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a9c0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, change = 'everything'
+
+    @pytest.mark.parametrize("change", sorted(OBSERVER_BODIES))
+    def test_spec_6_2_observer_patch_returns_403(client, ids, change):
+        """SPEC.md section 6.2: a readable task patched by an observer returns 403 and changes neither
+        the task nor its history."""
+        task = create_task(client, "alice", title="Watched", assignee_id=ids["bob"])
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:216: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b912a9c0>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+_______________ test_spec_6_2_observer_patch_returns_403[status] _______________
+
+client = <starlette.testclient.TestClient object at 0x7f55b90127a0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, change = 'status'
+
+    @pytest.mark.parametrize("change", sorted(OBSERVER_BODIES))
+    def test_spec_6_2_observer_patch_returns_403(client, ids, change):
+        """SPEC.md section 6.2: a readable task patched by an observer returns 403 and changes neither
+        the task nor its history."""
+        task = create_task(client, "alice", title="Watched", assignee_id=ids["bob"])
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:216: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b90127a0>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+_______________ test_spec_6_2_observer_patch_returns_403[title] ________________
+
+client = <starlette.testclient.TestClient object at 0x7f55b93abbd0>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, change = 'title'
+
+    @pytest.mark.parametrize("change", sorted(OBSERVER_BODIES))
+    def test_spec_6_2_observer_patch_returns_403(client, ids, change):
+        """SPEC.md section 6.2: a readable task patched by an observer returns 403 and changes neither
+        the task nor its history."""
+        task = create_task(client, "alice", title="Watched", assignee_id=ids["bob"])
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:216: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b93abbd0>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+___________ test_spec_6_2_observer_patch_of_missing_task_returns_404 ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b681d6a0>
+
+    def test_spec_6_2_observer_patch_of_missing_task_returns_404(client):
+        """SPEC.md sections 1 and 6.2: a missing task is unreadable, so even an observer's PATCH is a uniform 404."""
+        response = patch_task(client, MISSING_TASK_ID, {"title": "Nothing there"}, "observer")
+>       assert response.status_code == 404
+E       assert 403 == 404
+E        +  where 403 = <Response [403 Forbidden]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:225: AssertionError
+___________ test_spec_6_2_reopen_restriction_still_applies[creator] ____________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebf020>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, actor = 'alice'
+
+    @pytest.mark.parametrize("actor", ["alice", "bob"], ids=["creator", "assignee"])
+    def test_spec_6_2_reopen_restriction_still_applies(client, ids, actor):
+        """SPEC.md sections 2 and 6.2: a member allowed to patch still cannot reopen done → in_progress.
+        Its status code is checked in test_spec_2_member_cannot_reopen_done_task; here the refusal,
+        the unchanged task and history, and the administrator's reopen."""
+        task = create_task(client, "alice", title="Closed", assignee_id=ids["bob"])
+        set_status(client, task["id"], "in_progress", "alice")
+        set_status(client, task["id"], "done", "bob")
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8ebf020>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+___________ test_spec_6_2_reopen_restriction_still_applies[assignee] ___________
+
+client = <starlette.testclient.TestClient object at 0x7f55b8bf4e20>
+ids = {'admin': 1, 'alice': 2, 'bob': 3, 'observer': 4}, actor = 'bob'
+
+    @pytest.mark.parametrize("actor", ["alice", "bob"], ids=["creator", "assignee"])
+    def test_spec_6_2_reopen_restriction_still_applies(client, ids, actor):
+        """SPEC.md sections 2 and 6.2: a member allowed to patch still cannot reopen done → in_progress.
+        Its status code is checked in test_spec_2_member_cannot_reopen_done_task; here the refusal,
+        the unchanged task and history, and the administrator's reopen."""
+        task = create_task(client, "alice", title="Closed", assignee_id=ids["bob"])
+        set_status(client, task["id"], "in_progress", "alice")
+        set_status(client, task["id"], "done", "bob")
+>       before = stored(client, task["id"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_6_2_changes_to_others_tasks.py:101: in stored
+    return get_task(client, task_id), history(client, task_id)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = <starlette.testclient.TestClient object at 0x7f55b8bf4e20>, task_id = 1
+
+    def history(client, task_id):
+        response = client.get(f"/tasks/{task_id}/history", headers=auth("admin"))
+>       assert response.status_code == 200, response.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+acceptance/test_spec_6_2_changes_to_others_tasks.py:95: AssertionError
+=============================== warnings summary ===============================
+../../../_temp/app-venv/lib/python3.13/site-packages/fastapi/testclient.py:1
+  /home/runner/work/_temp/app-venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED acceptance/test_open_issues_pub.py::test_pub_01_last_page_keeps_the_remaining_task - assert ([], 3) == ([3], 3)
+  
+  At index 0 diff: [] != [3]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         3,
+  -     ],
+  +     [],
+  ?     +
+        3,
+    )
+FAILED acceptance/test_open_issues_pub.py::test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-1-limit-2-offset-0] - assert ([], 1) == ([1], 1)
+  
+  At index 0 diff: [] != [1]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         1,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_open_issues_pub.py::test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-5-limit-2-offset-4] - assert ([], 5) == ([5], 5)
+  
+  At index 0 diff: [] != [5]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         5,
+  -     ],
+  +     [],
+  ?     +
+        5,
+    )
+FAILED acceptance/test_open_issues_pub.py::test_pub_01_last_page_of_a_search_keeps_the_remaining_match - assert ([], 3) == ([4], 3)
+  
+  At index 0 diff: [] != [4]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         4,
+  -     ],
+  +     [],
+  ?     +
+        3,
+    )
+FAILED acceptance/test_open_issues_pub.py::test_pub_02_export_recovers_a_title_with_comma_and_quotes - assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+  
+  At index 1 diff: ['1', 'Review', ' phase "B"', 'todo', ''] != ['1', 'Review, phase "B"', 'todo', '']
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        [
+            'id',
+            'title',
+            'status',
+            'assignee_id',
+        ],
+        [
+            '1',
+  +         'Review',
+  -         'Review, phase "B"',
+  ?          -------
+  +         ' phase "B"',
+            'todo',
+            '',
+        ],
+    ]
+FAILED acceptance/test_open_issues_pub.py::test_pub_02_export_recovers_unicode_and_line_breaks[unicode] - AssertionError: assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+  
+  At index 1 diff: ['1', 'Überprüfung', ' „Phase B“ — 東京 ✓ 🚀', 'todo', ''] != ['1', 'Überprüfung, „Phase B“ — 東京 ✓ 🚀', 'todo', '']
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        [
+            'id',
+            'title',
+            'status',
+            'assignee_id',
+        ],
+        [
+            '1',
+  +         'Überprüfung',
+  -         'Überprüfung, „Phase B“ — 東京 ✓ 🚀',
+  ?          ------------
+  +         ' „Phase B“ — 東京 ✓ 🚀',
+            'todo',
+            '',
+        ],
+    ]
+FAILED acceptance/test_open_issues_pub.py::test_pub_02_export_recovers_unicode_and_line_breaks[line-feed] - AssertionError: assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+  
+  At index 1 diff: ['1', 'first line'] != ['1', 'first line\nsecond line', 'todo', '']
+  Left contains one more item: ['second line', 'todo', '']
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        [
+            'id',
+            'title',
+            'status',
+            'assignee_id',
+        ],
+        [
+            '1',
+  -         'first line\n'
+  ?                    --
+  +         'first line',
+  ?                     +
+  +     ],
+  +     [
+            'second line',
+            'todo',
+            '',
+        ],
+    ]
+FAILED acceptance/test_open_issues_pub.py::test_pub_02_export_recovers_unicode_and_line_breaks[crlf-comma-quotes] - assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+  
+  At index 1 diff: ['1', 'first line'] != ['1', 'first line\r\nsecond, "quoted" line', 'todo', '']
+  Left contains one more item: ['second', ' "quoted" line', 'todo', '']
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        [
+            'id',
+            'title',
+            'status',
+            'assignee_id',
+        ],
+        [
+            '1',
+  -         'first line\r\n'
+  ?                    ----
+  +         'first line',
+  ?                     +
+  +     ],
+  +     [
+  +         'second',
+  -         'second, "quoted" line',
+  ?          -------
+  +         ' "quoted" line',
+            'todo',
+            '',
+        ],
+    ]
+FAILED acceptance/test_open_issues_pub.py::test_pub_02_export_recovers_unicode_and_line_breaks[quoted] - assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+  
+  At index 1 diff: ['1', 'Fully quoted', 'todo', ''] != ['1', '"Fully quoted"', 'todo', '']
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        [
+            'id',
+            'title',
+            'status',
+            'assignee_id',
+        ],
+        [
+            '1',
+  -         '"Fully quoted"',
+  ?          -            -
+  +         'Fully quoted',
+            'todo',
+            '',
+        ],
+    ]
+FAILED acceptance/test_open_issues_pub.py::test_pub_02_export_recovers_unicode_and_line_breaks[comma] - AssertionError: assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+  
+  At index 1 diff: ['1', 'Trailing comma', '', 'todo', ''] != ['1', 'Trailing comma,', 'todo', '']
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        [
+            'id',
+            'title',
+            'status',
+            'assignee_id',
+        ],
+        [
+            '1',
+  -         'Trailing comma,',
+  ?                        -
+  +         'Trailing comma',
+  +         '',
+            'todo',
+            '',
+        ],
+    ]
+FAILED acceptance/test_open_issues_pub.py::test_pub_02_export_recovers_unicode_and_line_breaks[mixed] - assert [['id', 'titl..., 'todo', '']] == [['id', 'titl..., 'todo', '']]
+  
+  At index 1 diff: ['1', 'Mixed: "a"', ' b; c\td', 'todo', ''] != ['1', 'Mixed: "a", b; c\td', 'todo', '']
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        [
+            'id',
+            'title',
+            'status',
+            'assignee_id',
+        ],
+        [
+            '1',
+  -         'Mixed: "a", b; c\td',
+  ?                    ---------
+  +         'Mixed: "a"',
+  +         ' b; c\td',
+            'todo',
+            '',
+        ],
+    ]
+FAILED acceptance/test_open_issues_pub.py::test_pub_02_export_keeps_exact_columns_for_many_structured_titles - AssertionError: [['id', 'title', 'status', 'assignee_id'], ['1', 'Überprüfung', ' „Phase B“ — 東京 ✓ 🚀', 'todo', ''], ['2', 'first line'], ['second line', 'todo', '3'], ['3', 'first line'], ['second', ' "quoted" line', 'todo', ''], ...]
+assert False
+ +  where False = all(<generator object test_pub_02_export_keeps_exact_columns_for_many_structured_titles.<locals>.<genexpr> at 0x7f55b92b0a00>)
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/history-invalid] - AssertionError: {"detail":"Not Found"}
+assert 404 == 401
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/history-missing] - AssertionError: {"detail":"Not Found"}
+assert 404 == 401
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_member_cannot_read_unrelated_task - assert 200 == 404
+ +  where 200 = <Response [200 OK]>.status_code
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_member_loses_read_access_when_no_longer_assigned - assert 200 == 404
+ +  where 200 = <Response [200 OK]>.status_code
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_member_list_contains_only_visible_tasks[alice] - assert ([1, 2], 3) == ([1, 2, 6], 3)
+  
+  At index 0 diff: [1, 2] != [1, 2, 6]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            1,
+            2,
+  -         6,
+        ],
+        3,
+    )
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_member_list_contains_only_visible_tasks[bob] - assert ([3, 4], 3) == ([3, 4, 6], 3)
+  
+  At index 0 diff: [3, 4] != [3, 4, 6]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            3,
+            4,
+  -         6,
+        ],
+        3,
+    )
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_admin_and_observer_list_all_tasks[admin] - assert ([1, 2, 3, 4, 5], 6) == ([1, 2, 3, 4, 5, 6], 6)
+  
+  At index 0 diff: [1, 2, 3, 4, 5] != [1, 2, 3, 4, 5, 6]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            1,
+            2,
+            3,
+            4,
+            5,
+  -         6,
+        ],
+        6,
+    )
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_admin_and_observer_list_all_tasks[observer] - assert ([1, 2, 3, 4, 5], 6) == ([1, 2, 3, 4, 5, 6], 6)
+  
+  At index 0 diff: [1, 2, 3, 4, 5] != [1, 2, 3, 4, 5, 6]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            1,
+            2,
+            3,
+            4,
+            5,
+  -         6,
+        ],
+        6,
+    )
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_member_list_total_leaks_no_global_count[2-2-positions1] - assert ([], 3) == ([6], 3)
+  
+  At index 0 diff: [] != [6]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         6,
+  -     ],
+  +     [],
+  ?     +
+        3,
+    )
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_member_search_returns_only_visible_matches - assert ([], 1) == ([2], 1)
+  
+  At index 0 diff: [] != [2]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         2,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_1_identity_and_visibility.py::test_spec_1_member_cannot_read_history_of_unrelated_task - AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+  
+  Differing items:
+  {'detail': 'Not Found'} != {'detail': 'task not found'}
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    {
+  -     'detail': 'task not found',
+  ?                ^^^^^^   ^
+  +     'detail': 'Not Found',
+  ?                ^   ^
+    }
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_list_is_ordered_by_increasing_id - assert [1, 2, 3] == [1, 2, 3, 4]
+  
+  Right contains one more item: 4
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        1,
+        2,
+        3,
+  -     4,
+    ]
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_list_accepts_limits_1_and_100[100] - assert [1, 2] == [1, 2, 3]
+  
+  Right contains one more item: 3
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        1,
+        2,
+  -     3,
+    ]
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_total_counts_every_match_before_paging - assert ([], 3) == ([5], 3)
+  
+  At index 0 diff: [] != [5]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         5,
+  -     ],
+  +     [],
+  ?     +
+        3,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_is_case_insensitive[report] - assert ([], 1) == ([1], 1)
+  
+  At index 0 diff: [] != [1]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         1,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_is_case_insensitive[REPORT] - assert ([], 1) == ([1], 1)
+  
+  At index 0 diff: [] != [1]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         1,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_is_case_insensitive[RePoRt] - assert ([], 1) == ([1], 1)
+  
+  At index 0 diff: [] != [1]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         1,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_matches_the_description - assert ([], 1) == ([1], 1)
+  
+  At index 0 diff: [] != [1]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         1,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_empty_search_returns_all_visible_tasks - assert ([1, 2], 3) == ([1, 2, 3], 3)
+  
+  At index 0 diff: [1, 2] != [1, 2, 3]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            1,
+            2,
+  -         3,
+        ],
+        3,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_treats_like_wildcards_as_literal_characters[percent] - assert ([1, 2, 3, 4], 5) == ([1], 1)
+  
+  At index 0 diff: [1, 2, 3, 4] != [1]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            1,
+  +         2,
+  +         3,
+  +         4,
+        ],
+  -     1,
+  ?     ^
+  +     5,
+  ?     ^
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_treats_like_wildcards_as_literal_characters[digit-percent] - assert ([1], 2) == ([1], 1)
+  
+  At index 1 diff: 2 != 1
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            1,
+        ],
+  -     1,
+  ?     ^
+  +     2,
+  ?     ^
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_treats_like_wildcards_as_literal_characters[double-percent] - assert ([1, 2, 3, 4], 5) == ([], 0)
+  
+  At index 0 diff: [1, 2, 3, 4] != []
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  +     [
+  +         1,
+  +         2,
+  +         3,
+  +         4,
+  -     [],
+  ?     -
+  +     ],
+  -     0,
+  ?     ^
+  +     5,
+  ?     ^
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_treats_like_wildcards_as_literal_characters[underscore] - assert ([1, 2, 3, 4], 5) == ([3], 1)
+  
+  At index 0 diff: [1, 2, 3, 4] != [3]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+  +         1,
+  +         2,
+            3,
+  +         4,
+        ],
+  -     1,
+  ?     ^
+  +     5,
+  ?     ^
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_treats_like_wildcards_as_literal_characters[letter-underscore-letter] - assert ([3], 2) == ([3], 1)
+  
+  At index 1 diff: 2 != 1
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            3,
+        ],
+  -     1,
+  ?     ^
+  +     2,
+  ?     ^
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_treats_like_wildcards_as_literal_characters[upper-case-underscore] - assert ([3], 2) == ([3], 1)
+  
+  At index 1 diff: 2 != 1
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            3,
+        ],
+  -     1,
+  ?     ^
+  +     2,
+  ?     ^
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_treats_like_wildcards_as_literal_characters[underscore-x] - assert ([], 1) == ([], 0)
+  
+  At index 1 diff: 1 != 0
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [],
+  -     0,
+  ?     ^
+  +     1,
+  ?     ^
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_treats_like_wildcards_as_literal_characters[backslash] - assert ([], 1) == ([5], 1)
+  
+  At index 0 diff: [] != [5]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         5,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_is_a_literal_substring[inner-space] - assert ([], 1) == ([1], 1)
+  
+  At index 0 diff: [] != [1]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         1,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_is_a_literal_substring[leading-space] - assert ([], 1) == ([1], 1)
+  
+  At index 0 diff: [] != [1]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         1,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_is_a_literal_substring[no-space] - assert ([], 1) == ([2], 1)
+  
+  At index 0 diff: [] != [2]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         2,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_text_is_data_not_sql[or-true] - assert ([1, 2], 3) == ([], 0)
+  
+  At index 0 diff: [1, 2] != []
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  +     [
+  +         1,
+  +         2,
+  -     [],
+  ?     -
+  +     ],
+  -     0,
+  ?     ^
+  +     3,
+  ?     ^
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_text_is_data_not_sql[or-comment] - AssertionError: Internal Server Error
+assert 500 == 200
+ +  where 500 = <Response [500 Internal Server Error]>.status_code
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_text_is_data_not_sql[wildcard-or] - assert ([1, 2], 3) == ([], 0)
+  
+  At index 0 diff: [1, 2] != []
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  +     [
+  +         1,
+  +         2,
+  -     [],
+  ?     -
+  +     ],
+  -     0,
+  ?     ^
+  +     3,
+  ?     ^
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_text_is_data_not_sql[drop-table] - AssertionError: Internal Server Error
+assert 500 == 200
+ +  where 500 = <Response [500 Internal Server Error]>.status_code
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_search_text_is_data_not_sql[double-quote-or] - assert ([1, 2], 3) == ([1, 2, 3], 3)
+  
+  At index 0 diff: [1, 2] != [1, 2, 3]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+            1,
+            2,
+  -         3,
+        ],
+        3,
+    )
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_overdue_needs_due_at_strictly_earlier_than_at - assert [1, 2] == [2]
+  
+  At index 0 diff: 1 != 2
+  Left contains one more item: 2
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+  +     1,
+        2,
+    ]
+FAILED acceptance/test_spec_3_existing_endpoints.py::test_spec_3_overdue_compares_instants_across_offsets - assert [1, 2] == [2]
+  
+  At index 0 diff: 1 != 2
+  Left contains one more item: 2
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+  +     1,
+        2,
+    ]
+FAILED acceptance/test_spec_4_6_1_upgrade_of_existing_database.py::test_spec_4_upgrade_preserves_tasks_and_work_logs - assert [1, 2, 3, 4] == [1, 2, 3, 4, 5]
+  
+  Right contains one more item: 5
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        1,
+        2,
+        3,
+        4,
+  -     5,
+    ]
+FAILED acceptance/test_spec_4_6_1_upgrade_of_existing_database.py::test_spec_6_1_pre_upgrade_task_gets_one_migration_event - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_4_6_1_upgrade_of_existing_database.py::test_spec_6_1_migration_event_is_not_repeated_or_rewritten_on_later_restarts - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_4_6_1_upgrade_of_existing_database.py::test_spec_6_1_transition_after_upgrade_appends_an_operation_event - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_4_6_1_upgrade_of_existing_database.py::test_spec_6_1_task_created_after_upgrade_gets_an_operation_creation_event - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_4_6_1_upgrade_of_existing_database.py::test_spec_6_1_restart_adds_no_migration_event_to_current_tasks - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_4_durability_retries_concurrency.py::test_spec_4_acknowledged_task_survives_restart - assert [] == [1]
+  
+  Right contains one more item: 1
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+  + []
+  - [
+  -     1,
+  - ]
+FAILED acceptance/test_spec_4_durability_retries_concurrency.py::test_spec_4_simultaneous_work_entries_are_each_recorded_once - assert 10 == 136
+ +  where 136 = sum([1, 2, 3, 4, 5, 6, ...])
+FAILED acceptance/test_spec_4_durability_retries_concurrency.py::test_spec_4_idempotent_retry_after_restart_returns_the_same_task - assert 2 == 1
+FAILED acceptance/test_spec_4_durability_retries_concurrency.py::test_spec_4_concurrent_idempotent_retries_create_one_task - assert 8 == 1
+ +  where 8 = len({1, 2, 3, 4, 5, 6, ...})
+FAILED acceptance/test_spec_4_durability_retries_concurrency.py::test_spec_4_concurrent_conflicting_bodies_create_one_task - assert [201, 201, 20...201, 201, ...] == [201, 409, 40...409, 409, ...]
+  
+  At index 1 diff: 201 != 409
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        201,
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+        409,
+    ]
+FAILED acceptance/test_spec_5_errors_and_compatibility.py::test_spec_5_text_with_sql_metacharacters_is_stored_and_found[apostrophe] - AssertionError: Internal Server Error
+assert 500 == 200
+ +  where 500 = <Response [500 Internal Server Error]>.status_code
+FAILED acceptance/test_spec_5_errors_and_compatibility.py::test_spec_5_text_with_sql_metacharacters_is_stored_and_found[double-quotes] - assert ([], 1) == ([2], 1)
+  
+  At index 0 diff: [] != [2]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         2,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_5_errors_and_compatibility.py::test_spec_5_text_with_sql_metacharacters_is_stored_and_found[drop] - assert ([], 1) == ([2], 1)
+  
+  At index 0 diff: [] != [2]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         2,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_5_errors_and_compatibility.py::test_spec_5_text_with_sql_metacharacters_is_stored_and_found[delete] - AssertionError: Internal Server Error
+assert 500 == 200
+ +  where 500 = <Response [500 Internal Server Error]>.status_code
+FAILED acceptance/test_spec_5_errors_and_compatibility.py::test_spec_5_text_with_sql_metacharacters_is_stored_and_found[like-chars] - assert ([], 1) == ([2], 1)
+  
+  At index 0 diff: [] != [2]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         2,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_5_errors_and_compatibility.py::test_spec_5_text_with_sql_metacharacters_is_stored_and_found[or-true] - assert ([1], 2) == ([2], 1)
+  
+  At index 0 diff: [1] != [2]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+        [
+  -         2,
+  ?         ^
+  +         1,
+  ?         ^
+        ],
+  -     1,
+  ?     ^
+  +     2,
+  ?     ^
+    )
+FAILED acceptance/test_spec_5_errors_and_compatibility.py::test_spec_5_list_keeps_its_documented_field_names - IndexError: list index out of range
+FAILED acceptance/test_spec_5_errors_and_compatibility.py::test_spec_5_create_app_keeps_its_data_in_the_given_file - assert ([], 1) == ([1], 1)
+  
+  At index 0 diff: [] != [1]
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    (
+  -     [
+  -         1,
+  -     ],
+  +     [],
+  ?     +
+        1,
+    )
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_starts_with_creation_event - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_body_is_an_items_object - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_creation_event_actor_is_the_creator[admin] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_creation_event_actor_is_the_creator[bob] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_each_transition_appends_one_event - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_changed_at_is_aware_utc_and_follows_the_sequence - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_sequence_is_counted_per_task - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_status_change_with_other_fields_appends_one_event - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_unchanged_status[todo] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_unchanged_status[in_progress] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_non_status_edits - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_rejected_requests[invalid-companion-field] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_rejected_requests[observer] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_rejected_requests[skipped-transition] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_rejected_requests[unknown-companion-field] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_rejected_requests[unknown-status] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_rejected_requests[unrelated-member] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_a_rejected_reopen - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_no_event_for_an_idempotent_creation_retry - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_is_readable_by_task_readers[admin] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_is_readable_by_task_readers[observer] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_is_readable_by_task_readers[creator] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_is_readable_by_task_readers[assignee] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_of_former_assignee_is_hidden - AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+  
+  Differing items:
+  {'detail': 'Not Found'} != {'detail': 'task not found'}
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    {
+  -     'detail': 'task not found',
+  ?                ^^^^^^   ^
+  +     'detail': 'Not Found',
+  ?                ^   ^
+    }
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_of_missing_task_returns_404[admin] - AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+  
+  Differing items:
+  {'detail': 'Not Found'} != {'detail': 'task not found'}
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    {
+  -     'detail': 'task not found',
+  ?                ^^^^^^   ^
+  +     'detail': 'Not Found',
+  ?                ^   ^
+    }
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_of_missing_task_returns_404[alice] - AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+  
+  Differing items:
+  {'detail': 'Not Found'} != {'detail': 'task not found'}
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    {
+  -     'detail': 'task not found',
+  ?                ^^^^^^   ^
+  +     'detail': 'Not Found',
+  ?                ^   ^
+    }
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_of_missing_task_returns_404[observer] - AssertionError: assert {'detail': 'Not Found'} == {'detail': 'task not found'}
+  
+  Differing items:
+  {'detail': 'Not Found'} != {'detail': 'task not found'}
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    {
+  -     'detail': 'task not found',
+  ?                ^^^^^^   ^
+  +     'detail': 'Not Found',
+  ?                ^   ^
+    }
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_survives_restart - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_is_not_editable_through_the_api[POST] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_is_not_editable_through_the_api[PUT] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_is_not_editable_through_the_api[PATCH] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_history_is_not_editable_through_the_api[DELETE] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_task_patch_cannot_write_history - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_earlier_events_are_not_rewritten_by_later_changes - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_1_status_history.py::test_spec_6_1_concurrent_identical_transitions_append_one_event - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_member_cannot_patch_unrelated_task[priority] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_member_cannot_patch_unrelated_task[status] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_member_cannot_patch_unrelated_task[title] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_member_cannot_patch_task_assigned_to_someone_else - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_member_cannot_grant_self_access_by_assigning_self - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_assignee_may_reassign_the_task_away - assert 200 == 404
+ +  where 200 = <Response [200 OK]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_former_assignee_cannot_patch - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_observer_patch_returns_403[assignee] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_observer_patch_returns_403[everything] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_observer_patch_returns_403[status] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_observer_patch_returns_403[title] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_observer_patch_of_missing_task_returns_404 - assert 403 == 404
+ +  where 403 = <Response [403 Forbidden]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_reopen_restriction_still_applies[creator] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED acceptance/test_spec_6_2_changes_to_others_tasks.py::test_spec_6_2_reopen_restriction_still_applies[assignee] - AssertionError: {"detail":"Not Found"}
+assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+117 failed, 240 passed, 1 warning in 11.56s
