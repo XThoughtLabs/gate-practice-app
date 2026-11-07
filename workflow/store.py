@@ -43,6 +43,22 @@ CREATE INDEX IF NOT EXISTS tasks_creator ON tasks(creator_id, id);
 CREATE INDEX IF NOT EXISTS tasks_assignee ON tasks(assignee_id, id);
 """
 
+UPDATE_FIELDS = ("title", "description", "assignee_id", "status", "priority", "due_at")
+
+# One constant statement for every update: a column takes its new value only when
+# its set_ flag is bound true, so all changes of one call are applied together.
+UPDATE_TASK = """
+UPDATE tasks SET
+    title = CASE WHEN :set_title THEN :title ELSE title END,
+    description = CASE WHEN :set_description THEN :description ELSE description END,
+    assignee_id = CASE WHEN :set_assignee_id THEN :assignee_id ELSE assignee_id END,
+    status = CASE WHEN :set_status THEN :status ELSE status END,
+    priority = CASE WHEN :set_priority THEN :priority ELSE priority END,
+    due_at = CASE WHEN :set_due_at THEN :due_at ELSE due_at END,
+    updated_at = :updated_at
+WHERE id = :id
+"""
+
 
 class Store:
     def __init__(self, path):
@@ -111,14 +127,14 @@ class Store:
         return self.task(task_id)
 
     def update(self, task_id, values, timestamp):
-        allowed = {"title", "description", "assignee_id", "status", "priority", "due_at"}
-        if not set(values).issubset(allowed):
+        if not set(values).issubset(UPDATE_FIELDS):
             raise ValueError("unknown update field")
-        columns = [f"{key}=?" for key in values]
-        columns.append("updated_at=?")
-        params = [*values.values(), timestamp, task_id]
+        params = {"id": task_id, "updated_at": timestamp}
+        for field in UPDATE_FIELDS:
+            params[field] = values.get(field)
+            params["set_" + field] = field in values
         with self.connect() as conn:
-            conn.execute(f"UPDATE tasks SET {', '.join(columns)} WHERE id=?", params)
+            conn.execute(UPDATE_TASK, params)
         return self.task(task_id)
 
     def append_work(self, task_id, user, minutes, timestamp, previous_total):
