@@ -1,0 +1,12 @@
+{
+  "findings": [],
+  "missing_tools": [],
+  "ok": true,
+  "reason_codes": [],
+  "suppressions": [],
+  "tool_exit_codes": [
+    0,
+    0,
+    0
+  ]
+}
