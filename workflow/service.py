@@ -1,7 +1,9 @@
 """Application operations, independent of the HTTP transport."""
 
 from datetime import datetime, timezone
+import csv
 import hashlib
+import io
 import json
 import time
 
@@ -119,9 +121,12 @@ class Service:
         return self.store.work_logs(task_id)
 
     def export(self, user):
-        rows = ["id,title,status,assignee_id"]
+        # The csv module quotes commas, double quotes and line breaks (RFC 4180),
+        # so every title comes back unchanged in one field.
+        buffer = io.StringIO()
+        writer = csv.writer(buffer, lineterminator="\r\n")
+        writer.writerow(("id", "title", "status", "assignee_id"))
         for task in self.store.visible_rows(user):
-            values = (task["id"], task["title"], task["status"],
-                      "" if task["assignee_id"] is None else task["assignee_id"])
-            rows.append(",".join(str(value) for value in values))
-        return "\r\n".join(rows) + "\r\n"
+            writer.writerow((task["id"], task["title"], task["status"],
+                             "" if task["assignee_id"] is None else task["assignee_id"]))
+        return buffer.getvalue()
