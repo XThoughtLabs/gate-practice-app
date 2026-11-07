@@ -1,0 +1,17 @@
+{
+  "conclusions": {
+    "gate/archive": "success",
+    "gate/final": "failure"
+  },
+  "reasons": [
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/guard failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/security failed"
+    }
+  ],
+  "verdict": "blocked"
+}
