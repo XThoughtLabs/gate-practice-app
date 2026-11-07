@@ -1,0 +1,37 @@
+{
+  "conclusions": {
+    "gate/archive": "success",
+    "gate/final": "failure"
+  },
+  "reasons": [
+    {
+      "code": "UNFINISHED_STAGE",
+      "detail": "the run job did not finish"
+    },
+    {
+      "code": "UNFINISHED_STAGE",
+      "detail": "the step gate/env did not finish"
+    },
+    {
+      "code": "UNFINISHED_STAGE",
+      "detail": "the step gate/guard did not finish"
+    },
+    {
+      "code": "UNFINISHED_STAGE",
+      "detail": "the step gate/tests did not finish"
+    },
+    {
+      "code": "UNFINISHED_STAGE",
+      "detail": "the step gate/acceptance did not finish"
+    },
+    {
+      "code": "UNFINISHED_STAGE",
+      "detail": "the step gate/security did not finish"
+    },
+    {
+      "code": "NO_ARTIFACT",
+      "detail": "the artifact is missing"
+    }
+  ],
+  "verdict": "incomplete"
+}
