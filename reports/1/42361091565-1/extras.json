@@ -1,0 +1,32 @@
+{
+  "env_failures": [
+    "publish"
+  ],
+  "human": [],
+  "independent_review": {
+    "head_sha": "05455d076fe510be61a9790cb6fd8fe564b115ec",
+    "state": "pending"
+  },
+  "merges": [
+    {
+      "approvals": 0,
+      "final_conclusion": null,
+      "head_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merge_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merged_by": "XThoughtLabs",
+      "pr": null,
+      "via_pr": false
+    }
+  ],
+  "reports_untrusted": false,
+  "resources": {
+    "actions_minutes": 1.22,
+    "codex_runs": 0
+  },
+  "review_verdicts": [],
+  "rounds": [],
+  "semi_automatic_steps": [
+    "The independent review is started by hand on the laptop.",
+    "A person approves and merges each PR."
+  ]
+}
