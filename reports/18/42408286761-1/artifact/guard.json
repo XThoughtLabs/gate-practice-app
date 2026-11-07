@@ -1,0 +1,21 @@
+{
+  "dependency_changes": [],
+  "fingerprint": {
+    "cumulative": "ff51ade89ad45156463e3fc68cd053ca29c7481e56ebc71448efb0d441cd6dba",
+    "round": "ff51ade89ad45156463e3fc68cd053ca29c7481e56ebc71448efb0d441cd6dba"
+  },
+  "head_sha": "85ab740400b281c6f27c3b3584b3d2677d977356",
+  "kind": "ai",
+  "marked_tests": [
+    {
+      "name": "test_observer_create",
+      "path": "tests/test_api.py"
+    }
+  ],
+  "needs_code_owner": [
+    "tests/test_api.py"
+  ],
+  "repeated_fix": false,
+  "security_review_changes": [],
+  "violations": []
+}
