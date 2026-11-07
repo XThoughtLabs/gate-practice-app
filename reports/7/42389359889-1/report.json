@@ -1,0 +1,518 @@
+{
+  "accepted_foreign_commits": [],
+  "bypass_merges": [
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "22bcd1056818df758e17de765ef31fbb7760b109",
+      "merge_sha": "00d6b64706d1080a8ff79733281f83972034d97f",
+      "merged_by": null,
+      "pr": 6,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "15da679f2289cb06526c01000f49ec9861489435",
+      "merge_sha": "76f31ea79bd4a39f4179a2e6da72ca7c9131fcf5",
+      "merged_by": null,
+      "pr": 3,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "1604b44da373ab8fbded46b0c3b78138622fe477",
+      "merge_sha": "191d202628383c9e18f397f52f3eff49f614d701",
+      "merged_by": null,
+      "pr": 2,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "27f099818a1a0a6f1de795be645f643f93eea520",
+      "merge_sha": "be7ce57f6998b232b225a96a257a6086924d3e29",
+      "merged_by": null,
+      "pr": 1,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": null,
+      "head_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merge_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merged_by": "XThoughtLabs",
+      "pr": null,
+      "via_pr": false
+    }
+  ],
+  "checks": [
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.env_check",
+            "--role",
+            "{env:GATE_ENV_ROLE}",
+            "--config",
+            "{env:GATE_CONFIG}",
+            "--out",
+            "{raw}/env.json"
+          ],
+          "duration_seconds": 0.766,
+          "exit_code": 1,
+          "raw_path": "raw/gate-env/0.log",
+          "raw_sha256": "305c446e2e7cad0863f8eac896f94c8b43fdb86b35eb61db6e7bd97c85c98bf0"
+        }
+      ],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "gate/env"
+    },
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.guard",
+            "--repo",
+            "{env:GATE_PR_DIR}",
+            "--base",
+            "{env:GATE_BASE_SHA}",
+            "--head",
+            "{env:GATE_HEAD_SHA}",
+            "--branch",
+            "{env:GATE_HEAD_REF}",
+            "--author",
+            "{env:GATE_PR_AUTHOR}",
+            "--config",
+            "{env:GATE_CONFIG}",
+            "--reports-dir",
+            "{env:GATE_REPORTS_DIR}",
+            "--pr",
+            "{env:GATE_PR}",
+            "--out",
+            "{raw}/guard.json"
+          ],
+          "duration_seconds": 0.114,
+          "exit_code": 0,
+          "raw_path": "raw/gate-guard/0.log",
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "gate/guard"
+    },
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--ignore=acceptance",
+            "--junitxml={raw}/junit.xml"
+          ],
+          "duration_seconds": 2.018,
+          "exit_code": 0,
+          "raw_path": "raw/gate-tests/0.log",
+          "raw_sha256": "4d94bb542b66648811996c42078bb9737f6d96e52089842884943ce968494437"
+        }
+      ],
+      "conclusion": "success",
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 42
+      },
+      "id": "gate/tests"
+    },
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.acceptance",
+            "--junit",
+            "{raw}/junit.xml",
+            "--known-failing",
+            "{env:GATE_KNOWN_FAILING}",
+            "--mode",
+            "{env:GATE_ACCEPTANCE_MODE}",
+            "--config",
+            "{env:GATE_CONFIG}",
+            "--tests-dir",
+            "acceptance",
+            "--out",
+            "{raw}/acceptance.json",
+            "--",
+            "python",
+            "-m",
+            "pytest",
+            "acceptance",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--junitxml={raw}/junit.xml"
+          ],
+          "duration_seconds": 16.198,
+          "exit_code": 0,
+          "raw_path": "raw/gate-acceptance/0.log",
+          "raw_sha256": "f1aa516df7f5975059e9846089eeb6727b40a2e37f6b0262c7b5edc13c8e1095"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "gate/acceptance"
+    },
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.security_check",
+            "--bandit",
+            "{raw}/bandit.json",
+            "--pip-audit",
+            "{raw}/pip-audit.json",
+            "--gitleaks",
+            "{raw}/gitleaks.json",
+            "--review",
+            "security-review.md",
+            "--repo",
+            ".",
+            "--base",
+            "{env:GATE_BASE_SHA}",
+            "--head",
+            "{env:GATE_HEAD_SHA}",
+            "--out",
+            "{raw}/security.json",
+            "--tool-command",
+            "[\"{env:GATE_TOOLS}/bandit\", \"-r\", \"workflow\", \"-f\", \"json\", \"-o\", \"{raw}/bandit.json\"]",
+            "--tool-command",
+            "[\"{env:GATE_TOOLS}/pip-audit\", \"-r\", \"requirements.lock\", \"--no-deps\", \"-f\", \"json\", \"-o\", \"{raw}/pip-audit.json\"]",
+            "--tool-command",
+            "[\"{env:GATE_TOOLS_BIN}/gitleaks\", \"dir\", \".\", \"--report-format\", \"json\", \"--report-path\", \"{raw}/gitleaks.json\", \"--exit-code\", \"0\"]"
+          ],
+          "duration_seconds": 7.28,
+          "exit_code": 1,
+          "raw_path": "raw/gate-security/0.log",
+          "raw_sha256": "965c16cbede43efcce32fa731668e1c47c2a078933556f1bcc9aca7c4748fd1d"
+        }
+      ],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "gate/security"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "coverage",
+            "run",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--ignore=acceptance"
+          ],
+          "duration_seconds": 2.369,
+          "exit_code": 0,
+          "raw_path": "raw/diag-coverage/0.log",
+          "raw_sha256": "2b6203697e5fa42ef7fdeb5ea82e7f2864a1b9dade60376ada3e2e6595704160"
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "coverage",
+            "json",
+            "-o",
+            "{raw}/coverage.json"
+          ],
+          "duration_seconds": 0.114,
+          "exit_code": 0,
+          "raw_path": "raw/diag-coverage/1.log",
+          "raw_sha256": "4c03f0d0edaf5ba4a6bd8c33362707313307a0f917042ace819d760554af0abb"
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "coverage",
+            "report"
+          ],
+          "duration_seconds": 0.114,
+          "exit_code": 0,
+          "raw_path": "raw/diag-coverage/2.log",
+          "raw_sha256": "26e97b5c3d1444fdaa25189ab57bcfc81068523855c967346e5208c86e87bcf1"
+        },
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.diag_summary",
+            "coverage",
+            "--coverage-json",
+            "{raw}/coverage.json",
+            "--repo",
+            ".",
+            "--base",
+            "{env:GATE_BASE_SHA}",
+            "--head",
+            "{env:GATE_HEAD_SHA}",
+            "--out",
+            "{raw}/summary.json"
+          ],
+          "duration_seconds": 0.064,
+          "exit_code": 0,
+          "raw_path": "raw/diag-coverage/3.log",
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/coverage"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_TOOLS}/mypy",
+            "--python-executable",
+            "{env:RUNNER_TEMP}/app-venv/bin/python",
+            "workflow"
+          ],
+          "duration_seconds": 2.121,
+          "exit_code": 0,
+          "raw_path": "raw/diag-mypy/0.log",
+          "raw_sha256": "71144743c83babea384888a735db0c4daba3d4d7b7942b6839984bd5c21b52bb"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/mypy"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_TOOLS}/ruff",
+            "check",
+            ".",
+            "--no-cache",
+            "--output-format",
+            "json"
+          ],
+          "duration_seconds": 0.016,
+          "exit_code": 1,
+          "raw_path": "raw/diag-ruff/0.log",
+          "raw_sha256": "01fff329f89c0707bfd884bcd64fcc9bac07aa86f3ed6be098bd832b9b18a5c7"
+        }
+      ],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "diag/ruff"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_SEMGREP}/semgrep",
+            "scan",
+            "--metrics",
+            "off",
+            "--config",
+            "{env:GATE_HOME}/semgrep/rules.yml",
+            "--json",
+            "workflow"
+          ],
+          "duration_seconds": 1.668,
+          "exit_code": 0,
+          "raw_path": "raw/diag-semgrep/0.log",
+          "raw_sha256": "7311a0053a521f21363ad2514739fa4780e58d292a4717610d8bb4e0ece70e10"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/semgrep"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/schemathesis"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/mutation"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "python",
+            "tools/benchmark.py"
+          ],
+          "duration_seconds": 2.769,
+          "exit_code": 0,
+          "raw_path": "raw/diag-benchmark/0.log",
+          "raw_sha256": "9434afec16846f87227d6dcf47f5837f4675d42da0d4bd06128fe336930e9d75"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/benchmark"
+    }
+  ],
+  "coverage": {
+    "changed_lines": 0,
+    "changed_lines_covered": 0,
+    "changed_percent": "unknown",
+    "files": {},
+    "whole_percent": 92.54658385093168
+  },
+  "dependency_changes": [],
+  "environment": {
+    "image_os": "ubuntu24",
+    "image_version": "20261101.360.1",
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "python": "3.13.15"
+  },
+  "findings": [
+    {
+      "line": 121,
+      "path": "workflow/store.py",
+      "reviewed": false,
+      "rule": "B608",
+      "tool": "bandit"
+    }
+  ],
+  "generated_at": "2026-11-07T16:05:32+00:00",
+  "human": {
+    "interventions": 0,
+    "minutes": 0
+  },
+  "independent_review": {
+    "head_sha": "49d85210cb2b935d3ed58ccac31775a03688c625",
+    "state": "pending"
+  },
+  "known_failing": {
+    "remove_from_list": [],
+    "size": 117
+  },
+  "marked_tests": [],
+  "mutation": "unknown",
+  "needs_code_owner": [],
+  "resources": {
+    "actions_minutes": 1.5,
+    "codex_runs": 0,
+    "codex_tokens": "unknown",
+    "executor_runs": "unknown",
+    "executor_turns": "unknown"
+  },
+  "rounds": [
+    {
+      "cumulative": "5369a6463d7535105e1447bb97427d2d042565dfcc23608d118c7bca067e3a74",
+      "head_sha": "49d85210cb2b935d3ed58ccac31775a03688c625",
+      "round": "5369a6463d7535105e1447bb97427d2d042565dfcc23608d118c7bca067e3a74"
+    }
+  ],
+  "security_review_changes": [],
+  "semi_automatic_steps": [
+    "The independent review is started by hand on the laptop.",
+    "A person approves and merges each PR."
+  ],
+  "setup": {
+    "conclusion": "success",
+    "exit_codes": [
+      0,
+      0
+    ]
+  },
+  "verdicts": {
+    "final": null,
+    "preliminary": "blocked",
+    "reasons": [
+      {
+        "code": "FAILED_CHECK",
+        "detail": "gate/env failed"
+      },
+      {
+        "code": "FAILED_CHECK",
+        "detail": "gate/security failed"
+      },
+      {
+        "code": "FAILED_CHECK",
+        "detail": "gate/env failed in the publish job"
+      }
+    ]
+  },
+  "verification": {
+    "author": "XThoughtLabs",
+    "base_sha": "00d6b64706d1080a8ff79733281f83972034d97f",
+    "baseline_sha": "821330ffbb19f545fb81f3c223b0a286ff6c4980",
+    "config_hashes": {
+      ".github/workflows/executor.yml": "missing",
+      ".github/workflows/feedback.yml": "missing",
+      ".github/workflows/judge.yml": "903e7701bb9b5a5edb9135c4fa2be227803ffca1437186480c11cf6e3f9521a2",
+      ".github/workflows/spec-tests.yml": "missing",
+      "CODEOWNERS": "039e179cda576eeac0ddd75086f9d1213bac9901a732a1c7dd949e17ab54db25",
+      "prompts/executor.md": "6d80c44da4d759d14f66a5c2610759bacac70e2c8a3c07165a162669a59a5030",
+      "prompts/spec-tests.md": "78e4b207926e3b5cffa38204aec5a80bc1ecc7047fa45d405e4f16351663419f",
+      "quality.toml": "8246d88cffaca13c5197d642ed3b1a0078f11e18f067be46dc1db185589bf51c",
+      "security-review.md": "missing"
+    },
+    "event": "pull_request_target",
+    "execution_environment": {
+      "image_os": "ubuntu24",
+      "image_version": "20261101.360.1"
+    },
+    "gate_sha": "906ebaefdc10ca459ccd9c890ecb56c9b0f3acb9",
+    "head_ref": "ai/demo-env",
+    "head_repository": "XThoughtLabs/gate-practice-app",
+    "head_sha": "49d85210cb2b935d3ed58ccac31775a03688c625",
+    "pr": 7,
+    "repository": "XThoughtLabs/gate-practice-app",
+    "run_attempt": "1",
+    "run_id": "42389359889",
+    "trusted_sha": "00d6b64706d1080a8ff79733281f83972034d97f"
+  }
+}
