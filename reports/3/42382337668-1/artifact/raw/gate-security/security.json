@@ -1,0 +1,22 @@
+{
+  "findings": [
+    {
+      "line": 121,
+      "path": "workflow/store.py",
+      "reviewed": false,
+      "rule": "B608",
+      "tool": "bandit"
+    }
+  ],
+  "missing_tools": [],
+  "ok": false,
+  "reason_codes": [
+    "UNREVIEWED_FINDING"
+  ],
+  "suppressions": [],
+  "tool_exit_codes": [
+    1,
+    0,
+    0
+  ]
+}
