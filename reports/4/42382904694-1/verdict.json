@@ -1,0 +1,21 @@
+{
+  "checks": {
+    "gate/acceptance": "success",
+    "gate/env": "success",
+    "gate/guard": "success",
+    "gate/report": "success",
+    "gate/security": "failure",
+    "gate/tests": "failure"
+  },
+  "reasons": [
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/tests failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/security failed"
+    }
+  ],
+  "verdict": "blocked"
+}

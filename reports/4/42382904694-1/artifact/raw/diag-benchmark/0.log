@@ -1,0 +1,37 @@
+/home/runner/work/_temp/app-venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+{
+  "boundary": "TestClient in-process request including application and SQLite; no TCP",
+  "dataset_tasks": 500,
+  "warmup_requests": 20,
+  "concurrency": 1,
+  "clock": "perf_counter_ns",
+  "units": "milliseconds",
+  "runs": [
+    {
+      "repetition": 1,
+      "requests": 100,
+      "p50_ms": 2.5628725,
+      "p95_ms": 2.690035,
+      "min_ms": 2.470094,
+      "max_ms": 3.179089
+    },
+    {
+      "repetition": 2,
+      "requests": 100,
+      "p50_ms": 2.6992374999999997,
+      "p95_ms": 3.035541,
+      "min_ms": 2.549122,
+      "max_ms": 3.544341
+    },
+    {
+      "repetition": 3,
+      "requests": 100,
+      "p50_ms": 2.6685855,
+      "p95_ms": 2.934432,
+      "min_ms": 2.531108,
+      "max_ms": 3.418026
+    }
+  ],
+  "acceptance_threshold": null
+}
