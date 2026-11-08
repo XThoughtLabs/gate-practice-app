@@ -30,9 +30,16 @@ def test_several_fields_applied_together(store, created):
     values = {"title": "Renamed", "description": "After", "assignee_id": 3,
               "status": "in_progress", "priority": 5,
               "due_at": "2026-04-01T12:00:00.000000+00:00"}
-    result = store.update(created["id"], values, UPDATED)
+    result = store.update(created["id"], values, UPDATED, actor_id=2)
     assert result == store.task(created["id"])
     assert result == {**created, **values, "updated_at": UPDATED}
+    # SPEC.md section 6.1: the status change is recorded, with its actor, by the same call.
+    assert store.history(created["id"]) == [
+        {"sequence": 1, "actor_id": 2, "from_status": None, "to_status": "todo",
+         "changed_at": CREATED, "origin": "operation"},
+        {"sequence": 2, "actor_id": 2, "from_status": "todo", "to_status": "in_progress",
+         "changed_at": UPDATED, "origin": "operation"},
+    ]
 
 
 def test_fields_not_given_are_unchanged(store, created):

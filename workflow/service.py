@@ -90,18 +90,26 @@ class Service:
 
     def update(self, user, task_id, values):
         self.require_writer(user)
-        task = self.existing(task_id)
+        self.existing(task_id)
         if "assignee_id" in values:
             self.assignee_exists(values["assignee_id"])
-        new_status = values.get("status", task["status"])
-        transitions = {"todo": {"todo", "in_progress"},
-                       "in_progress": {"in_progress", "done"},
-                       "done": {"done", "in_progress"}}
-        if new_status not in transitions[task["status"]]:
-            raise Problem(409, "invalid status transition")
-        if task["status"] == "done" and new_status == "in_progress" and user["role"] != "admin":
-            raise Problem(403, "only an administrator may reopen a task")
-        return self.store.update(task_id, values, timestamp())
+
+        def check(task):
+            # Runs inside the store's write transaction, so simultaneous requests are
+            # judged one after another against the status each actually changes.
+            new_status = values.get("status", task["status"])
+            transitions = {"todo": {"todo", "in_progress"},
+                           "in_progress": {"in_progress", "done"},
+                           "done": {"done", "in_progress"}}
+            if new_status not in transitions[task["status"]]:
+                raise Problem(409, "invalid status transition")
+            if task["status"] == "done" and new_status == "in_progress" and user["role"] != "admin":
+                raise Problem(403, "only an administrator may reopen a task")
+
+        task = self.store.update(task_id, values, timestamp(), user["id"], check)
+        if task is None:
+            raise Problem(404, "task not found")
+        return task
 
     def add_work(self, user, task_id, minutes):
         self.require_writer(user)
@@ -119,6 +127,12 @@ class Service:
         if not visible(user, task):
             raise Problem(404, "task not found")
         return self.store.work_logs(task_id)
+
+    def history(self, user, task_id):
+        task = self.existing(task_id)
+        if not visible(user, task):
+            raise Problem(404, "task not found")
+        return self.store.history(task_id)
 
     def export(self, user):
         # The csv module quotes commas, double quotes and line breaks (RFC 4180),
