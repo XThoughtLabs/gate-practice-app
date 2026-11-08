@@ -221,17 +221,30 @@ class Store:
                 "FROM status_history WHERE task_id=? ORDER BY sequence", (task_id,)
             )]
 
-    def append_work(self, task_id, user, minutes, timestamp, previous_total):
+    def append_work(self, task_id, user, minutes, timestamp, check=None):
+        """Record one work entry and add it to the stored work_minutes, in one transaction.
+
+        check(task), if given, runs inside the write transaction with the stored row and
+        may raise to refuse the entry; nothing is written then. Returns None for a
+        missing task.
+        """
         with self.connect() as conn:
+            conn.execute("BEGIN IMMEDIATE")
+            before = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
+            if before is None:
+                return None
+            if check is not None:
+                check(dict(before))
             conn.execute(
                 "INSERT INTO work_logs(task_id,actor_id,minutes,created_at) VALUES(?,?,?,?)",
                 (task_id, user["id"], minutes, timestamp),
             )
             conn.execute(
-                "UPDATE tasks SET work_minutes=?, updated_at=? WHERE id=?",
-                (previous_total + minutes, timestamp, task_id),
+                "UPDATE tasks SET work_minutes = work_minutes + ?, updated_at=? WHERE id=?",
+                (minutes, timestamp, task_id),
             )
-        return self.task(task_id)
+            row = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
+        return dict(row)
 
     def work_logs(self, task_id):
         with self.connect() as conn:

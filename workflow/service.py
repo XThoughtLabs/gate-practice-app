@@ -5,7 +5,6 @@ import csv
 import hashlib
 import io
 import json
-import time
 
 
 class Problem(Exception):
@@ -102,10 +101,12 @@ class Service:
         return {"items": page, "total": len(rows), "limit": limit, "offset": offset}
 
     def overdue(self, user, at):
+        # Both sides are aware UTC datetimes, so they compare as instants whatever offset
+        # either was written with; a task due exactly at that instant is not yet overdue.
         instant = parse_time(at)
         return [row for row in self.store.visible_rows(user)
                 if row["status"] != "done" and row["due_at"] is not None
-                and parse_time(row["due_at"]) <= instant]
+                and parse_time(row["due_at"]) < instant]
 
     def update(self, user, task_id, values):
         # Missing or unreadable is 404 for every role, before 403 and before the body's
@@ -135,14 +136,19 @@ class Service:
 
     def add_work(self, user, task_id, minutes):
         self.require_writer(user)
-        task = self.existing(task_id)
-        if not visible(user, task):
+
+        def check(task):
+            # Runs inside the store's write transaction, so each entry is judged against
+            # the visibility and status the task has when the entry is written.
+            if not visible(user, task):
+                raise Problem(404, "task not found")
+            if task["status"] == "done":
+                raise Problem(409, "completed tasks do not accept work")
+
+        task = self.store.append_work(task_id, user, minutes, timestamp(), check)
+        if task is None:
             raise Problem(404, "task not found")
-        if task["status"] == "done":
-            raise Problem(409, "completed tasks do not accept work")
-        previous_total = task["work_minutes"]
-        time.sleep(0.01)
-        return self.store.append_work(task_id, user, minutes, timestamp(), previous_total)
+        return task
 
     def work(self, user, task_id):
         task = self.existing(task_id)
