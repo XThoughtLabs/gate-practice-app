@@ -6,6 +6,8 @@ import hashlib
 import io
 import json
 
+from workflow.store import KeyReused
+
 
 class Problem(Exception):
     def __init__(self, status, detail):
@@ -50,7 +52,6 @@ def authorize_patch(user, task):
 class Service:
     def __init__(self, store):
         self.store = store
-        self.request_cache = {}
 
     def authenticate(self, token):
         user = self.store.user(token)
@@ -77,17 +78,16 @@ class Service:
     def create(self, user, values, key=None):
         self.require_writer(user)
         self.assignee_exists(values["assignee_id"])
+        # The digest of the validated body (defaults filled in, due_at in UTC) is stored
+        # with the key, so keep its form: a changed form would turn retries of stored keys
+        # into 409.
         digest = hashlib.sha256(json.dumps(values, sort_keys=True).encode()).hexdigest()
-        cache_key = (user["id"], key)
-        if key is not None and cache_key in self.request_cache:
-            old_digest, task_id = self.request_cache[cache_key]
-            if old_digest != digest:
-                raise Problem(409, "idempotency key reused with a different body")
-            return self.existing(task_id)
-        task = self.store.create(user, values, timestamp())
-        if key is not None:
-            self.request_cache[cache_key] = (digest, task["id"])
-        return task
+        try:
+            # The key is looked up and recorded in the task's own write transaction, so
+            # simultaneous requests with one actor/key are judged one after another.
+            return self.store.create(user, values, timestamp(), key, digest)
+        except KeyReused:
+            raise Problem(409, "idempotency key reused with a different body") from None
 
     def get(self, user, task_id):
         task = self.existing(task_id)
