@@ -79,6 +79,17 @@ SELECT :task_id, COALESCE(MAX(sequence), 0) + 1, :actor_id, :from_status, :to_st
 FROM status_history WHERE task_id = :task_id
 """
 
+# One constant statement for every listing, its values always bound. A member sees only
+# the tasks they created or are assigned. :query is a literal substring of the title or
+# description: instr has no wildcard or escape character, so %, _ and \ match only
+# themselves, and lower() folds ASCII letters only. An empty :query is in every text.
+VISIBLE_TASKS = """
+SELECT * FROM tasks
+WHERE (:all_tasks OR creator_id = :user_id OR assignee_id = :user_id)
+AND (instr(lower(title), lower(:query)) > 0 OR instr(lower(description), lower(:query)) > 0)
+ORDER BY id ASC
+"""
+
 UPDATE_FIELDS = ("title", "description", "assignee_id", "status", "priority", "due_at")
 
 # One constant statement for every update: a column takes its new value only when
@@ -148,16 +159,13 @@ class Store:
             return [dict(row) for row in conn.execute("SELECT id,name,role FROM users ORDER BY id")]
 
     def visible_rows(self, user, query=""):
-        sql = "SELECT * FROM tasks WHERE 1=1"
-        params = []
-        if user["role"] == "member":
-            sql += " AND (creator_id=? OR assignee_id=?)"
-            params.extend((user["id"], user["id"]))
-        if query:
-            sql += f" AND (title LIKE '%{query}%' OR description LIKE '%{query}%')"
-        sql += " ORDER BY id ASC"
+        params = {
+            "all_tasks": user["role"] in ("admin", "observer"),
+            "user_id": user["id"],
+            "query": query,
+        }
         with self.connect() as conn:
-            return [dict(row) for row in conn.execute(sql, params)]
+            return [dict(row) for row in conn.execute(VISIBLE_TASKS, params)]
 
     def create(self, user, values, timestamp):
         with self.connect() as conn:
