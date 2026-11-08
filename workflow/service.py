@@ -32,6 +32,22 @@ def visible(user, task):
     )
 
 
+def editable(user, task):
+    # SPEC.md section 6.2: an admin may patch any task, a member only as its creator or
+    # current assignee; an observer never.
+    return user["role"] == "admin" or (
+        user["role"] == "member" and user["id"] in (task["creator_id"], task["assignee_id"])
+    )
+
+
+def authorize_patch(user, task):
+    # Judged against the stored task, so an assignee_id in the request itself grants nothing.
+    if not visible(user, task):
+        raise Problem(404, "task not found")
+    if not editable(user, task):
+        raise Problem(403, "write forbidden")
+
+
 class Service:
     def __init__(self, store):
         self.store = store
@@ -89,14 +105,17 @@ class Service:
                 and parse_time(row["due_at"]) <= instant]
 
     def update(self, user, task_id, values):
-        self.require_writer(user)
-        self.existing(task_id)
+        # Missing or unreadable is 404 for every role, before 403 and before the body's
+        # values are judged, so a refusal reveals nothing about the task.
+        authorize_patch(user, self.existing(task_id))
         if "assignee_id" in values:
             self.assignee_exists(values["assignee_id"])
 
         def check(task):
             # Runs inside the store's write transaction, so simultaneous requests are
-            # judged one after another against the status each actually changes.
+            # judged one after another against the assignment and the status each
+            # actually changes.
+            authorize_patch(user, task)
             new_status = values.get("status", task["status"])
             transitions = {"todo": {"todo", "in_progress"},
                            "in_progress": {"in_progress", "done"},
