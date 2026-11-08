@@ -91,7 +91,10 @@ class Service:
         return task
 
     def get(self, user, task_id):
-        return self.existing(task_id)
+        task = self.existing(task_id)
+        if not visible(user, task):
+            raise Problem(404, "task not found")
+        return task
 
     def list(self, user, query, limit, offset):
         rows = self.store.visible_rows(user, query)
