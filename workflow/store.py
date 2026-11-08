@@ -57,10 +57,20 @@ CREATE TRIGGER IF NOT EXISTS status_history_no_update BEFORE UPDATE ON status_hi
 BEGIN SELECT RAISE(ABORT, 'status history is append-only'); END;
 CREATE TRIGGER IF NOT EXISTS status_history_no_delete BEFORE DELETE ON status_history
 BEGIN SELECT RAISE(ABORT, 'status history is append-only'); END;
+CREATE TABLE IF NOT EXISTS idempotency_keys (
+    actor_id INTEGER NOT NULL REFERENCES users(id),
+    idempotency_key TEXT NOT NULL,
+    body_digest TEXT NOT NULL,
+    task_id INTEGER NOT NULL REFERENCES tasks(id),
+    created_at TEXT NOT NULL,
+    PRIMARY KEY(actor_id, idempotency_key)
+) STRICT;
 """
 
 # PRAGMA user_version of a file whose tasks all have status history. Files made before
 # status history existed are at 0; see docs/status-history-migration.md.
+# idempotency_keys is added to an existing file by its CREATE TABLE IF NOT EXISTS alone and
+# needs no data step, so it leaves user_version as it is; see docs/idempotency-keys.md.
 HISTORY_VERSION = 1
 
 # The migration's one initial event per pre-upgrade task: the stored status as the
@@ -105,6 +115,10 @@ UPDATE tasks SET
     updated_at = :updated_at
 WHERE id = :id
 """
+
+
+class KeyReused(Exception):
+    """The actor's idempotency key is already recorded with a different request body."""
 
 
 class Store:
@@ -167,8 +181,23 @@ class Store:
         with self.connect() as conn:
             return [dict(row) for row in conn.execute(VISIBLE_TASKS, params)]
 
-    def create(self, user, values, timestamp):
+    def create(self, user, values, timestamp, key=None, digest=None):
+        """Insert a task, its creation event and, with a key, the actor's key record, in one transaction.
+
+        When the actor has already used key, nothing is written: the task the key created
+        is returned if digest equals the stored one, and KeyReused is raised otherwise.
+        """
         with self.connect() as conn:
+            conn.execute("BEGIN IMMEDIATE")
+            if key is not None:
+                used = conn.execute(
+                    "SELECT body_digest, task_id FROM idempotency_keys WHERE actor_id=? AND idempotency_key=?",
+                    (user["id"], key),
+                ).fetchone()
+                if used is not None:
+                    if used["body_digest"] != digest:
+                        raise KeyReused
+                    return dict(conn.execute("SELECT * FROM tasks WHERE id=?", (used["task_id"],)).fetchone())
             cursor = conn.execute(
                 "INSERT INTO tasks(title,description,creator_id,assignee_id,status,priority,due_at,created_at,updated_at) "
                 "VALUES(?,?,?,?,?,?,?,?,?)",
@@ -180,7 +209,14 @@ class Store:
             )
             task_id = cursor.lastrowid
             self.append_event(conn, task_id, user["id"], None, "todo", timestamp)
-        return self.task(task_id)
+            if key is not None:
+                conn.execute(
+                    "INSERT INTO idempotency_keys(actor_id,idempotency_key,body_digest,task_id,created_at) "
+                    "VALUES(?,?,?,?,?)",
+                    (user["id"], key, digest, task_id, timestamp),
+                )
+            row = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
+        return dict(row)
 
     def update(self, task_id, values, timestamp, actor_id=None, check=None):
         """Apply values and, for an actual status change, append its event, in one transaction.
