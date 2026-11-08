@@ -1,0 +1,12 @@
+{
+  "checks": {
+    "gate/acceptance": "success",
+    "gate/env": "success",
+    "gate/guard": "success",
+    "gate/report": "success",
+    "gate/security": "success",
+    "gate/tests": "success"
+  },
+  "reasons": [],
+  "verdict": "ready-for-human"
+}
