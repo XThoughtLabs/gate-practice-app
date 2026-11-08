@@ -1,0 +1,37 @@
+{
+  "conclusions": {
+    "gate/archive": "success",
+    "gate/final": "failure"
+  },
+  "reasons": [
+    {
+      "code": "NO_ARTIFACT",
+      "detail": "the artifact is missing"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/env failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/guard failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/tests failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/acceptance failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "gate/security failed"
+    },
+    {
+      "code": "FAILED_CHECK",
+      "detail": "setup failed, so the checks did not run on a prepared application"
+    }
+  ],
+  "verdict": "incomplete"
+}
