@@ -1,0 +1,634 @@
+{
+  "accepted_foreign_commits": [],
+  "bypass_merges": [
+    {
+      "approvals": 0,
+      "final_conclusion": "success",
+      "head_sha": "59f32fddfd10faa40d21fefa09fb831e0e3a918f",
+      "merge_sha": "c45c851ff430f493409ed353c1416f4e28bc5c4c",
+      "merged_by": null,
+      "pr": 20,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "success",
+      "head_sha": "9ef37dfc6ecfd344de3dcd313a237fcd59cdafe3",
+      "merge_sha": "1ce6e90fd37e50863f11dc9073b4240dd071b373",
+      "merged_by": null,
+      "pr": 17,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "cdf58877e95c3d11313b48a43746a949e19f01f0",
+      "merge_sha": "bea74090ac43c598a445ea30789a3f3ecb09acf5",
+      "merged_by": null,
+      "pr": 8,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "22bcd1056818df758e17de765ef31fbb7760b109",
+      "merge_sha": "00d6b64706d1080a8ff79733281f83972034d97f",
+      "merged_by": null,
+      "pr": 6,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "15da679f2289cb06526c01000f49ec9861489435",
+      "merge_sha": "76f31ea79bd4a39f4179a2e6da72ca7c9131fcf5",
+      "merged_by": null,
+      "pr": 3,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "1604b44da373ab8fbded46b0c3b78138622fe477",
+      "merge_sha": "191d202628383c9e18f397f52f3eff49f614d701",
+      "merged_by": null,
+      "pr": 2,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "27f099818a1a0a6f1de795be645f643f93eea520",
+      "merge_sha": "be7ce57f6998b232b225a96a257a6086924d3e29",
+      "merged_by": null,
+      "pr": 1,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": null,
+      "head_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merge_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merged_by": "XThoughtLabs",
+      "pr": null,
+      "via_pr": false
+    }
+  ],
+  "checks": [
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.env_check",
+            "--role",
+            "{env:GATE_ENV_ROLE}",
+            "--config",
+            "{env:GATE_CONFIG}",
+            "--out",
+            "{raw}/env.json"
+          ],
+          "duration_seconds": 1.318,
+          "exit_code": 0,
+          "raw_path": "raw/gate-env/0.log",
+          "raw_sha256": "f445ea9e273d68f05c1d14f297270ceaaa2ce8b8233280c76cc506c648f630ba"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "gate/env"
+    },
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.guard",
+            "--repo",
+            "{env:GATE_PR_DIR}",
+            "--base",
+            "{env:GATE_BASE_SHA}",
+            "--head",
+            "{env:GATE_HEAD_SHA}",
+            "--branch",
+            "{env:GATE_HEAD_REF}",
+            "--author",
+            "{env:GATE_PR_AUTHOR}",
+            "--config",
+            "{env:GATE_CONFIG}",
+            "--reports-dir",
+            "{env:GATE_REPORTS_DIR}",
+            "--pr",
+            "{env:GATE_PR}",
+            "--out",
+            "{raw}/guard.json"
+          ],
+          "duration_seconds": 0.264,
+          "exit_code": 0,
+          "raw_path": "raw/gate-guard/0.log",
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "gate/guard"
+    },
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--ignore=acceptance",
+            "--junitxml={raw}/junit.xml"
+          ],
+          "duration_seconds": 5.826,
+          "exit_code": 0,
+          "raw_path": "raw/gate-tests/0.log",
+          "raw_sha256": "e83da81073478ce97b16fc0e7cb5e7d8847389f4d701d13f94a03a643e19625a"
+        }
+      ],
+      "conclusion": "success",
+      "counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0,
+        "tests": 138
+      },
+      "id": "gate/tests"
+    },
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.acceptance",
+            "--junit",
+            "{raw}/junit.xml",
+            "--known-failing",
+            "{env:GATE_KNOWN_FAILING}",
+            "--mode",
+            "{env:GATE_ACCEPTANCE_MODE}",
+            "--config",
+            "{env:GATE_CONFIG}",
+            "--tests-dir",
+            "acceptance",
+            "--out",
+            "{raw}/acceptance.json",
+            "--",
+            "python",
+            "-m",
+            "pytest",
+            "acceptance",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--junitxml={raw}/junit.xml"
+          ],
+          "duration_seconds": 16.499,
+          "exit_code": 0,
+          "raw_path": "raw/gate-acceptance/0.log",
+          "raw_sha256": "e3ea63cb7ae7f7dcbddeb79f23f308532df3410f7e2e92ff1d116b5c0b6e9cfc"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "gate/acceptance"
+    },
+    {
+      "class": "mandatory",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.security_check",
+            "--bandit",
+            "{raw}/bandit.json",
+            "--pip-audit",
+            "{raw}/pip-audit.json",
+            "--gitleaks",
+            "{raw}/gitleaks.json",
+            "--review",
+            "security-review.md",
+            "--repo",
+            ".",
+            "--base",
+            "{env:GATE_BASE_SHA}",
+            "--head",
+            "{env:GATE_HEAD_SHA}",
+            "--out",
+            "{raw}/security.json",
+            "--tool-command",
+            "[\"{env:GATE_TOOLS}/bandit\", \"-r\", \"workflow\", \"-f\", \"json\", \"-o\", \"{raw}/bandit.json\"]",
+            "--tool-command",
+            "[\"{env:GATE_TOOLS}/pip-audit\", \"-r\", \"requirements.lock\", \"--no-deps\", \"-f\", \"json\", \"-o\", \"{raw}/pip-audit.json\"]",
+            "--tool-command",
+            "[\"{env:GATE_TOOLS_BIN}/gitleaks\", \"dir\", \".\", \"--report-format\", \"json\", \"--report-path\", \"{raw}/gitleaks.json\", \"--exit-code\", \"0\"]"
+          ],
+          "duration_seconds": 7.883,
+          "exit_code": 0,
+          "raw_path": "raw/gate-security/0.log",
+          "raw_sha256": "cadf7952fafe03d7d4cc4f151ba92e25d21d930a405fd0823a89ba1919e48e93"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "gate/security"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "python",
+            "-m",
+            "coverage",
+            "run",
+            "-m",
+            "pytest",
+            "-q",
+            "-p",
+            "no:cacheprovider",
+            "--ignore=acceptance"
+          ],
+          "duration_seconds": 8.332,
+          "exit_code": 0,
+          "raw_path": "raw/diag-coverage/0.log",
+          "raw_sha256": "a82d5efa399e0c3654aaa5989abc74a140d1767ef524ca930273f8602e0b88a0"
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "coverage",
+            "json",
+            "-o",
+            "{raw}/coverage.json"
+          ],
+          "duration_seconds": 0.164,
+          "exit_code": 0,
+          "raw_path": "raw/diag-coverage/1.log",
+          "raw_sha256": "4c03f0d0edaf5ba4a6bd8c33362707313307a0f917042ace819d760554af0abb"
+        },
+        {
+          "argv": [
+            "python",
+            "-m",
+            "coverage",
+            "report"
+          ],
+          "duration_seconds": 0.165,
+          "exit_code": 0,
+          "raw_path": "raw/diag-coverage/2.log",
+          "raw_sha256": "7ed16ee37667869b09fee8c8189c52bef8dcdacb1750f470914a2dee6860208a"
+        },
+        {
+          "argv": [
+            "{env:GATE_PY}",
+            "-P",
+            "-m",
+            "gate.diag_summary",
+            "coverage",
+            "--coverage-json",
+            "{raw}/coverage.json",
+            "--repo",
+            ".",
+            "--base",
+            "{env:GATE_BASE_SHA}",
+            "--head",
+            "{env:GATE_HEAD_SHA}",
+            "--out",
+            "{raw}/summary.json"
+          ],
+          "duration_seconds": 0.114,
+          "exit_code": 0,
+          "raw_path": "raw/diag-coverage/3.log",
+          "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/coverage"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_TOOLS}/mypy",
+            "--python-executable",
+            "{env:RUNNER_TEMP}/app-venv/bin/python",
+            "workflow"
+          ],
+          "duration_seconds": 2.57,
+          "exit_code": 0,
+          "raw_path": "raw/diag-mypy/0.log",
+          "raw_sha256": "71144743c83babea384888a735db0c4daba3d4d7b7942b6839984bd5c21b52bb"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/mypy"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_TOOLS}/ruff",
+            "check",
+            ".",
+            "--no-cache",
+            "--output-format",
+            "json"
+          ],
+          "duration_seconds": 0.016,
+          "exit_code": 1,
+          "raw_path": "raw/diag-ruff/0.log",
+          "raw_sha256": "a031fd56a385c4c4429bccfe1ce54a6959fd7849971e0ac962690e96b426ff48"
+        }
+      ],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "diag/ruff"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "{env:GATE_SEMGREP}/semgrep",
+            "scan",
+            "--metrics",
+            "off",
+            "--config",
+            "{env:GATE_HOME}/semgrep/rules.yml",
+            "--json",
+            "workflow"
+          ],
+          "duration_seconds": 1.87,
+          "exit_code": 0,
+          "raw_path": "raw/diag-semgrep/0.log",
+          "raw_sha256": "27f9f9231543567dad1361209bd6c42fc806240eb6b718feed6b0473b71479d4"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/semgrep"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/schemathesis"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/mutation"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [
+        {
+          "argv": [
+            "python",
+            "tools/benchmark.py"
+          ],
+          "duration_seconds": 3.071,
+          "exit_code": 0,
+          "raw_path": "raw/diag-benchmark/0.log",
+          "raw_sha256": "df7075ff940d45e68b1732ff688b26cc8b9f07829d57fdc7259dab9d5501e1a6"
+        }
+      ],
+      "conclusion": "success",
+      "counts": null,
+      "id": "diag/benchmark"
+    }
+  ],
+  "coverage": {
+    "changed_lines": 49,
+    "changed_lines_covered": 49,
+    "changed_percent": 100.0,
+    "files": {
+      "workflow/api.py": {
+        "changed": 3,
+        "covered": 3
+      },
+      "workflow/service.py": {
+        "changed": 17,
+        "covered": 17
+      },
+      "workflow/store.py": {
+        "changed": 29,
+        "covered": 29
+      }
+    },
+    "whole_percent": 96.80851063829788
+  },
+  "dependency_changes": [],
+  "environment": {
+    "image_os": "ubuntu24",
+    "image_version": "20261101.360.1",
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "python": "3.13.15"
+  },
+  "findings": [],
+  "generated_at": "2026-11-08T05:59:18+00:00",
+  "human": {
+    "interventions": 0,
+    "minutes": 0
+  },
+  "independent_review": {
+    "head_sha": "1f758a9d2275dcb504a7b58ff512701ea71ba047",
+    "state": "pending"
+  },
+  "known_failing": {
+    "remove_from_list": [
+      "acceptance.test_open_issues_pub::test_pub_01_last_page_keeps_the_remaining_task",
+      "acceptance.test_open_issues_pub::test_pub_01_last_page_of_a_search_keeps_the_remaining_match",
+      "acceptance.test_open_issues_pub::test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-1-limit-2-offset-0]",
+      "acceptance.test_open_issues_pub::test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-5-limit-2-offset-4]",
+      "acceptance.test_open_issues_pub::test_pub_02_export_keeps_exact_columns_for_many_structured_titles",
+      "acceptance.test_open_issues_pub::test_pub_02_export_recovers_a_title_with_comma_and_quotes",
+      "acceptance.test_open_issues_pub::test_pub_02_export_recovers_unicode_and_line_breaks[comma]",
+      "acceptance.test_open_issues_pub::test_pub_02_export_recovers_unicode_and_line_breaks[crlf-comma-quotes]",
+      "acceptance.test_open_issues_pub::test_pub_02_export_recovers_unicode_and_line_breaks[line-feed]",
+      "acceptance.test_open_issues_pub::test_pub_02_export_recovers_unicode_and_line_breaks[mixed]",
+      "acceptance.test_open_issues_pub::test_pub_02_export_recovers_unicode_and_line_breaks[quoted]",
+      "acceptance.test_open_issues_pub::test_pub_02_export_recovers_unicode_and_line_breaks[unicode]",
+      "acceptance.test_spec_1_identity_and_visibility::test_spec_1_admin_and_observer_list_all_tasks[admin]",
+      "acceptance.test_spec_1_identity_and_visibility::test_spec_1_admin_and_observer_list_all_tasks[observer]",
+      "acceptance.test_spec_1_identity_and_visibility::test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/history-invalid]",
+      "acceptance.test_spec_1_identity_and_visibility::test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/history-missing]",
+      "acceptance.test_spec_1_identity_and_visibility::test_spec_1_member_cannot_read_history_of_unrelated_task",
+      "acceptance.test_spec_1_identity_and_visibility::test_spec_1_member_list_contains_only_visible_tasks[alice]",
+      "acceptance.test_spec_1_identity_and_visibility::test_spec_1_member_list_contains_only_visible_tasks[bob]",
+      "acceptance.test_spec_1_identity_and_visibility::test_spec_1_member_list_total_leaks_no_global_count[2-2-positions1]",
+      "acceptance.test_spec_1_identity_and_visibility::test_spec_1_member_search_returns_only_visible_matches",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_empty_search_returns_all_visible_tasks",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_list_accepts_limits_1_and_100[100]",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_list_is_ordered_by_increasing_id",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_search_is_a_literal_substring[inner-space]",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_search_is_a_literal_substring[leading-space]",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_search_is_a_literal_substring[no-space]",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_search_is_case_insensitive[REPORT]",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_search_is_case_insensitive[RePoRt]",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_search_is_case_insensitive[report]",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_search_matches_the_description",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_search_text_is_data_not_sql[double-quote-or]",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_search_treats_like_wildcards_as_literal_characters[backslash]",
+      "acceptance.test_spec_3_existing_endpoints::test_spec_3_total_counts_every_match_before_paging",
+      "acceptance.test_spec_4_6_1_upgrade_of_existing_database::test_spec_4_upgrade_preserves_tasks_and_work_logs",
+      "acceptance.test_spec_4_6_1_upgrade_of_existing_database::test_spec_6_1_migration_event_is_not_repeated_or_rewritten_on_later_restarts",
+      "acceptance.test_spec_4_6_1_upgrade_of_existing_database::test_spec_6_1_pre_upgrade_task_gets_one_migration_event",
+      "acceptance.test_spec_4_6_1_upgrade_of_existing_database::test_spec_6_1_restart_adds_no_migration_event_to_current_tasks",
+      "acceptance.test_spec_4_6_1_upgrade_of_existing_database::test_spec_6_1_task_created_after_upgrade_gets_an_operation_creation_event",
+      "acceptance.test_spec_4_6_1_upgrade_of_existing_database::test_spec_6_1_transition_after_upgrade_appends_an_operation_event",
+      "acceptance.test_spec_4_durability_retries_concurrency::test_spec_4_acknowledged_task_survives_restart",
+      "acceptance.test_spec_5_errors_and_compatibility::test_spec_5_create_app_keeps_its_data_in_the_given_file",
+      "acceptance.test_spec_5_errors_and_compatibility::test_spec_5_list_keeps_its_documented_field_names",
+      "acceptance.test_spec_5_errors_and_compatibility::test_spec_5_text_with_sql_metacharacters_is_stored_and_found[double-quotes]",
+      "acceptance.test_spec_5_errors_and_compatibility::test_spec_5_text_with_sql_metacharacters_is_stored_and_found[drop]",
+      "acceptance.test_spec_5_errors_and_compatibility::test_spec_5_text_with_sql_metacharacters_is_stored_and_found[like-chars]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_changed_at_is_aware_utc_and_follows_the_sequence",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_concurrent_identical_transitions_append_one_event",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_creation_event_actor_is_the_creator[admin]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_creation_event_actor_is_the_creator[bob]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_each_transition_appends_one_event",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_earlier_events_are_not_rewritten_by_later_changes",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_body_is_an_items_object",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_is_not_editable_through_the_api[DELETE]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_is_not_editable_through_the_api[PATCH]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_is_not_editable_through_the_api[POST]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_is_not_editable_through_the_api[PUT]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_is_readable_by_task_readers[admin]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_is_readable_by_task_readers[assignee]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_is_readable_by_task_readers[creator]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_is_readable_by_task_readers[observer]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_of_former_assignee_is_hidden",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_of_missing_task_returns_404[admin]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_of_missing_task_returns_404[alice]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_of_missing_task_returns_404[observer]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_starts_with_creation_event",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_history_survives_restart",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_a_rejected_reopen",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_an_idempotent_creation_retry",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_non_status_edits",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_rejected_requests[invalid-companion-field]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_rejected_requests[observer]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_rejected_requests[skipped-transition]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_rejected_requests[unknown-companion-field]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_rejected_requests[unknown-status]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_unchanged_status[in_progress]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_no_event_for_unchanged_status[todo]",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_sequence_is_counted_per_task",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_status_change_with_other_fields_appends_one_event",
+      "acceptance.test_spec_6_1_status_history::test_spec_6_1_task_patch_cannot_write_history",
+      "acceptance.test_spec_6_2_changes_to_others_tasks::test_spec_6_2_observer_patch_returns_403[assignee]",
+      "acceptance.test_spec_6_2_changes_to_others_tasks::test_spec_6_2_observer_patch_returns_403[everything]",
+      "acceptance.test_spec_6_2_changes_to_others_tasks::test_spec_6_2_observer_patch_returns_403[status]",
+      "acceptance.test_spec_6_2_changes_to_others_tasks::test_spec_6_2_observer_patch_returns_403[title]",
+      "acceptance.test_spec_6_2_changes_to_others_tasks::test_spec_6_2_reopen_restriction_still_applies[assignee]",
+      "acceptance.test_spec_6_2_changes_to_others_tasks::test_spec_6_2_reopen_restriction_still_applies[creator]"
+    ],
+    "size": 117
+  },
+  "marked_tests": [
+    {
+      "name": "test_several_fields_applied_together",
+      "path": "tests/test_store_update.py"
+    }
+  ],
+  "mutation": "unknown",
+  "needs_code_owner": [
+    "tests/test_store_update.py"
+  ],
+  "resources": {
+    "actions_minutes": 1.78,
+    "codex_runs": 0,
+    "codex_tokens": "unknown",
+    "executor_runs": "unknown",
+    "executor_turns": "unknown"
+  },
+  "rounds": [
+    {
+      "cumulative": "5f9141615c09c852dedd5e649522f07d1ba35627c6662f3f8014058f0aa87056",
+      "head_sha": "1f758a9d2275dcb504a7b58ff512701ea71ba047",
+      "round": "5f9141615c09c852dedd5e649522f07d1ba35627c6662f3f8014058f0aa87056"
+    }
+  ],
+  "security_review_changes": [],
+  "semi_automatic_steps": [
+    "The independent review is started by hand on the laptop.",
+    "A person approves and merges each PR."
+  ],
+  "setup": {
+    "conclusion": "success",
+    "exit_codes": [
+      0,
+      0
+    ]
+  },
+  "verdicts": {
+    "final": null,
+    "preliminary": "ready-for-human",
+    "reasons": []
+  },
+  "verification": {
+    "author": "xtl-gate-executor[bot]",
+    "base_sha": "c45c851ff430f493409ed353c1416f4e28bc5c4c",
+    "baseline_sha": "821330ffbb19f545fb81f3c223b0a286ff6c4980",
+    "config_hashes": {
+      ".github/workflows/executor.yml": "missing",
+      ".github/workflows/feedback.yml": "missing",
+      ".github/workflows/judge.yml": "903e7701bb9b5a5edb9135c4fa2be227803ffca1437186480c11cf6e3f9521a2",
+      ".github/workflows/spec-tests.yml": "missing",
+      "CODEOWNERS": "039e179cda576eeac0ddd75086f9d1213bac9901a732a1c7dd949e17ab54db25",
+      "prompts/executor.md": "6d80c44da4d759d14f66a5c2610759bacac70e2c8a3c07165a162669a59a5030",
+      "prompts/spec-tests.md": "78e4b207926e3b5cffa38204aec5a80bc1ecc7047fa45d405e4f16351663419f",
+      "quality.toml": "7b38c0259f5e8f5e27024553e337bd4486b8b8677cf56a8da13af265fdfc4060",
+      "security-review.md": "missing"
+    },
+    "event": "pull_request_target",
+    "execution_environment": {
+      "image_os": "ubuntu24",
+      "image_version": "20261101.360.1"
+    },
+    "gate_sha": "906ebaefdc10ca459ccd9c890ecb56c9b0f3acb9",
+    "head_ref": "ai/19-spec-6-1-status-history",
+    "head_repository": "XThoughtLabs/gate-practice-app",
+    "head_sha": "1f758a9d2275dcb504a7b58ff512701ea71ba047",
+    "pr": 21,
+    "repository": "XThoughtLabs/gate-practice-app",
+    "run_attempt": "1",
+    "run_id": "42452727378",
+    "trusted_sha": "c45c851ff430f493409ed353c1416f4e28bc5c4c"
+  }
+}

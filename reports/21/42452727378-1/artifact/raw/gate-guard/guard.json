@@ -1,0 +1,21 @@
+{
+  "dependency_changes": [],
+  "fingerprint": {
+    "cumulative": "5f9141615c09c852dedd5e649522f07d1ba35627c6662f3f8014058f0aa87056",
+    "round": "5f9141615c09c852dedd5e649522f07d1ba35627c6662f3f8014058f0aa87056"
+  },
+  "head_sha": "1f758a9d2275dcb504a7b58ff512701ea71ba047",
+  "kind": "ai",
+  "marked_tests": [
+    {
+      "name": "test_several_fields_applied_together",
+      "path": "tests/test_store_update.py"
+    }
+  ],
+  "needs_code_owner": [
+    "tests/test_store_update.py"
+  ],
+  "repeated_fix": false,
+  "security_review_changes": [],
+  "violations": []
+}
