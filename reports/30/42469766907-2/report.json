@@ -1,0 +1,281 @@
+{
+  "accepted_foreign_commits": [],
+  "bypass_merges": [
+    {
+      "approvals": 0,
+      "final_conclusion": "success",
+      "head_sha": "f840af0ddd842d0f7e77d3e4518e034cb2f1f6e1",
+      "merge_sha": "09dbea24a1000b3506c732d0642ffea5b980190b",
+      "merged_by": null,
+      "pr": 22,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "success",
+      "head_sha": "59f32fddfd10faa40d21fefa09fb831e0e3a918f",
+      "merge_sha": "c45c851ff430f493409ed353c1416f4e28bc5c4c",
+      "merged_by": null,
+      "pr": 20,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "success",
+      "head_sha": "9ef37dfc6ecfd344de3dcd313a237fcd59cdafe3",
+      "merge_sha": "1ce6e90fd37e50863f11dc9073b4240dd071b373",
+      "merged_by": null,
+      "pr": 17,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "cdf58877e95c3d11313b48a43746a949e19f01f0",
+      "merge_sha": "bea74090ac43c598a445ea30789a3f3ecb09acf5",
+      "merged_by": null,
+      "pr": 8,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "22bcd1056818df758e17de765ef31fbb7760b109",
+      "merge_sha": "00d6b64706d1080a8ff79733281f83972034d97f",
+      "merged_by": null,
+      "pr": 6,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "15da679f2289cb06526c01000f49ec9861489435",
+      "merge_sha": "76f31ea79bd4a39f4179a2e6da72ca7c9131fcf5",
+      "merged_by": null,
+      "pr": 3,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "1604b44da373ab8fbded46b0c3b78138622fe477",
+      "merge_sha": "191d202628383c9e18f397f52f3eff49f614d701",
+      "merged_by": null,
+      "pr": 2,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": "failure",
+      "head_sha": "27f099818a1a0a6f1de795be645f643f93eea520",
+      "merge_sha": "be7ce57f6998b232b225a96a257a6086924d3e29",
+      "merged_by": null,
+      "pr": 1,
+      "security_review_changed": false,
+      "via_pr": true
+    },
+    {
+      "approvals": 0,
+      "final_conclusion": null,
+      "head_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merge_sha": "ab3a460d1ad90df2888603b84fd3147759caffc6",
+      "merged_by": "XThoughtLabs",
+      "pr": null,
+      "via_pr": false
+    }
+  ],
+  "checks": [
+    {
+      "class": "mandatory",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "gate/env"
+    },
+    {
+      "class": "mandatory",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "gate/guard"
+    },
+    {
+      "class": "mandatory",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "gate/tests"
+    },
+    {
+      "class": "mandatory",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "gate/acceptance"
+    },
+    {
+      "class": "mandatory",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "gate/security"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "diag/coverage"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "diag/mypy"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "diag/ruff"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "diag/semgrep"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "diag/schemathesis"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "diag/mutation"
+    },
+    {
+      "class": "diagnostic",
+      "commands": [],
+      "conclusion": "failure",
+      "counts": null,
+      "id": "diag/benchmark"
+    }
+  ],
+  "coverage": "unknown",
+  "dependency_changes": [],
+  "environment": "unknown",
+  "findings": [],
+  "generated_at": "2026-11-08T10:20:38+00:00",
+  "human": {
+    "interventions": 0,
+    "minutes": 0
+  },
+  "independent_review": {
+    "head_sha": "e96e69417d2f7eebe6ce5b4f506d3a7dec2f0768",
+    "state": "pending"
+  },
+  "known_failing": "unknown",
+  "marked_tests": [],
+  "mutation": "unknown",
+  "needs_code_owner": [],
+  "resources": {
+    "actions_minutes": 1.33,
+    "codex_runs": 0,
+    "codex_tokens": "unknown",
+    "executor_runs": "unknown",
+    "executor_turns": "unknown"
+  },
+  "rounds": [
+    {
+      "cumulative": null,
+      "head_sha": "e96e69417d2f7eebe6ce5b4f506d3a7dec2f0768",
+      "round": null
+    }
+  ],
+  "security_review_changes": [],
+  "semi_automatic_steps": [
+    "The independent review is started by hand on the laptop.",
+    "A person approves and merges each PR."
+  ],
+  "setup": "not-configured",
+  "verdicts": {
+    "final": null,
+    "preliminary": "incomplete",
+    "reasons": [
+      {
+        "code": "NO_ARTIFACT",
+        "detail": "the artifact is missing"
+      },
+      {
+        "code": "FAILED_CHECK",
+        "detail": "gate/env failed"
+      },
+      {
+        "code": "FAILED_CHECK",
+        "detail": "gate/guard failed"
+      },
+      {
+        "code": "FAILED_CHECK",
+        "detail": "gate/tests failed"
+      },
+      {
+        "code": "FAILED_CHECK",
+        "detail": "gate/acceptance failed"
+      },
+      {
+        "code": "FAILED_CHECK",
+        "detail": "gate/security failed"
+      },
+      {
+        "code": "FAILED_CHECK",
+        "detail": "setup failed, so the checks did not run on a prepared application"
+      }
+    ]
+  },
+  "verification": {
+    "author": "xtl-gate-executor[bot]",
+    "base_sha": "e35f138928f074a85a6df2219e7a6b96a42e0fcd",
+    "baseline_sha": "821330ffbb19f545fb81f3c223b0a286ff6c4980",
+    "config_hashes": {
+      ".github/workflows/executor.yml": "missing",
+      ".github/workflows/feedback.yml": "missing",
+      ".github/workflows/judge.yml": "903e7701bb9b5a5edb9135c4fa2be227803ffca1437186480c11cf6e3f9521a2",
+      ".github/workflows/spec-tests.yml": "missing",
+      "CODEOWNERS": "039e179cda576eeac0ddd75086f9d1213bac9901a732a1c7dd949e17ab54db25",
+      "prompts/executor.md": "6d80c44da4d759d14f66a5c2610759bacac70e2c8a3c07165a162669a59a5030",
+      "prompts/spec-tests.md": "78e4b207926e3b5cffa38204aec5a80bc1ecc7047fa45d405e4f16351663419f",
+      "quality.toml": "2aef7464abdcb815449b9a195523a1ba8578733ea39974d2e17a7643569861df",
+      "security-review.md": "missing"
+    },
+    "event": "pull_request_target",
+    "execution_environment": {
+      "image_os": "ubuntu24",
+      "image_version": "20261101.360.1"
+    },
+    "gate_sha": "906ebaefdc10ca459ccd9c890ecb56c9b0f3acb9",
+    "head_ref": "ai/29-overdue-includes-equal-instants",
+    "head_repository": "XThoughtLabs/gate-practice-app",
+    "head_sha": "e96e69417d2f7eebe6ce5b4f506d3a7dec2f0768",
+    "pr": 30,
+    "repository": "XThoughtLabs/gate-practice-app",
+    "run_attempt": "2",
+    "run_id": "42469766907",
+    "trusted_sha": "e35f138928f074a85a6df2219e7a6b96a42e0fcd"
+  }
+}
