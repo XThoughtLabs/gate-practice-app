@@ -1,0 +1,132 @@
+........................................................................ [ 20%]
+........................................................................ [ 40%]
+........................................................................ [ 60%]
+.................................................................F...... [ 80%]
+....FF...............................................................    [100%]
+=================================== FAILURES ===================================
+_______ test_spec_4_idempotent_retry_after_restart_returns_the_same_task _______
+
+db_path = '/tmp/pytest-of-runner/pytest-1/test_spec_4_idempotent_retry_a0/workflow.sqlite3'
+
+    def test_spec_4_idempotent_retry_after_restart_returns_the_same_task(db_path):
+        """SPEC.md section 4: an idempotent retry after an application restart returns the same task."""
+        body = {"title": "Order synthetic paper", "description": "Two boxes"}
+        with running_app(db_path) as client:
+            first = post_with_key(client, "alice", "paper-order", body)
+            assert first.status_code == 201, first.text
+        with running_app(db_path) as client:
+            second = post_with_key(client, "alice", "paper-order", body)
+            assert second.status_code == 201, second.text
+>           assert second.json()["id"] == first.json()["id"]
+E           assert 2 == 1
+
+acceptance/test_spec_4_durability_retries_concurrency.py:237: AssertionError
+__________ test_spec_4_concurrent_idempotent_retries_create_one_task ___________
+
+client = <starlette.testclient.TestClient object at 0x7f854391e9c0>
+
+    def test_spec_4_concurrent_idempotent_retries_create_one_task(client):
+        """SPEC.md section 4: concurrent retries with the same actor/key/body create one task."""
+        body = {"title": "Concurrent request", "priority": 2}
+        responses = run_together(8, lambda index: post_with_key(client, "alice", "concurrent-key", body))
+        assert [response.status_code for response in responses] == [201] * 8
+>       assert len({response.json()["id"] for response in responses}) == 1
+E       assert 7 == 1
+E        +  where 7 = len({1, 2, 3, 4, 5, 6, ...})
+
+acceptance/test_spec_4_durability_retries_concurrency.py:310: AssertionError
+__________ test_spec_4_concurrent_conflicting_bodies_create_one_task ___________
+
+client = <starlette.testclient.TestClient object at 0x7f854391e8b0>
+
+    def test_spec_4_concurrent_conflicting_bodies_create_one_task(client):
+        """SPEC.md section 4: concurrent different bodies with one actor/key: one 201, every other 409."""
+        responses = run_together(
+            8, lambda index: post_with_key(client, "alice", "contested-key", {"title": f"Variant {index}"})
+        )
+>       assert sorted(response.status_code for response in responses) == [201] + [409] * 7
+E       assert [201, 201, 20...201, 201, ...] == [201, 409, 40...409, 409, ...]
+E         
+E         At index 1 diff: 201 != 409
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               201,
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E           ]
+
+acceptance/test_spec_4_durability_retries_concurrency.py:319: AssertionError
+=============================== warnings summary ===============================
+../../../_temp/app-venv/lib/python3.13/site-packages/fastapi/testclient.py:1
+  /home/runner/work/_temp/app-venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED acceptance/test_spec_4_durability_retries_concurrency.py::test_spec_4_idempotent_retry_after_restart_returns_the_same_task - assert 2 == 1
+FAILED acceptance/test_spec_4_durability_retries_concurrency.py::test_spec_4_concurrent_idempotent_retries_create_one_task - assert 7 == 1
+ +  where 7 = len({1, 2, 3, 4, 5, 6, ...})
+FAILED acceptance/test_spec_4_durability_retries_concurrency.py::test_spec_4_concurrent_conflicting_bodies_create_one_task - assert [201, 201, 20...201, 201, ...] == [201, 409, 40...409, 409, ...]
+  
+  At index 1 diff: 201 != 409
+  
+  Full diff: (-: missing in left side, +: extra in left side)
+    [
+        201,
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+  -     409,
+  ?     ^ ^
+  +     201,
+  ?     ^ ^
+    ]
+3 failed, 354 passed, 1 warning in 12.15s
