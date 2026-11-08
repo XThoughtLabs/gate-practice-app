@@ -19,7 +19,7 @@ python = "3.13"
 image_os = "ubuntu24"
 
 [limits]
-max_turns = 80
+max_turns = 120
 timeout_minutes = 60
 max_fix_rounds = 3
 
