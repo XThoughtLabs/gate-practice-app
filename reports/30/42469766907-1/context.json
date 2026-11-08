@@ -1,0 +1,30 @@
+{
+  "author": "xtl-gate-executor[bot]",
+  "base_sha": "e35f138928f074a85a6df2219e7a6b96a42e0fcd",
+  "baseline_sha": "821330ffbb19f545fb81f3c223b0a286ff6c4980",
+  "config_hashes": {
+    ".github/workflows/executor.yml": "missing",
+    ".github/workflows/feedback.yml": "missing",
+    ".github/workflows/judge.yml": "903e7701bb9b5a5edb9135c4fa2be227803ffca1437186480c11cf6e3f9521a2",
+    ".github/workflows/spec-tests.yml": "missing",
+    "CODEOWNERS": "039e179cda576eeac0ddd75086f9d1213bac9901a732a1c7dd949e17ab54db25",
+    "prompts/executor.md": "6d80c44da4d759d14f66a5c2610759bacac70e2c8a3c07165a162669a59a5030",
+    "prompts/spec-tests.md": "78e4b207926e3b5cffa38204aec5a80bc1ecc7047fa45d405e4f16351663419f",
+    "quality.toml": "2aef7464abdcb815449b9a195523a1ba8578733ea39974d2e17a7643569861df",
+    "security-review.md": "missing"
+  },
+  "event": "pull_request_target",
+  "execution_environment": {
+    "image_os": "ubuntu24",
+    "image_version": "20261101.360.1"
+  },
+  "gate_sha": "906ebaefdc10ca459ccd9c890ecb56c9b0f3acb9",
+  "head_ref": "ai/29-overdue-includes-equal-instants",
+  "head_repository": "XThoughtLabs/gate-practice-app",
+  "head_sha": "e96e69417d2f7eebe6ce5b4f506d3a7dec2f0768",
+  "pr": 30,
+  "repository": "XThoughtLabs/gate-practice-app",
+  "run_attempt": "1",
+  "run_id": "42469766907",
+  "trusted_sha": "e35f138928f074a85a6df2219e7a6b96a42e0fcd"
+}
