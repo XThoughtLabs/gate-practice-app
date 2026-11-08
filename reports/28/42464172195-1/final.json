@@ -1,0 +1,13 @@
+{
+  "conclusions": {
+    "gate/archive": "success",
+    "gate/final": "failure"
+  },
+  "reasons": [
+    {
+      "code": "NO_PRELIMINARY",
+      "detail": "the preliminary verdict is missing or unreadable"
+    }
+  ],
+  "verdict": "incomplete"
+}
