@@ -1,0 +1,17 @@
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[json]	INFO	JSON output written to file: /home/runner/work/gate-practice-app/gate-practice-app/out/raw/gate-security/bandit.json
+WARNING:pip_audit._cli:--no-deps is supported, but users are encouraged to fully hash their pinned dependencies
+WARNING:pip_audit._cli:Consider using a tool like `pip-compile`: https://pip-tools.readthedocs.io/en/latest/#using-hashes
+No known vulnerabilities found
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+[90m5:26AM[0m [32mINF[0m [1mscanned ~1110742 bytes (1.11 MB) in 84.8ms[0m
+[90m5:26AM[0m [32mINF[0m [1mno leaks found[0m
