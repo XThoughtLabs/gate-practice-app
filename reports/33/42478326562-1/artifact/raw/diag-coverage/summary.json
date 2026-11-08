@@ -1,0 +1,16 @@
+{
+  "changed_lines": 18,
+  "changed_lines_covered": 18,
+  "changed_percent": 100.0,
+  "files": {
+    "workflow/service.py": {
+      "changed": 5,
+      "covered": 5
+    },
+    "workflow/store.py": {
+      "changed": 13,
+      "covered": 13
+    }
+  },
+  "whole_percent": 98.2587064676617
+}
