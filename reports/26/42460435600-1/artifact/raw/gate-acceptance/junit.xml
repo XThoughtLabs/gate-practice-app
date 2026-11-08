@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="20" skipped="0" tests="357" time="17.013" timestamp="2026-11-08T07:51:56.270280+00:00" hostname="runnervm7aw5e"><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_last_page_keeps_the_remaining_task" time="0.063" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-0-limit-2-offset-0]" time="0.025" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-0-limit-2-offset-2]" time="0.025" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-1-limit-2-offset-0]" time="0.028" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-1-limit-1-offset-0]" time="0.028" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-1-limit-1-offset-1]" time="0.029" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-2-limit-2-offset-0]" time="0.036" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-3-limit-3-offset-0]" time="0.062" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-3-limit-2-offset-0]" time="0.036" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-3-limit-2-offset-1]" time="0.038" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-3-limit-1-offset-2]" time="0.039" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-3-limit-2-offset-3]" time="0.037" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-3-limit-2-offset-10]" time="0.038" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-4-limit-2-offset-2]" time="0.043" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-4-limit-2-offset-4]" time="0.042" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_paging_boundaries_keep_every_remaining_task[tasks-5-limit-2-offset-4]" time="0.046" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_01_last_page_of_a_search_keeps_the_remaining_match" time="0.045" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_02_export_recovers_a_title_with_comma_and_quotes" time="0.027" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_02_export_recovers_unicode_and_line_breaks[unicode]" time="0.028" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_02_export_recovers_unicode_and_line_breaks[line-feed]" time="0.027" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_02_export_recovers_unicode_and_line_breaks[crlf-comma-quotes]" time="0.028" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_02_export_recovers_unicode_and_line_breaks[quoted]" time="0.027" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_02_export_recovers_unicode_and_line_breaks[comma]" time="0.033" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_02_export_recovers_unicode_and_line_breaks[mixed]" time="0.027" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_02_export_keeps_exact_columns_for_many_structured_titles" time="0.056" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_03_observer_create_task_returns_403[without-key]" time="0.027" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_03_observer_create_task_returns_403[with-idempotency-key]" time="0.024" /><testcase classname="acceptance.test_open_issues_pub" name="test_pub_03_observer_create_task_creates_nothing" time="0.026" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_health_is_public" time="0.024" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_openapi_documentation_is_public[/openapi.json]" time="0.038" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_openapi_documentation_is_public[/docs]" time="0.024" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /users-invalid]" time="0.030" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /users-missing]" time="0.029" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[POST /tasks-invalid]" time="0.032" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[POST /tasks-missing]" time="0.028" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks-invalid]" time="0.030" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks-missing]" time="0.029" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/overdue?at=2026-03-01T10:00:00Z-invalid]" time="0.029" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/overdue?at=2026-03-01T10:00:00Z-missing]" time="0.029" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/export-invalid]" time="0.034" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/export-missing]" time="0.031" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}-invalid]" time="0.029" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}-missing]" time="0.028" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[PATCH /tasks/{task_id}-invalid]" time="0.028" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[PATCH /tasks/{task_id}-missing]" time="0.028" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[POST /tasks/{task_id}/work-invalid]" time="0.028" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[POST /tasks/{task_id}/work-missing]" time="0.028" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/work-invalid]" time="0.030" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/work-missing]" time="0.029" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/history-invalid]" time="0.028" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_business_endpoints_require_a_valid_token[GET /tasks/{task_id}/history-missing]" time="0.029" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_unauthenticated_writes_change_nothing" time="0.054" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_user_listing_never_returns_tokens[admin]" time="0.025" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_user_listing_never_returns_tokens[alice]" time="0.025" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_user_listing_never_returns_tokens[bob]" time="0.026" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_user_listing_never_returns_tokens[observer]" time="0.025" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_admin_and_observer_read_any_task[admin]" time="0.029" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_admin_and_observer_read_any_task[observer]" time="0.036" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_reads_task_they_created" time="0.032" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_reads_task_assigned_to_them" time="0.031" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_cannot_read_unrelated_task" time="0.029" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_missing_task_returns_task_not_found[admin]" time="0.024" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_missing_task_returns_task_not_found[alice]" time="0.027" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_missing_task_returns_task_not_found[observer]" time="0.024" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_loses_read_access_when_no_longer_assigned" time="0.038" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_list_contains_only_visible_tasks[alice]" time="0.057" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_list_contains_only_visible_tasks[bob]" time="0.053" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_admin_and_observer_list_all_tasks[admin]" time="0.053" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_admin_and_observer_list_all_tasks[observer]" time="0.052" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_list_total_leaks_no_global_count[1-0-positions0]" time="0.056" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_list_total_leaks_no_global_count[2-2-positions1]" time="0.054" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_list_total_leaks_no_global_count[2-3-positions2]" time="0.059" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_search_returns_only_visible_matches" time="0.038" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_overdue_view_shows_only_visible_tasks" time="0.037" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_export_contains_only_visible_tasks" time="0.061" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_cannot_read_work_log_of_unrelated_task" time="0.050" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_cannot_log_work_on_unrelated_task" time="0.061" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_member_cannot_read_history_of_unrelated_task" time="0.028" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_observers_never_write[create]" time="0.045" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_observers_never_write[patch_title]" time="0.045" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_observers_never_write[patch_status]" time="0.046" /><testcase classname="acceptance.test_spec_1_identity_and_visibility" name="test_spec_1_observers_never_write[log_work]" time="0.045" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_id_is_a_generated_positive_integer" time="0.033" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_new_task_has_documented_defaults" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_status_begins_todo_whatever_else_is_given" time="0.034" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_creator_is_the_authenticated_actor[admin]" time="0.032" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_creator_is_the_authenticated_actor[alice]" time="0.036" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_creator_is_the_authenticated_actor[bob]" time="0.034" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_of_1_to_120_characters_is_accepted[1-char]" time="0.030" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_of_1_to_120_characters_is_accepted[120-ascii]" time="0.029" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_of_1_to_120_characters_is_accepted[120-latin]" time="0.029" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_of_1_to_120_characters_is_accepted[120-cjk]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_of_1_to_120_characters_is_accepted[120-emoji]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_outside_1_to_120_characters_is_rejected[empty]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_outside_1_to_120_characters_is_rejected[121-ascii]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_outside_1_to_120_characters_is_rejected[121-latin]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_blank_title_is_rejected[space]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_blank_title_is_rejected[spaces]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_blank_title_is_rejected[mixed-whitespace]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_is_preserved_exactly[unicode]" time="0.030" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_is_preserved_exactly[padded]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_is_preserved_exactly[markup]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_is_preserved_exactly[line-break]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_must_be_a_given_string[number]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_must_be_a_given_string[list]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_must_be_a_given_string[boolean]" time="0.032" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_title_must_be_a_given_string[missing]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_description_up_to_2000_characters_is_accepted[empty]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_description_up_to_2000_characters_is_accepted[2000-chars]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_description_up_to_2000_characters_is_accepted[unicode]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_description_over_2000_characters_is_rejected" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_priority_limits_1_and_5_are_accepted[1]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_priority_limits_1_and_5_are_accepted[5]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_priority_must_be_an_integer_from_1_to_5[0]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_priority_must_be_an_integer_from_1_to_5[6]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_priority_must_be_an_integer_from_1_to_5[-1]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_priority_must_be_an_integer_from_1_to_5[true]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_priority_must_be_an_integer_from_1_to_5[3.0]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_priority_must_be_an_integer_from_1_to_5[2.5]" time="0.025" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_priority_must_be_an_integer_from_1_to_5[string-3]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_null_for_non_nullable_field_on_create_is_rejected[title]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_null_for_non_nullable_field_on_create_is_rejected[description]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_null_for_non_nullable_field_on_create_is_rejected[priority]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_assignee_may_be_an_admin_or_member[admin]" time="0.037" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_assignee_may_be_an_admin_or_member[alice]" time="0.031" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_assignee_may_be_an_admin_or_member[bob]" time="0.031" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_assignee_must_be_an_existing_admin_or_member[observer]" time="0.031" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_assignee_must_be_an_existing_admin_or_member[unknown]" time="0.029" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_assignee_id_rejects_booleans_and_floats[boolean]" time="0.029" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_assignee_id_rejects_booleans_and_floats[float]" time="0.029" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_assignee_may_be_cleared_to_null" time="0.036" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_due_at_is_normalized_to_utc[plus-two]" time="0.029" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_due_at_is_normalized_to_utc[zulu]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_due_at_is_normalized_to_utc[minus-five-next-day]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_naive_or_invalid_due_at_is_rejected[naive]" time="0.028" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_naive_or_invalid_due_at_is_rejected[date-only]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_naive_or_invalid_due_at_is_rejected[text]" time="0.027" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_naive_or_invalid_due_at_is_rejected[month-13]" time="0.026" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_due_at_may_be_null" time="0.036" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unknown_input_field_on_create_is_rejected[colour]" time="0.030" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unknown_input_field_on_create_is_rejected[id]" time="0.029" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unknown_input_field_on_create_is_rejected[creator_id]" time="0.036" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unknown_input_field_on_create_is_rejected[work_minutes]" time="0.029" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_with_unknown_or_read_only_field_is_rejected[colour]" time="0.037" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_with_unknown_or_read_only_field_is_rejected[id]" time="0.038" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_with_unknown_or_read_only_field_is_rejected[creator_id]" time="0.036" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_with_unknown_or_read_only_field_is_rejected[created_at]" time="0.035" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_with_unknown_or_read_only_field_is_rejected[updated_at]" time="0.038" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_with_unknown_or_read_only_field_is_rejected[work_minutes]" time="0.036" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_forward_transitions_are_allowed" time="0.039" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unchanged_status_is_a_no_op[todo]" time="0.039" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unchanged_status_is_a_no_op[in_progress]" time="0.038" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unchanged_status_is_a_no_op[done]" time="0.044" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_skipping_todo_to_done_returns_409[alice]" time="0.035" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_skipping_todo_to_done_returns_409[admin]" time="0.035" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_backward_transitions_other_than_reopen_return_409[in_progress-to-todo-member]" time="0.040" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_backward_transitions_other_than_reopen_return_409[in_progress-to-todo-admin]" time="0.047" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_backward_transitions_other_than_reopen_return_409[done-to-todo-admin]" time="0.045" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_admin_can_reopen_done_task" time="0.045" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_member_cannot_reopen_done_task" time="0.042" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unknown_status_value_is_rejected[blocked]" time="0.035" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unknown_status_value_is_rejected[upper-case]" time="0.035" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unknown_status_value_is_rejected[empty]" time="0.035" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_unknown_status_value_is_rejected[number]" time="0.034" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_created_at_and_updated_at_are_utc_timestamps" time="0.039" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_empty_patch_body_is_rejected" time="0.033" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_null_for_non_nullable_field_on_patch_is_rejected[title]" time="0.034" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_null_for_non_nullable_field_on_patch_is_rejected[description]" time="0.039" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_null_for_non_nullable_field_on_patch_is_rejected[priority]" time="0.035" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_null_for_non_nullable_field_on_patch_is_rejected[status]" time="0.033" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_title_outside_limits_is_rejected[empty]" time="0.036" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_title_outside_limits_is_rejected[blank]" time="0.036" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_title_outside_limits_is_rejected[121-chars]" time="0.040" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_priority_must_be_an_integer_from_1_to_5[0]" time="0.035" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_priority_must_be_an_integer_from_1_to_5[6]" time="0.034" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_priority_must_be_an_integer_from_1_to_5[true]" time="0.033" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_patch_priority_must_be_an_integer_from_1_to_5[4.0]" time="0.033" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_rejected_patch_does_not_partially_modify_the_task[blank-title]" time="0.038" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_rejected_patch_does_not_partially_modify_the_task[naive-due-at]" time="0.038" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_rejected_patch_does_not_partially_modify_the_task[observer-as-assignee]" time="0.039" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_rejected_patch_does_not_partially_modify_the_task[priority-out-of-range]" time="0.036" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_rejected_patch_does_not_partially_modify_the_task[skipped-transition]" time="0.040" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_rejected_patch_does_not_partially_modify_the_task[unknown-assignee]" time="0.043" /><testcase classname="acceptance.test_spec_2_task_fields_and_validation" name="test_spec_2_rejected_patch_does_not_partially_modify_the_task[unknown-field]" time="0.037" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_health_reports_ok_and_version" time="0.022" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_users_directory_lists_id_name_and_role" time="0.024" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_create_returns_201_with_the_task[admin]" time="0.032" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_create_returns_201_with_the_task[alice]" time="0.033" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_get_task_returns_the_stored_task" time="0.041" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_patch_updates_only_the_given_field" time="0.043" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_patch_accepts_every_documented_field" time="0.077" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_patch_of_missing_task_returns_404" time="0.024" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_defaults_to_limit_20_and_offset_0" time="0.135" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_is_ordered_by_increasing_id" time="0.055" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_echoes_limit_and_offset" time="0.078" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_accepts_limits_1_and_100[1]" time="0.040" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_accepts_limits_1_and_100[100]" time="0.038" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_rejects_paging_outside_limits[limit-0]" time="0.028" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_rejects_paging_outside_limits[limit-101]" time="0.028" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_rejects_paging_outside_limits[offset-minus-1]" time="0.027" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_rejects_paging_outside_limits[limit-text]" time="0.029" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_rejects_paging_outside_limits[limit-fraction]" time="0.031" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_list_rejects_paging_outside_limits[offset-text]" time="0.029" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_total_counts_every_match_before_paging" time="0.052" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_is_case_insensitive[report]" time="0.033" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_is_case_insensitive[REPORT]" time="0.040" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_is_case_insensitive[RePoRt]" time="0.034" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_matches_the_description" time="0.031" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_empty_search_returns_all_visible_tasks" time="0.037" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_treats_like_wildcards_as_literal_characters[percent]" time="0.049"><failure message="assert ([1, 2, 3, 4, 5], 5) == ([1], 1)&#10;  &#10;  At index 0 diff: [1, 2, 3, 4, 5] != [1]&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;        [&#10;            1,&#10;  +         2,&#10;  +         3,&#10;  +         4,&#10;  +         5,&#10;        ],&#10;  -     1,&#10;  ?     ^&#10;  +     5,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f3c5370&gt;, q = '%'
+expected = ['percent']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+&gt;       assert search(client, q) == (wanted, len(wanted))
+E       assert ([1, 2, 3, 4, 5], 5) == ([1], 1)
+E         
+E         At index 0 diff: [1, 2, 3, 4, 5] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   1,
+E         +         2,
+E         +         3,
+E         +         4,
+E         +         5,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     5,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_treats_like_wildcards_as_literal_characters[digit-percent]" time="0.049"><failure message="assert ([1, 2], 2) == ([1], 1)&#10;  &#10;  At index 0 diff: [1, 2] != [1]&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;        [&#10;            1,&#10;  +         2,&#10;        ],&#10;  -     1,&#10;  ?     ^&#10;  +     2,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f37f790&gt;, q = '0%'
+expected = ['percent']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+&gt;       assert search(client, q) == (wanted, len(wanted))
+E       assert ([1, 2], 2) == ([1], 1)
+E         
+E         At index 0 diff: [1, 2] != [1]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   1,
+E         +         2,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     2,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_treats_like_wildcards_as_literal_characters[double-percent]" time="0.047"><failure message="assert ([1, 2, 3, 4, 5], 5) == ([], 0)&#10;  &#10;  At index 0 diff: [1, 2, 3, 4, 5] != []&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;  +     [&#10;  +         1,&#10;  +         2,&#10;  +         3,&#10;  +         4,&#10;  +         5,&#10;  -     [],&#10;  ?     -&#10;  +     ],&#10;  -     0,&#10;  ?     ^&#10;  +     5,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f37c7c0&gt;, q = '%%'
+expected = []
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+&gt;       assert search(client, q) == (wanted, len(wanted))
+E       assert ([1, 2, 3, 4, 5], 5) == ([], 0)
+E         
+E         At index 0 diff: [1, 2, 3, 4, 5] != []
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         +     [
+E         +         1,
+E         +         2,
+E         +         3,
+E         +         4,
+E         +         5,
+E         -     [],
+E         ?     -
+E         +     ],
+E         -     0,
+E         ?     ^
+E         +     5,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_treats_like_wildcards_as_literal_characters[underscore]" time="0.046"><failure message="assert ([1, 2, 3, 4, 5], 5) == ([3], 1)&#10;  &#10;  At index 0 diff: [1, 2, 3, 4, 5] != [3]&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;        [&#10;  +         1,&#10;  +         2,&#10;            3,&#10;  +         4,&#10;  +         5,&#10;        ],&#10;  -     1,&#10;  ?     ^&#10;  +     5,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f3c56a0&gt;, q = '_'
+expected = ['underscore']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+&gt;       assert search(client, q) == (wanted, len(wanted))
+E       assert ([1, 2, 3, 4, 5], 5) == ([3], 1)
+E         
+E         At index 0 diff: [1, 2, 3, 4, 5] != [3]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E         +         1,
+E         +         2,
+E                   3,
+E         +         4,
+E         +         5,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     5,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_treats_like_wildcards_as_literal_characters[letter-underscore-letter]" time="0.049"><failure message="assert ([3, 4], 2) == ([3], 1)&#10;  &#10;  At index 0 diff: [3, 4] != [3]&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;        [&#10;            3,&#10;  +         4,&#10;        ],&#10;  -     1,&#10;  ?     ^&#10;  +     2,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f21bac0&gt;, q = 'e_c'
+expected = ['underscore']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+&gt;       assert search(client, q) == (wanted, len(wanted))
+E       assert ([3, 4], 2) == ([3], 1)
+E         
+E         At index 0 diff: [3, 4] != [3]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   3,
+E         +         4,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     2,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_treats_like_wildcards_as_literal_characters[upper-case-underscore]" time="0.046"><failure message="assert ([3, 4], 2) == ([3], 1)&#10;  &#10;  At index 0 diff: [3, 4] != [3]&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;        [&#10;            3,&#10;  +         4,&#10;        ],&#10;  -     1,&#10;  ?     ^&#10;  +     2,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f2356a0&gt;
+q = 'SNAKE_CASE', expected = ['underscore']
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+&gt;       assert search(client, q) == (wanted, len(wanted))
+E       assert ([3, 4], 2) == ([3], 1)
+E         
+E         At index 0 diff: [3, 4] != [3]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E                   3,
+E         +         4,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     2,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_treats_like_wildcards_as_literal_characters[underscore-x]" time="0.054"><failure message="assert ([4], 1) == ([], 0)&#10;  &#10;  At index 0 diff: [4] != []&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;  +     [&#10;  +         4,&#10;  -     [],&#10;  ?     -&#10;  +     ],&#10;  -     0,&#10;  ?     ^&#10;  +     1,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f2367a0&gt;, q = '_x'
+expected = []
+
+    @pytest.mark.parametrize(
+        ("q", "expected"),
+        [
+            ("%", ["percent"]),
+            ("0%", ["percent"]),
+            ("%%", []),
+            ("_", ["underscore"]),
+            ("e_c", ["underscore"]),
+            ("SNAKE_CASE", ["underscore"]),
+            ("_x", []),
+            ("\\", ["backslash"]),
+        ],
+        ids=["percent", "digit-percent", "double-percent", "underscore", "letter-underscore-letter",
+             "upper-case-underscore", "underscore-x", "backslash"],
+    )
+    def test_spec_3_search_treats_like_wildcards_as_literal_characters(client, q, expected):
+        """SPEC.md section 3: % and _ in q are literal characters, not search operators."""
+        created = {name: create_task(client, title=title)["id"] for name, title in WILDCARD_TITLES.items()}
+        wanted = sorted(created[name] for name in expected)
+&gt;       assert search(client, q) == (wanted, len(wanted))
+E       assert ([4], 1) == ([], 0)
+E         
+E         At index 0 diff: [4] != []
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         +     [
+E         +         4,
+E         -     [],
+E         ?     -
+E         +     ],
+E         -     0,
+E         ?     ^
+E         +     1,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:353: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_treats_like_wildcards_as_literal_characters[backslash]" time="0.575" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_is_a_literal_substring[inner-space]" time="0.038" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_is_a_literal_substring[leading-space]" time="0.038" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_is_a_literal_substring[no-space]" time="0.039" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_text_is_data_not_sql[or-true]" time="0.037"><failure message="assert ([1, 2, 3], 3) == ([], 0)&#10;  &#10;  At index 0 diff: [1, 2, 3] != []&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;  +     [&#10;  +         1,&#10;  +         2,&#10;  +         3,&#10;  -     [],&#10;  ?     -&#10;  +     ],&#10;  -     0,&#10;  ?     ^&#10;  +     3,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f46caf0&gt;
+q = "' OR '1'='1"
+
+    @pytest.mark.parametrize(
+        "q",
+        ["' OR '1'='1", "' OR 1=1 --", "%' OR '%'='", "x'; DROP TABLE tasks; --", '" OR ""="'],
+        ids=["or-true", "or-comment", "wildcard-or", "drop-table", "double-quote-or"],
+    )
+    def test_spec_3_search_text_is_data_not_sql(client, q):
+        """SPEC.md section 3: search text is data, not SQL; it matches nothing here and harms nothing."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["alpha", "beta", "gamma"])
+&gt;       assert search(client, q) == ([], 0)
+E       assert ([1, 2, 3], 3) == ([], 0)
+E         
+E         At index 0 diff: [1, 2, 3] != []
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         +     [
+E         +         1,
+E         +         2,
+E         +         3,
+E         -     [],
+E         ?     -
+E         +     ],
+E         -     0,
+E         ?     ^
+E         +     3,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:380: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_text_is_data_not_sql[or-comment]" time="0.036"><failure message="AssertionError: Internal Server Error&#10;assert 500 == 200&#10; +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f37c050&gt;
+q = "' OR 1=1 --"
+
+    @pytest.mark.parametrize(
+        "q",
+        ["' OR '1'='1", "' OR 1=1 --", "%' OR '%'='", "x'; DROP TABLE tasks; --", '" OR ""="'],
+        ids=["or-true", "or-comment", "wildcard-or", "drop-table", "double-quote-or"],
+    )
+    def test_spec_3_search_text_is_data_not_sql(client, q):
+        """SPEC.md section 3: search text is data, not SQL; it matches nothing here and harms nothing."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["alpha", "beta", "gamma"])
+&gt;       assert search(client, q) == ([], 0)
+               ^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_3_existing_endpoints.py:380: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_3_existing_endpoints.py:112: in search
+    body = list_tasks(client, actor, q=q, limit=100)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = &lt;starlette.testclient.TestClient object at 0x7f3a6f37c050&gt;
+actor = 'admin', params = {'q': "' OR 1=1 --", 'limit': 100}
+
+    def list_tasks(client, actor="admin", **params):
+        response = client.get("/tasks", params=params, headers=auth(actor))
+&gt;       assert response.status_code == 200, response.text
+E       AssertionError: Internal Server Error
+E       assert 500 == 200
+E        +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code
+
+acceptance/test_spec_3_existing_endpoints.py:103: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_text_is_data_not_sql[wildcard-or]" time="0.038"><failure message="assert ([1, 2, 3], 3) == ([], 0)&#10;  &#10;  At index 0 diff: [1, 2, 3] != []&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;  +     [&#10;  +         1,&#10;  +         2,&#10;  +         3,&#10;  -     [],&#10;  ?     -&#10;  +     ],&#10;  -     0,&#10;  ?     ^&#10;  +     3,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f46fce0&gt;
+q = "%' OR '%'='"
+
+    @pytest.mark.parametrize(
+        "q",
+        ["' OR '1'='1", "' OR 1=1 --", "%' OR '%'='", "x'; DROP TABLE tasks; --", '" OR ""="'],
+        ids=["or-true", "or-comment", "wildcard-or", "drop-table", "double-quote-or"],
+    )
+    def test_spec_3_search_text_is_data_not_sql(client, q):
+        """SPEC.md section 3: search text is data, not SQL; it matches nothing here and harms nothing."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["alpha", "beta", "gamma"])
+&gt;       assert search(client, q) == ([], 0)
+E       assert ([1, 2, 3], 3) == ([], 0)
+E         
+E         At index 0 diff: [1, 2, 3] != []
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E         +     [
+E         +         1,
+E         +         2,
+E         +         3,
+E         -     [],
+E         ?     -
+E         +     ],
+E         -     0,
+E         ?     ^
+E         +     3,
+E         ?     ^
+E           )
+
+acceptance/test_spec_3_existing_endpoints.py:380: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_text_is_data_not_sql[drop-table]" time="0.041"><failure message="AssertionError: Internal Server Error&#10;assert 500 == 200&#10; +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0x7f3a6d0bd9d0&gt;
+q = "x'; DROP TABLE tasks; --"
+
+    @pytest.mark.parametrize(
+        "q",
+        ["' OR '1'='1", "' OR 1=1 --", "%' OR '%'='", "x'; DROP TABLE tasks; --", '" OR ""="'],
+        ids=["or-true", "or-comment", "wildcard-or", "drop-table", "double-quote-or"],
+    )
+    def test_spec_3_search_text_is_data_not_sql(client, q):
+        """SPEC.md section 3: search text is data, not SQL; it matches nothing here and harms nothing."""
+        created = sorted(create_task(client, title=title)["id"] for title in ["alpha", "beta", "gamma"])
+&gt;       assert search(client, q) == ([], 0)
+               ^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_3_existing_endpoints.py:380: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+acceptance/test_spec_3_existing_endpoints.py:112: in search
+    body = list_tasks(client, actor, q=q, limit=100)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = &lt;starlette.testclient.TestClient object at 0x7f3a6d0bd9d0&gt;
+actor = 'admin', params = {'q': "x'; DROP TABLE tasks; --", 'limit': 100}
+
+    def list_tasks(client, actor="admin", **params):
+        response = client.get("/tasks", params=params, headers=auth(actor))
+&gt;       assert response.status_code == 200, response.text
+E       AssertionError: Internal Server Error
+E       assert 500 == 200
+E        +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code
+
+acceptance/test_spec_3_existing_endpoints.py:103: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_search_text_is_data_not_sql[double-quote-or]" time="0.041" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_overdue_needs_due_at_strictly_earlier_than_at" time="0.042"><failure message="assert [1, 2] == [2]&#10;  &#10;  At index 0 diff: 1 != 2&#10;  Left contains one more item: 2&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    [&#10;  +     1,&#10;        2,&#10;    ]">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f46d9d0&gt;
+
+    def test_spec_3_overdue_needs_due_at_strictly_earlier_than_at(client):
+        """SPEC.md section 3: overdue means due_at strictly earlier than at; equality is not overdue."""
+        create_task(client, title="Due exactly at", due_at="2026-03-01T10:00:00Z")
+        earlier = create_task(client, title="Due a second earlier", due_at="2026-03-01T09:59:59Z")["id"]
+        create_task(client, title="Due a second later", due_at="2026-03-01T10:00:01Z")
+        create_task(client, title="No due date")
+&gt;       assert overdue_ids(client, AT) == [earlier]
+E       assert [1, 2] == [2]
+E         
+E         At index 0 diff: 1 != 2
+E         Left contains one more item: 2
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E         +     1,
+E               2,
+E           ]
+
+acceptance/test_spec_3_existing_endpoints.py:395: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_overdue_excludes_done_tasks" time="0.054" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_overdue_compares_instants_across_offsets" time="0.034"><failure message="assert [1, 2] == [2]&#10;  &#10;  At index 0 diff: 1 != 2&#10;  Left contains one more item: 2&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    [&#10;  +     1,&#10;        2,&#10;    ]">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f61ee00&gt;
+
+    def test_spec_3_overdue_compares_instants_across_offsets(client):
+        """SPEC.md sections 2 and 3: due_at and at are compared as instants, whatever their offsets."""
+        half_past = create_task(client, title="Due 10:30 UTC", due_at="2026-03-01T11:30:00+01:00")["id"]
+        quarter_past = create_task(client, title="Due 10:15 UTC", due_at="2026-03-01T10:15:00Z")["id"]
+&gt;       assert overdue_ids(client, "2026-03-01T12:30:00+02:00") == [quarter_past]
+E       assert [1, 2] == [2]
+E         
+E         At index 0 diff: 1 != 2
+E         Left contains one more item: 2
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E         +     1,
+E               2,
+E           ]
+
+acceptance/test_spec_3_existing_endpoints.py:413: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_overdue_is_ordered_by_increasing_id" time="0.043" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_overdue_rejects_an_at_that_is_not_aware[naive]" time="0.029" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_overdue_rejects_an_at_that_is_not_aware[date-only]" time="0.025" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_overdue_rejects_an_at_that_is_not_aware[text]" time="0.024" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_export_of_no_tasks_is_the_header_only" time="0.024" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_export_has_exact_columns_for_every_row" time="0.036" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_export_writes_null_assignee_as_empty_field" time="0.038" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_export_reports_each_status" time="0.059" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_export_is_not_paginated" time="0.487" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_export_is_utf8_csv" time="0.030" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_entry_returns_the_updated_task" time="0.056" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_1_and_480_are_accepted[1]" time="0.041" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_1_and_480_are_accepted[480]" time="0.044" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_must_be_a_strict_integer_from_1_to_480[0]" time="0.029" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_must_be_a_strict_integer_from_1_to_480[481]" time="0.029" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_must_be_a_strict_integer_from_1_to_480[-5]" time="0.029" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_must_be_a_strict_integer_from_1_to_480[true]" time="0.029" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_must_be_a_strict_integer_from_1_to_480[30.0]" time="0.031" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_must_be_a_strict_integer_from_1_to_480[30.5]" time="0.030" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_must_be_a_strict_integer_from_1_to_480[string-30]" time="0.030" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_must_be_a_strict_integer_from_1_to_480[null]" time="0.030" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_minutes_must_be_a_strict_integer_from_1_to_480[missing]" time="0.031" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_is_accepted_on_unfinished_tasks[todo]" time="0.047" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_is_accepted_on_unfinished_tasks[in_progress]" time="0.049" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_on_done_task_returns_409" time="0.039" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_is_open_to_admin_and_members_who_see_the_task[admin]" time="0.045" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_is_open_to_admin_and_members_who_see_the_task[creator]" time="0.043" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_is_open_to_admin_and_members_who_see_the_task[assignee]" time="0.044" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_of_missing_task_returns_404[GET]" time="0.027" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_of_missing_task_returns_404[POST]" time="0.023" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_log_lists_entries_in_order" time="0.076" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_log_is_readable_by_task_readers[observer]" time="0.047" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_log_is_readable_by_task_readers[admin]" time="0.048" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_log_is_readable_by_task_readers[alice]" time="0.047" /><testcase classname="acceptance.test_spec_3_existing_endpoints" name="test_spec_3_work_log_is_readable_by_task_readers[bob]" time="0.049" /><testcase classname="acceptance.test_spec_4_6_1_upgrade_of_existing_database" name="test_spec_4_upgrade_preserves_tasks_and_work_logs" time="0.279" /><testcase classname="acceptance.test_spec_4_6_1_upgrade_of_existing_database" name="test_spec_6_1_pre_upgrade_task_gets_one_migration_event" time="0.253" /><testcase classname="acceptance.test_spec_4_6_1_upgrade_of_existing_database" name="test_spec_6_1_migration_event_is_not_repeated_or_rewritten_on_later_restarts" time="0.301" /><testcase classname="acceptance.test_spec_4_6_1_upgrade_of_existing_database" name="test_spec_6_1_transition_after_upgrade_appends_an_operation_event" time="0.242" /><testcase classname="acceptance.test_spec_4_6_1_upgrade_of_existing_database" name="test_spec_6_1_task_created_after_upgrade_gets_an_operation_creation_event" time="0.229" /><testcase classname="acceptance.test_spec_4_6_1_upgrade_of_existing_database" name="test_spec_6_1_restart_adds_no_migration_event_to_current_tasks" time="0.061" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_acknowledged_task_survives_restart" time="0.054" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_acknowledged_work_log_survives_restart" time="0.079" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_work_minutes_equals_sum_of_work_entries" time="0.094" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_simultaneous_work_entries_are_each_recorded_once" time="0.149"><failure message="assert 6 == 136&#10; +  where 136 = sum([1, 2, 3, 4, 5, 6, ...])">db_path = '/tmp/pytest-of-runner/pytest-1/test_spec_4_simultaneous_work_0/workflow.sqlite3'
+
+    def test_spec_4_simultaneous_work_entries_are_each_recorded_once(db_path):
+        """SPEC.md section 4: simultaneous accepted work entries are each recorded once and summed."""
+        minutes = list(range(1, 17))
+        with running_app(db_path) as client:
+            task = create_task(client, title="Busy task")
+            responses = run_together(
+                len(minutes),
+                lambda index: log_work(client, task["id"], minutes[index], "admin" if index % 2 else "alice"),
+            )
+            assert [response.status_code for response in responses] == [200] * len(minutes)
+&gt;           assert_work(client, task["id"], minutes)
+
+acceptance/test_spec_4_durability_retries_concurrency.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = &lt;starlette.testclient.TestClient object at 0x7f3a6f237790&gt;, task_id = 1
+expected_minutes = [1, 2, 3, 4, 5, 6, ...]
+
+    def assert_work(client, task_id, expected_minutes):
+        """Each expected entry is recorded once and work_minutes is their sum."""
+        items = work_items(client, task_id)
+        assert sorted(item["minutes"] for item in items) == sorted(expected_minutes), items
+&gt;       assert get_task(client, task_id)["work_minutes"] == sum(expected_minutes)
+E       assert 6 == 136
+E        +  where 136 = sum([1, 2, 3, 4, 5, 6, ...])
+
+acceptance/test_spec_4_durability_retries_concurrency.py:127: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_rejected_work_request_has_no_work_effect[done-task]" time="0.066" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_rejected_work_request_has_no_work_effect[minutes-0]" time="0.052" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_rejected_work_request_has_no_work_effect[minutes-481]" time="0.052" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_rejected_work_request_has_no_work_effect[minutes-as-float]" time="0.054" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_rejected_work_request_has_no_work_effect[minutes-as-string]" time="0.053" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_rejected_work_request_has_no_work_effect[observer]" time="0.054" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_rejected_work_request_has_no_work_effect[unrelated-member]" time="0.051" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_idempotent_retry_returns_the_same_task" time="0.042" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_idempotent_retry_after_restart_returns_the_same_task" time="0.041"><failure message="assert 2 == 1">db_path = '/tmp/pytest-of-runner/pytest-1/test_spec_4_idempotent_retry_a0/workflow.sqlite3'
+
+    def test_spec_4_idempotent_retry_after_restart_returns_the_same_task(db_path):
+        """SPEC.md section 4: an idempotent retry after an application restart returns the same task."""
+        body = {"title": "Order synthetic paper", "description": "Two boxes"}
+        with running_app(db_path) as client:
+            first = post_with_key(client, "alice", "paper-order", body)
+            assert first.status_code == 201, first.text
+        with running_app(db_path) as client:
+            second = post_with_key(client, "alice", "paper-order", body)
+            assert second.status_code == 201, second.text
+&gt;           assert second.json()["id"] == first.json()["id"]
+E           assert 2 == 1
+
+acceptance/test_spec_4_durability_retries_concurrency.py:237: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_idempotent_retry_compares_the_normalized_body" time="0.031" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_idempotency_key_with_a_different_body_returns_409" time="0.037" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_retry_after_a_conflict_still_returns_the_original_task" time="0.034" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_idempotency_key_is_scoped_to_the_actor[same]" time="0.033" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_idempotency_key_is_scoped_to_the_actor[different]" time="0.034" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_idempotency_key_of_1_to_128_characters_is_accepted[1-char]" time="0.037" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_idempotency_key_of_1_to_128_characters_is_accepted[128-chars]" time="0.031" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_invalid_idempotency_key_is_rejected[empty]" time="0.026" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_invalid_idempotency_key_is_rejected[blank]" time="0.027" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_invalid_idempotency_key_is_rejected[129-chars]" time="0.027" /><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_concurrent_idempotent_retries_create_one_task" time="0.098"><failure message="assert 8 == 1&#10; +  where 8 = len({1, 2, 3, 4, 5, 6, ...})">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f46ecf0&gt;
+
+    def test_spec_4_concurrent_idempotent_retries_create_one_task(client):
+        """SPEC.md section 4: concurrent retries with the same actor/key/body create one task."""
+        body = {"title": "Concurrent request", "priority": 2}
+        responses = run_together(8, lambda index: post_with_key(client, "alice", "concurrent-key", body))
+        assert [response.status_code for response in responses] == [201] * 8
+&gt;       assert len({response.json()["id"] for response in responses}) == 1
+E       assert 8 == 1
+E        +  where 8 = len({1, 2, 3, 4, 5, 6, ...})
+
+acceptance/test_spec_4_durability_retries_concurrency.py:310: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_4_durability_retries_concurrency" name="test_spec_4_concurrent_conflicting_bodies_create_one_task" time="0.126"><failure message="assert [201, 201, 20...201, 201, ...] == [201, 409, 40...409, 409, ...]&#10;  &#10;  At index 1 diff: 201 != 409&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    [&#10;        201,&#10;  -     409,&#10;  ?     ^ ^&#10;  +     201,&#10;  ?     ^ ^&#10;  -     409,&#10;  ?     ^ ^&#10;  +     201,&#10;  ?     ^ ^&#10;  -     409,&#10;  ?     ^ ^&#10;  +     201,&#10;  ?     ^ ^&#10;  -     409,&#10;  ?     ^ ^&#10;  +     201,&#10;  ?     ^ ^&#10;  -     409,&#10;  ?     ^ ^&#10;  +     201,&#10;  ?     ^ ^&#10;  -     409,&#10;  ?     ^ ^&#10;  +     201,&#10;  ?     ^ ^&#10;[+5 more lines; full report in element text]">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f46e140&gt;
+
+    def test_spec_4_concurrent_conflicting_bodies_create_one_task(client):
+        """SPEC.md section 4: concurrent different bodies with one actor/key: one 201, every other 409."""
+        responses = run_together(
+            8, lambda index: post_with_key(client, "alice", "contested-key", {"title": f"Variant {index}"})
+        )
+&gt;       assert sorted(response.status_code for response in responses) == [201] + [409] * 7
+E       assert [201, 201, 20...201, 201, ...] == [201, 409, 40...409, 409, ...]
+E         
+E         At index 1 diff: 201 != 409
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           [
+E               201,
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E         -     409,
+E         ?     ^ ^
+E         +     201,
+E         ?     ^ ^
+E           ]
+
+acceptance/test_spec_4_durability_retries_concurrency.py:319: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_text_with_sql_metacharacters_is_stored_and_found[apostrophe]" time="0.036"><failure message="AssertionError: Internal Server Error&#10;assert 500 == 200&#10; +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f2187c0&gt;
+title = "O'Brien's task"
+
+    @pytest.mark.parametrize("title", SQL_TEXT, ids=["apostrophe", "double-quotes", "drop", "delete", "like-chars", "or-true"])
+    def test_spec_5_text_with_sql_metacharacters_is_stored_and_found(client, title):
+        """SPEC.md sections 3 and 5: valid input with SQL metacharacters never causes an internal error;
+        it is stored exactly and found as literal text."""
+        other = create_task(client, title="Unrelated neighbour")
+        created = create_task(client, title=title, description=title)
+        response = client.get(f"/tasks/{created['id']}", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        assert (response.json()["title"], response.json()["description"]) == (title, title)
+&gt;       assert search(client, title) == ([created["id"]], 1)
+               ^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_5_errors_and_compatibility.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = &lt;starlette.testclient.TestClient object at 0x7f3a6f2187c0&gt;
+q = "O'Brien's task"
+
+    def search(client, q):
+        response = client.get("/tasks", params={"q": q, "limit": 100}, headers=auth("admin"))
+&gt;       assert response.status_code == 200, response.text
+E       AssertionError: Internal Server Error
+E       assert 500 == 200
+E        +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code
+
+acceptance/test_spec_5_errors_and_compatibility.py:62: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_text_with_sql_metacharacters_is_stored_and_found[double-quotes]" time="0.038" /><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_text_with_sql_metacharacters_is_stored_and_found[drop]" time="0.043" /><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_text_with_sql_metacharacters_is_stored_and_found[delete]" time="0.036"><failure message="AssertionError: Internal Server Error&#10;assert 500 == 200&#10; +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f37c270&gt;
+title = "Robert'); DELETE FROM tasks; --"
+
+    @pytest.mark.parametrize("title", SQL_TEXT, ids=["apostrophe", "double-quotes", "drop", "delete", "like-chars", "or-true"])
+    def test_spec_5_text_with_sql_metacharacters_is_stored_and_found(client, title):
+        """SPEC.md sections 3 and 5: valid input with SQL metacharacters never causes an internal error;
+        it is stored exactly and found as literal text."""
+        other = create_task(client, title="Unrelated neighbour")
+        created = create_task(client, title=title, description=title)
+        response = client.get(f"/tasks/{created['id']}", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        assert (response.json()["title"], response.json()["description"]) == (title, title)
+&gt;       assert search(client, title) == ([created["id"]], 1)
+               ^^^^^^^^^^^^^^^^^^^^^
+
+acceptance/test_spec_5_errors_and_compatibility.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+client = &lt;starlette.testclient.TestClient object at 0x7f3a6f37c270&gt;
+q = "Robert'); DELETE FROM tasks; --"
+
+    def search(client, q):
+        response = client.get("/tasks", params={"q": q, "limit": 100}, headers=auth("admin"))
+&gt;       assert response.status_code == 200, response.text
+E       AssertionError: Internal Server Error
+E       assert 500 == 200
+E        +  where 500 = &lt;Response [500 Internal Server Error]&gt;.status_code
+
+acceptance/test_spec_5_errors_and_compatibility.py:62: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_text_with_sql_metacharacters_is_stored_and_found[like-chars]" time="0.041" /><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_text_with_sql_metacharacters_is_stored_and_found[or-true]" time="0.038"><failure message="assert ([1, 2], 2) == ([2], 1)&#10;  &#10;  At index 0 diff: [1, 2] != [2]&#10;  &#10;  Full diff: (-: missing in left side, +: extra in left side)&#10;    (&#10;        [&#10;  +         1,&#10;            2,&#10;        ],&#10;  -     1,&#10;  ?     ^&#10;  +     2,&#10;  ?     ^&#10;    )">client = &lt;starlette.testclient.TestClient object at 0x7f3a6f2347c0&gt;
+title = "' OR '1'='1"
+
+    @pytest.mark.parametrize("title", SQL_TEXT, ids=["apostrophe", "double-quotes", "drop", "delete", "like-chars", "or-true"])
+    def test_spec_5_text_with_sql_metacharacters_is_stored_and_found(client, title):
+        """SPEC.md sections 3 and 5: valid input with SQL metacharacters never causes an internal error;
+        it is stored exactly and found as literal text."""
+        other = create_task(client, title="Unrelated neighbour")
+        created = create_task(client, title=title, description=title)
+        response = client.get(f"/tasks/{created['id']}", headers=auth("admin"))
+        assert response.status_code == 200, response.text
+        assert (response.json()["title"], response.json()["description"]) == (title, title)
+&gt;       assert search(client, title) == ([created["id"]], 1)
+E       assert ([1, 2], 2) == ([2], 1)
+E         
+E         At index 0 diff: [1, 2] != [2]
+E         
+E         Full diff: (-: missing in left side, +: extra in left side)
+E           (
+E               [
+E         +         1,
+E                   2,
+E               ],
+E         -     1,
+E         ?     ^
+E         +     2,
+E         ?     ^
+E           )
+
+acceptance/test_spec_5_errors_and_compatibility.py:86: AssertionError</failure></testcase><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_task_keeps_its_documented_field_names" time="0.028" /><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_list_keeps_its_documented_field_names" time="0.031" /><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_work_log_keeps_its_documented_field_names" time="0.044" /><testcase classname="acceptance.test_spec_5_errors_and_compatibility" name="test_spec_5_create_app_keeps_its_data_in_the_given_file" time="0.062" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_starts_with_creation_event" time="0.030" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_body_is_an_items_object" time="0.028" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_creation_event_actor_is_the_creator[admin]" time="0.032" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_creation_event_actor_is_the_creator[bob]" time="0.031" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_each_transition_appends_one_event" time="0.045" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_changed_at_is_aware_utc_and_follows_the_sequence" time="0.037" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_sequence_is_counted_per_task" time="0.067" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_status_change_with_other_fields_appends_one_event" time="0.041" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_unchanged_status[todo]" time="0.043" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_unchanged_status[in_progress]" time="0.044" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_non_status_edits" time="0.076" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_rejected_requests[invalid-companion-field]" time="0.039" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_rejected_requests[observer]" time="0.038" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_rejected_requests[skipped-transition]" time="0.039" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_rejected_requests[unknown-companion-field]" time="0.038" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_rejected_requests[unknown-status]" time="0.038" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_rejected_requests[unrelated-member]" time="0.037" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_a_rejected_reopen" time="0.043" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_no_event_for_an_idempotent_creation_retry" time="0.036" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_is_readable_by_task_readers[admin]" time="0.044" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_is_readable_by_task_readers[observer]" time="0.049" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_is_readable_by_task_readers[creator]" time="0.042" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_is_readable_by_task_readers[assignee]" time="0.042" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_of_former_assignee_is_hidden" time="0.037" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_of_missing_task_returns_404[admin]" time="0.024" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_of_missing_task_returns_404[alice]" time="0.026" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_of_missing_task_returns_404[observer]" time="0.024" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_survives_restart" time="0.052" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_is_not_editable_through_the_api[POST]" time="0.043" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_is_not_editable_through_the_api[PUT]" time="0.046" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_is_not_editable_through_the_api[PATCH]" time="0.046" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_history_is_not_editable_through_the_api[DELETE]" time="0.043" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_task_patch_cannot_write_history" time="0.037" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_earlier_events_are_not_rewritten_by_later_changes" time="0.056" /><testcase classname="acceptance.test_spec_6_1_status_history" name="test_spec_6_1_concurrent_identical_transitions_append_one_event" time="0.142" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_admin_may_patch_any_task" time="0.036" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_creator_may_patch_a_task_assigned_to_another" time="0.042" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_current_assignee_may_patch_the_task" time="0.038" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_member_cannot_patch_unrelated_task[priority]" time="0.045" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_member_cannot_patch_unrelated_task[status]" time="0.043" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_member_cannot_patch_unrelated_task[title]" time="0.045" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_member_cannot_patch_task_assigned_to_someone_else" time="0.044" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_member_cannot_grant_self_access_by_assigning_self" time="0.052" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_assignee_may_reassign_the_task_away" time="0.044" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_former_assignee_cannot_patch" time="0.048" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_observer_patch_returns_403[assignee]" time="0.047" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_observer_patch_returns_403[everything]" time="0.044" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_observer_patch_returns_403[status]" time="0.045" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_observer_patch_returns_403[title]" time="0.043" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_observer_patch_of_missing_task_returns_404" time="0.024" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_reopen_restriction_still_applies[creator]" time="0.059" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_reopen_restriction_still_applies[assignee]" time="0.063" /><testcase classname="acceptance.test_spec_6_2_changes_to_others_tasks" name="test_spec_6_2_work_permissions_are_unchanged" time="0.064" /></testsuite></testsuites>
