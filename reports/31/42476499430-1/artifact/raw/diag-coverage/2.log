@@ -1,0 +1,8 @@
+Name                   Stmts   Miss Branch BrPart  Cover   Missing
+------------------------------------------------------------------
+workflow/__init__.py       1      0      0      0   100%
+workflow/api.py          102      3     18      1    97%   95, 108-109
+workflow/service.py      116      1     42      1    99%   156
+workflow/store.py        100      0     16      1    99%   236->238
+------------------------------------------------------------------
+TOTAL                    319      4     76      3    98%
