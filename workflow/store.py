@@ -1,6 +1,7 @@
 """SQLite persistence for the WorkFlow exercise."""
 
 from contextlib import contextmanager
+from datetime import datetime, timezone
 from pathlib import Path
 import sqlite3
 
@@ -41,6 +42,41 @@ CREATE TABLE IF NOT EXISTS work_logs (
 ) STRICT;
 CREATE INDEX IF NOT EXISTS tasks_creator ON tasks(creator_id, id);
 CREATE INDEX IF NOT EXISTS tasks_assignee ON tasks(assignee_id, id);
+CREATE TABLE IF NOT EXISTS status_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    task_id INTEGER NOT NULL REFERENCES tasks(id),
+    sequence INTEGER NOT NULL CHECK(sequence >= 1),
+    actor_id INTEGER NOT NULL REFERENCES users(id),
+    from_status TEXT CHECK(from_status IN ('todo', 'in_progress', 'done')),
+    to_status TEXT NOT NULL CHECK(to_status IN ('todo', 'in_progress', 'done')),
+    changed_at TEXT NOT NULL,
+    origin TEXT NOT NULL CHECK(origin IN ('operation', 'migration')),
+    UNIQUE(task_id, sequence)
+) STRICT;
+CREATE TRIGGER IF NOT EXISTS status_history_no_update BEFORE UPDATE ON status_history
+BEGIN SELECT RAISE(ABORT, 'status history is append-only'); END;
+CREATE TRIGGER IF NOT EXISTS status_history_no_delete BEFORE DELETE ON status_history
+BEGIN SELECT RAISE(ABORT, 'status history is append-only'); END;
+"""
+
+# PRAGMA user_version of a file whose tasks all have status history. Files made before
+# status history existed are at 0; see docs/status-history-migration.md.
+HISTORY_VERSION = 1
+
+# The migration's one initial event per pre-upgrade task: the stored status as the
+# starting state, by the task's creator. Tasks that already have events are skipped.
+MIGRATE_HISTORY = """
+INSERT INTO status_history(task_id, sequence, actor_id, from_status, to_status, changed_at, origin)
+SELECT id, 1, creator_id, NULL, status, :changed_at, 'migration' FROM tasks
+WHERE NOT EXISTS (SELECT 1 FROM status_history WHERE status_history.task_id = tasks.id)
+ORDER BY id
+"""
+
+# Appends the task's next event; sequence counts per task from 1.
+APPEND_EVENT = """
+INSERT INTO status_history(task_id, sequence, actor_id, from_status, to_status, changed_at, origin)
+SELECT :task_id, COALESCE(MAX(sequence), 0) + 1, :actor_id, :from_status, :to_status, :changed_at, :origin
+FROM status_history WHERE task_id = :task_id
 """
 
 UPDATE_FIELDS = ("title", "description", "assignee_id", "status", "priority", "due_at")
@@ -70,6 +106,17 @@ class Store:
                 "INSERT OR IGNORE INTO users(id,name,role,token) VALUES(?,?,?,?)",
                 USERS,
             )
+        self.migrate()
+
+    def migrate(self):
+        # One write transaction: the initial events and the new user_version commit
+        # together, and a second process opening the file waits and then skips.
+        with self.connect() as conn:
+            conn.execute("BEGIN IMMEDIATE")
+            if conn.execute("PRAGMA user_version").fetchone()[0] < HISTORY_VERSION:
+                changed_at = datetime.now(timezone.utc).isoformat(timespec="microseconds")
+                conn.execute(MIGRATE_HISTORY, {"changed_at": changed_at})
+                conn.execute("PRAGMA user_version = 1")  # HISTORY_VERSION; PRAGMA takes no parameters
 
     @contextmanager
     def connect(self):
@@ -124,9 +171,16 @@ class Store:
                 ),
             )
             task_id = cursor.lastrowid
+            self.append_event(conn, task_id, user["id"], None, "todo", timestamp)
         return self.task(task_id)
 
-    def update(self, task_id, values, timestamp):
+    def update(self, task_id, values, timestamp, actor_id=None, check=None):
+        """Apply values and, for an actual status change, append its event, in one transaction.
+
+        check(task), if given, runs inside the write transaction with the stored row and
+        may raise to refuse the update; nothing is written then. Returns None for a
+        missing task.
+        """
         if not set(values).issubset(UPDATE_FIELDS):
             raise ValueError("unknown update field")
         params = {"id": task_id, "updated_at": timestamp}
@@ -134,8 +188,30 @@ class Store:
             params[field] = values.get(field)
             params["set_" + field] = field in values
         with self.connect() as conn:
+            conn.execute("BEGIN IMMEDIATE")
+            before = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
+            if before is None:
+                return None
+            if check is not None:
+                check(dict(before))
             conn.execute(UPDATE_TASK, params)
-        return self.task(task_id)
+            if "status" in values and values["status"] != before["status"]:
+                self.append_event(conn, task_id, actor_id, before["status"], values["status"], timestamp)
+            row = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
+        return dict(row)
+
+    def append_event(self, conn, task_id, actor_id, from_status, to_status, timestamp):
+        conn.execute(APPEND_EVENT, {
+            "task_id": task_id, "actor_id": actor_id, "from_status": from_status,
+            "to_status": to_status, "changed_at": timestamp, "origin": "operation",
+        })
+
+    def history(self, task_id):
+        with self.connect() as conn:
+            return [dict(row) for row in conn.execute(
+                "SELECT sequence, actor_id, from_status, to_status, changed_at, origin "
+                "FROM status_history WHERE task_id=? ORDER BY sequence", (task_id,)
+            )]
 
     def append_work(self, task_id, user, minutes, timestamp, previous_total):
         with self.connect() as conn:

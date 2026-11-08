@@ -129,4 +129,9 @@ def create_app(db_path=None):
     def work(task_id: int, user=Depends(actor)):
         return {"items": service.work(user, task_id)}
 
+    # Read-only: no other method is routed, so history cannot be edited through the API.
+    @app.get("/tasks/{task_id}/history")
+    def history(task_id: int, user=Depends(actor)):
+        return {"items": service.history(user, task_id)}
+
     return app
