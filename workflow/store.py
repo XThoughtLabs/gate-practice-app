@@ -100,6 +100,11 @@ AND (instr(lower(title), lower(:query)) > 0 OR instr(lower(description), lower(:
 ORDER BY id ASC
 """
 
+# SQLite integers are signed 64-bit, so no task has an id outside this range, and sqlite3
+# refuses to bind such a Python int (OverflowError). The task methods answer for it as for
+# any missing task instead of binding it.
+SQLITE_INTEGERS = range(-2**63, 2**63)
+
 UPDATE_FIELDS = ("title", "description", "assignee_id", "status", "priority", "due_at")
 
 # One constant statement for every update: a column takes its new value only when
@@ -164,6 +169,8 @@ class Store:
         return dict(row) if row else None
 
     def task(self, task_id):
+        if task_id not in SQLITE_INTEGERS:
+            return None
         with self.connect() as conn:
             row = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
         return dict(row) if row else None
@@ -227,6 +234,8 @@ class Store:
         """
         if not set(values).issubset(UPDATE_FIELDS):
             raise ValueError("unknown update field")
+        if task_id not in SQLITE_INTEGERS:
+            return None
         params = {"id": task_id, "updated_at": timestamp}
         for field in UPDATE_FIELDS:
             params[field] = values.get(field)
@@ -251,6 +260,8 @@ class Store:
         })
 
     def history(self, task_id):
+        if task_id not in SQLITE_INTEGERS:
+            return []
         with self.connect() as conn:
             return [dict(row) for row in conn.execute(
                 "SELECT sequence, actor_id, from_status, to_status, changed_at, origin "
@@ -264,6 +275,8 @@ class Store:
         may raise to refuse the entry; nothing is written then. Returns None for a
         missing task.
         """
+        if task_id not in SQLITE_INTEGERS:
+            return None
         with self.connect() as conn:
             conn.execute("BEGIN IMMEDIATE")
             before = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
@@ -283,6 +296,8 @@ class Store:
         return dict(row)
 
     def work_logs(self, task_id):
+        if task_id not in SQLITE_INTEGERS:
+            return []
         with self.connect() as conn:
             return [dict(row) for row in conn.execute(
                 "SELECT * FROM work_logs WHERE task_id=? ORDER BY id", (task_id,)

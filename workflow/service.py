@@ -24,7 +24,11 @@ def parse_time(value):
     parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     if parsed.utcoffset() is None:
         raise ValueError("timezone required")
-    return parsed.astimezone(timezone.utc)
+    try:
+        return parsed.astimezone(timezone.utc)
+    except OverflowError:
+        # The offset moves its UTC value outside the years 1 to 9999 a datetime can hold.
+        raise ValueError("timestamp out of range") from None
 
 
 def visible(user, task):
