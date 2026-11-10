@@ -386,13 +386,19 @@ def test_existing_database_keeps_all_its_data(tmp_path, with_history):
     with TestClient(create_app(path)) as client:
         opened = stored_rows(path)
         first = created(post(client, "alice", "after-upgrade", body))
-    # Every table, row, index and trigger the file had is kept as it was; the upgrade adds
-    # the key table (and status history to a file without it) and nothing else.
+    # Every row, index and trigger the file had, and every table but tasks, is kept as it was;
+    # the tasks table is rebuilt as a new file has it (docs/nul-title-migration.md). The upgrade
+    # adds the key table (and status history to a file without it) and nothing else.
     assert {table: opened[table] for table in before} == before
-    assert before_schema <= schema(path)
+    old_tasks = {entry for entry in before_schema if entry[:2] == ("table", "tasks")}
+    assert len(old_tasks) == 1
+    assert before_schema - old_tasks <= schema(path)
+    create_app(tmp_path / "new.sqlite3")
+    new_tasks = {entry for entry in schema(tmp_path / "new.sqlite3") if entry[:2] == ("table", "tasks")}
+    assert {entry for entry in schema(path) if entry[:2] == ("table", "tasks")} == new_tasks != old_tasks
     assert {name for kind, name, _, _ in schema(path) - before_schema if kind == "table"} == (
-        {"idempotency_keys"} | (set() if with_history else {"status_history"}))
-    assert user_version(path) == 1
+        {"tasks", "idempotency_keys"} | (set() if with_history else {"status_history"}))
+    assert user_version(path) == 2
     with TestClient(create_app(path)) as client:
         assert created(post(client, "alice", "after-upgrade", body))["id"] == first["id"]
         refused = post(client, "alice", "after-upgrade", {"title": "Another body"})
