@@ -1,0 +1,6 @@
+OK permission:contents-read:allowed
+OK permission:contents-write:denied
+OK permission:checks-write:denied
+OK permission:pull-requests-write:denied
+OK environment:python
+OK environment:image_os
