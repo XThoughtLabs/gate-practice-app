@@ -95,8 +95,10 @@ def create_app(db_path=None):
             raise Problem(422, "invalid idempotency key")
         return service.create(user, body.model_dump(), idempotency_key)
 
+    # q has no length limit: SPEC.md sets none, and any substring of a 2,000-character
+    # description must find it.
     @app.get("/tasks")
-    def tasks(q: str = Query(default="", max_length=200),
+    def tasks(q: str = Query(default=""),
               limit: int = Query(default=20, ge=1, le=100),
               offset: int = Query(default=0, ge=0), user=Depends(actor)):
         return service.list(user, q, limit, offset)
