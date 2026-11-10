@@ -1,0 +1,8 @@
+{
+  "conclusions": {
+    "gate/archive": "success",
+    "gate/final": "success"
+  },
+  "reasons": [],
+  "verdict": "ready-for-human"
+}
