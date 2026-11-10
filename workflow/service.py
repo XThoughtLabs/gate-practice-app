@@ -139,6 +139,11 @@ class Service:
         return task
 
     def add_work(self, user, task_id, minutes):
+        if user["role"] == "observer":
+            # An observer reads every task and writes none: a missing task is the uniform
+            # 404 for them as for every role, and only an existing one is refused as a
+            # write, 403. Both answers come before any write transaction.
+            self.get(user, task_id)
         self.require_writer(user)
 
         def check(task):

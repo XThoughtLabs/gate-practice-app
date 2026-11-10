@@ -294,8 +294,9 @@ class Store:
         """Apply values and, for an actual status change, append its event, in one transaction.
 
         check(task), if given, runs inside the write transaction with the stored row and
-        may raise to refuse the update; nothing is written then. Returns None for a
-        missing task.
+        may raise to refuse the update; nothing is written then. Values holding only the
+        stored status are a no-op: nothing is written, updated_at included, and the stored
+        row is returned. Returns None for a missing task.
         """
         if not set(values).issubset(UPDATE_FIELDS):
             raise ValueError("unknown update field")
@@ -312,6 +313,11 @@ class Store:
                 return None
             if check is not None:
                 check(dict(before))
+            # SPEC.md section 2: an unchanged status is a no-op. Judged here, after check and
+            # against the stored row, so a refusal still comes first and an earlier read
+            # cannot turn an actual transition into a no-op.
+            if values == {"status": before["status"]}:
+                return dict(before)
             conn.execute(UPDATE_TASK, params)
             if "status" in values and values["status"] != before["status"]:
                 self.append_event(conn, task_id, actor_id, before["status"], values["status"], timestamp)
