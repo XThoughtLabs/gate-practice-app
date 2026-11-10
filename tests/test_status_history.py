@@ -438,7 +438,8 @@ def test_upgrade_gives_each_existing_task_one_migration_event(pre_upgrade, admin
             assert events[0] == {"sequence": 1, "actor_id": task["creator_id"], "from_status": None,
                                  "to_status": task["status"], "origin": "migration"}
             assert_utc(changed_at)
-    assert user_version(pre_upgrade) == 1
+    # 2: the same upgrade also rebuilds the tasks table (docs/nul-title-migration.md).
+    assert user_version(pre_upgrade) == 2
 
 
 def test_upgrade_keeps_tasks_and_work_logs(pre_upgrade, admin):
@@ -473,7 +474,7 @@ def test_failed_migration_writes_nothing(pre_upgrade, admin):
     execute(pre_upgrade, "DELETE FROM tasks WHERE id = 4")
     with TestClient(create_app(pre_upgrade)) as client:
         assert [len(history(client, row[0], admin)) for row in PRE_UPGRADE_TASKS] == [1, 1, 1]
-    assert user_version(pre_upgrade) == 1
+    assert user_version(pre_upgrade) == 2
 
 
 def test_after_upgrade_events_use_origin_operation(pre_upgrade, alice, admin):

@@ -13,16 +13,15 @@ USERS = (
     (4, "Observer", "observer", "demo-observer"),
 )
 
-SCHEMA = """
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    role TEXT NOT NULL CHECK(role IN ('admin', 'member', 'observer')),
-    token TEXT NOT NULL UNIQUE
-) STRICT;
+# The tasks table. SQLite's length() of a text counts only the characters before its first
+# U+0000, so it can bound a title from above but not show that it is not empty; the title's
+# UTF-8 bytes, NULs included, do: a title of 1 to 120 characters takes 1 to 480 of them. The
+# API checks the 1 to 120 characters themselves. Store() creates the table with this
+# statement in a new file, and rebuild_tasks() creates it again in an existing one.
+TASKS_TABLE = """
 CREATE TABLE IF NOT EXISTS tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL CHECK(length(title) BETWEEN 1 AND 120),
+    title TEXT NOT NULL CHECK(length(title) <= 120 AND length(CAST(title AS BLOB)) BETWEEN 1 AND 480),
     description TEXT NOT NULL DEFAULT '',
     creator_id INTEGER NOT NULL REFERENCES users(id),
     assignee_id INTEGER REFERENCES users(id),
@@ -32,6 +31,15 @@ CREATE TABLE IF NOT EXISTS tasks (
     work_minutes INTEGER NOT NULL DEFAULT 0 CHECK(work_minutes >= 0),
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
+) STRICT
+"""
+
+SCHEMA = """
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    role TEXT NOT NULL CHECK(role IN ('admin', 'member', 'observer')),
+    token TEXT NOT NULL UNIQUE
 ) STRICT;
 CREATE TABLE IF NOT EXISTS work_logs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -72,6 +80,33 @@ CREATE TABLE IF NOT EXISTS idempotency_keys (
 # idempotency_keys is added to an existing file by its CREATE TABLE IF NOT EXISTS alone and
 # needs no data step, so it leaves user_version as it is; see docs/idempotency-keys.md.
 HISTORY_VERSION = 1
+
+# PRAGMA user_version of a file whose tasks table is TASKS_TABLE. Files at 1 have the earlier
+# CHECK(length(title) BETWEEN 1 AND 120), which a title beginning with U+0000 fails. SQLite
+# cannot alter a CHECK, so the table is rebuilt; see docs/nul-title-migration.md.
+TITLE_CHECK_VERSION = 2
+
+# The tasks table's indexes and triggers, as the file stores them, to create again after the
+# rebuild. An index made for a UNIQUE or PRIMARY KEY constraint has no sql of its own.
+TASK_DEPENDENTS = """
+SELECT sql FROM sqlite_master
+WHERE tbl_name = 'tasks' AND type IN ('index', 'trigger') AND sql IS NOT NULL
+ORDER BY rowid
+"""
+
+# The rebuild: every task, with its id, is copied out, the table is dropped and created again
+# as TASKS_TABLE, and the tasks are copied back. Work logs, status history and idempotency keys
+# refer to the table by its name, so they refer to the new one.
+REBUILD_TASKS = (
+    "CREATE TEMP TABLE task_rows AS SELECT * FROM tasks",
+    "DROP TABLE tasks",
+    TASKS_TABLE,
+    "INSERT INTO tasks(id, title, description, creator_id, assignee_id, status, priority, due_at, "
+    "work_minutes, created_at, updated_at) "
+    "SELECT id, title, description, creator_id, assignee_id, status, priority, due_at, "
+    "work_minutes, created_at, updated_at FROM task_rows ORDER BY id",
+    "DROP TABLE task_rows",
+)
 
 # The migration's one initial event per pre-upgrade task: the stored status as the
 # starting state, by the task's creator. Tasks that already have events are skipped.
@@ -131,6 +166,7 @@ class Store:
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connect() as conn:
+            conn.execute(TASKS_TABLE)
             conn.executescript(SCHEMA)
             conn.executemany(
                 "INSERT OR IGNORE INTO users(id,name,role,token) VALUES(?,?,?,?)",
@@ -139,14 +175,43 @@ class Store:
         self.migrate()
 
     def migrate(self):
-        # One write transaction: the initial events and the new user_version commit
-        # together, and a second process opening the file waits and then skips.
+        # One write transaction for every step the file still needs: the initial events, the
+        # rebuilt tasks table and the new user_version commit together or not at all, and a
+        # second process opening the file waits and then skips.
         with self.connect() as conn:
+            # Dropping the tasks table that other tables refer to needs foreign keys off, and
+            # the setting cannot change inside a transaction. PRAGMA foreign_key_check checks
+            # every reference before the commit instead.
+            conn.execute("PRAGMA foreign_keys=OFF")
             conn.execute("BEGIN IMMEDIATE")
-            if conn.execute("PRAGMA user_version").fetchone()[0] < HISTORY_VERSION:
+            version = conn.execute("PRAGMA user_version").fetchone()[0]
+            if version >= TITLE_CHECK_VERSION:
+                return
+            if version < HISTORY_VERSION:
                 changed_at = datetime.now(timezone.utc).isoformat(timespec="microseconds")
                 conn.execute(MIGRATE_HISTORY, {"changed_at": changed_at})
-                conn.execute("PRAGMA user_version = 1")  # HISTORY_VERSION; PRAGMA takes no parameters
+            self.rebuild_tasks(conn)
+            broken = conn.execute("PRAGMA foreign_key_check").fetchall()
+            if broken:
+                found = ", ".join(f"{table} row {rowid} refers to a missing {parent} row"
+                                  for table, rowid, parent, _ in broken[:10])
+                raise sqlite3.IntegrityError(f"FOREIGN KEY constraint failed: {found}")
+            conn.execute("PRAGMA user_version = 2")  # TITLE_CHECK_VERSION; PRAGMA takes no parameters
+
+    def rebuild_tasks(self, conn):
+        """Create the tasks table again as TASKS_TABLE, keeping every task, its indexes and
+        triggers and its AUTOINCREMENT sequence, inside the caller's transaction."""
+        sequence = conn.execute("SELECT seq FROM sqlite_sequence WHERE name = 'tasks'").fetchone()
+        dependents = [row["sql"] for row in conn.execute(TASK_DEPENDENTS)]
+        for statement in REBUILD_TASKS:
+            conn.execute(statement)
+        for statement in dependents:
+            conn.execute(statement)
+        # Dropping the table removed its sequence, and copying the tasks back set it to the
+        # highest id; new tasks continue from the stored one.
+        conn.execute("DELETE FROM sqlite_sequence WHERE name = 'tasks'")
+        if sequence is not None:
+            conn.execute("INSERT INTO sqlite_sequence(name, seq) VALUES('tasks', ?)", (sequence["seq"],))
 
     @contextmanager
     def connect(self):
