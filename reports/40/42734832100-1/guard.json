@@ -1,0 +1,30 @@
+{
+  "dependency_changes": [],
+  "fingerprint": {
+    "cumulative": "82ba63f815471de57bb35dacc706333a12a7d02028bb29830ec0c4ec26fc3bff",
+    "round": "82ba63f815471de57bb35dacc706333a12a7d02028bb29830ec0c4ec26fc3bff"
+  },
+  "head_sha": "98d3b684fe63bc3ee42b97e2806dc2c81245a8d8",
+  "kind": "ai",
+  "marked_tests": [
+    {
+      "name": "test_existing_database_keeps_all_its_data",
+      "path": "tests/test_idempotent_creation.py"
+    },
+    {
+      "name": "test_failed_migration_writes_nothing",
+      "path": "tests/test_status_history.py"
+    },
+    {
+      "name": "test_upgrade_gives_each_existing_task_one_migration_event",
+      "path": "tests/test_status_history.py"
+    }
+  ],
+  "needs_code_owner": [
+    "tests/test_idempotent_creation.py",
+    "tests/test_status_history.py"
+  ],
+  "repeated_fix": false,
+  "security_review_changes": [],
+  "violations": []
+}
