@@ -1,0 +1,1725 @@
+[
+  {
+    "cell": null,
+    "code": "SIM401",
+    "end_location": {
+      "column": 72,
+      "row": 278
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_2_task_fields_and_validation.py",
+    "fix": {
+      "applicability": "unsafe",
+      "edits": [
+        {
+          "content": "ids.get(assignee, MISSING_USER_ID)",
+          "end_location": {
+            "column": 72,
+            "row": 278
+          },
+          "location": {
+            "column": 19,
+            "row": 278
+          }
+        }
+      ],
+      "message": "Replace with `ids.get(assignee, MISSING_USER_ID)`"
+    },
+    "location": {
+      "column": 19,
+      "row": 278
+    },
+    "message": "Use `ids.get(assignee, MISSING_USER_ID)` instead of an `if` block",
+    "name": "if-else-block-instead-of-dict-get",
+    "noqa_row": 278,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/if-else-block-instead-of-dict-get"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 86,
+      "row": 308
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_2_task_fields_and_validation.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timedelta, timezone, UTC",
+          "end_location": {
+            "column": 51,
+            "row": 10
+          },
+          "location": {
+            "column": 1,
+            "row": 10
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 86,
+            "row": 308
+          },
+          "location": {
+            "column": 74,
+            "row": 308
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 74,
+      "row": 308
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 308,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 81,
+      "row": 309
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_2_task_fields_and_validation.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timedelta, timezone, UTC",
+          "end_location": {
+            "column": 51,
+            "row": 10
+          },
+          "location": {
+            "column": 1,
+            "row": 10
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 81,
+            "row": 309
+          },
+          "location": {
+            "column": 69,
+            "row": 309
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 69,
+      "row": 309
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 309,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 86,
+      "row": 310
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_2_task_fields_and_validation.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timedelta, timezone, UTC",
+          "end_location": {
+            "column": 51,
+            "row": 10
+          },
+          "location": {
+            "column": 1,
+            "row": 10
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 86,
+            "row": 310
+          },
+          "location": {
+            "column": 74,
+            "row": 310
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 74,
+      "row": 310
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 310,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 41,
+      "row": 463
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_2_task_fields_and_validation.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timedelta, timezone, UTC",
+          "end_location": {
+            "column": 51,
+            "row": 10
+          },
+          "location": {
+            "column": 1,
+            "row": 10
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 41,
+            "row": 463
+          },
+          "location": {
+            "column": 29,
+            "row": 463
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 29,
+      "row": 463
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 463,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 91,
+      "row": 184
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_3_existing_endpoints.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timedelta, timezone, UTC",
+          "end_location": {
+            "column": 51,
+            "row": 12
+          },
+          "location": {
+            "column": 1,
+            "row": 12
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 91,
+            "row": 184
+          },
+          "location": {
+            "column": 79,
+            "row": 184
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 79,
+      "row": 184
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 184,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 92,
+      "row": 227
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_3_existing_endpoints.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timedelta, timezone, UTC",
+          "end_location": {
+            "column": 51,
+            "row": 12
+          },
+          "location": {
+            "column": 1,
+            "row": 12
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 92,
+            "row": 227
+          },
+          "location": {
+            "column": 80,
+            "row": 227
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 80,
+      "row": 227
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 227,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "BLE001",
+    "end_location": {
+      "column": 25,
+      "row": 58
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_4_durability_retries_concurrency.py",
+    "fix": null,
+    "location": {
+      "column": 16,
+      "row": 58
+    },
+    "message": "Do not catch blind exception: `Exception`",
+    "name": "blind-except",
+    "noqa_row": 58,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/blind-except"
+  },
+  {
+    "cell": null,
+    "code": "BLE001",
+    "end_location": {
+      "column": 25,
+      "row": 98
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_6_1_status_history.py",
+    "fix": null,
+    "location": {
+      "column": 16,
+      "row": 98
+    },
+    "message": "Do not catch blind exception: `Exception`",
+    "name": "blind-except",
+    "noqa_row": 98,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/blind-except"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 41,
+      "row": 161
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/acceptance/test_spec_6_1_status_history.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timedelta, timezone, UTC",
+          "end_location": {
+            "column": 51,
+            "row": 12
+          },
+          "location": {
+            "column": 1,
+            "row": 12
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 41,
+            "row": 161
+          },
+          "location": {
+            "column": 29,
+            "row": 161
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 29,
+      "row": 161
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 161,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 36,
+      "row": 3
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/conftest.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import pytest\nfrom fastapi.testclient import TestClient\n\nfrom workflow.api import create_app\n\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 6
+          },
+          "location": {
+            "column": 1,
+            "row": 1
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 1
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 1,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 14,
+      "row": 3
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_api.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import csv\nimport io\n\nimport pytest\n\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 6
+          },
+          "location": {
+            "column": 1,
+            "row": 1
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 1
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 1,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 33,
+      "row": 17
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_edge_inputs.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import sqlite3\nfrom contextlib import closing\n\nimport pytest\nfrom fastapi.testclient import TestClient\n\nfrom workflow.api import create_app\nfrom workflow.store import Store\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 20
+          },
+          "location": {
+            "column": 1,
+            "row": 10
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 10
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 10,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 14,
+      "row": 6
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_export_csv.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import csv\nimport io\n\nimport pytest\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 9
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 3
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 3,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 33,
+      "row": 21
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_idempotent_creation.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import contextlib\nimport sqlite3\nimport threading\nfrom contextlib import closing\n\nimport pytest\nfrom fastapi.testclient import TestClient\n\nfrom workflow.api import create_app\nfrom workflow.store import USERS\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 24
+          },
+          "location": {
+            "column": 1,
+            "row": 12
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 12
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 12,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "BLE001",
+    "end_location": {
+      "column": 25,
+      "row": 83
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_idempotent_creation.py",
+    "fix": null,
+    "location": {
+      "column": 16,
+      "row": 83
+    },
+    "message": "Do not catch blind exception: `Exception`",
+    "name": "blind-except",
+    "noqa_row": 83,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/blind-except"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 14,
+      "row": 3
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_list_paging.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import pytest\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 6
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 3
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 3,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 40,
+      "row": 23
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_nul_titles.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import csv\nimport hashlib\nimport io\nimport json\nimport sqlite3\nfrom contextlib import closing, contextmanager\n\nimport pytest\nfrom fastapi.testclient import TestClient\n\nfrom workflow.api import create_app\nfrom workflow.store import USERS, Store\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 26
+          },
+          "location": {
+            "column": 1,
+            "row": 12
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 12
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 12,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 14,
+      "row": 7
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_overdue.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import pytest\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 10
+          },
+          "location": {
+            "column": 1,
+            "row": 7
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 7
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 7,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 14,
+      "row": 8
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_patch_permissions.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import pytest\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 11
+          },
+          "location": {
+            "column": 1,
+            "row": 8
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 8
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 8,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 24,
+      "row": 27
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_records_read_in_one_snapshot.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import itertools\nimport sqlite3\nimport threading\nfrom concurrent.futures import ThreadPoolExecutor\nfrom contextlib import closing\n\nimport pytest\n\nimport workflow.service\nfrom workflow.service import Problem, visible\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 30
+          },
+          "location": {
+            "column": 1,
+            "row": 18
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 18
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 18,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 36,
+      "row": 12
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_search.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import pytest\nfrom fastapi.testclient import TestClient\n\nfrom workflow.api import create_app\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 15
+          },
+          "location": {
+            "column": 1,
+            "row": 9
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 9
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 9,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "RUF059",
+    "end_location": {
+      "column": 21,
+      "row": 100
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_search.py",
+    "fix": {
+      "applicability": "unsafe",
+      "edits": [
+        {
+          "content": "_hidden",
+          "end_location": {
+            "column": 21,
+            "row": 100
+          },
+          "location": {
+            "column": 15,
+            "row": 100
+          }
+        }
+      ],
+      "message": "Prefix it with an underscore or any other dummy variable pattern"
+    },
+    "location": {
+      "column": 15,
+      "row": 100
+    },
+    "message": "Unpacked variable `hidden` is never used",
+    "name": "unused-unpacked-variable",
+    "noqa_row": 100,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-unpacked-variable"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 33,
+      "row": 14
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_status_history.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import itertools\nimport sqlite3\nimport threading\nfrom concurrent.futures import ThreadPoolExecutor\nfrom contextlib import closing\nfrom datetime import datetime, timedelta\n\nimport pytest\nfrom fastapi.testclient import TestClient\n\nfrom workflow.api import create_app\nfrom workflow.store import USERS\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 17
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 3
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 3,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 33,
+      "row": 8
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_store_update.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import sqlite3\nfrom datetime import datetime, timezone\n\nimport pytest\n\nfrom workflow.store import Store\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 11
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 3
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 3,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 38,
+      "row": 93
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_store_update.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timezone, UTC",
+          "end_location": {
+            "column": 40,
+            "row": 3
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 38,
+            "row": 93
+          },
+          "location": {
+            "column": 26,
+            "row": 93
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 26,
+      "row": 93
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 93,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 36,
+      "row": 95
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_store_update.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timezone, UTC",
+          "end_location": {
+            "column": 40,
+            "row": 3
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 36,
+            "row": 95
+          },
+          "location": {
+            "column": 24,
+            "row": 95
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 24,
+      "row": 95
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 95,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 14,
+      "row": 8
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_task_read_visibility.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import pytest\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 11
+          },
+          "location": {
+            "column": 1,
+            "row": 8
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 8
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 8,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 24,
+      "row": 19
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_unchanged_status_and_observer_work.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import sqlite3\nfrom contextlib import closing\n\nimport pytest\n\nimport workflow.service\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 22
+          },
+          "location": {
+            "column": 1,
+            "row": 14
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 14
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 14,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 24,
+      "row": 19
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_work_entries.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import contextlib\nimport itertools\nimport threading\nfrom concurrent.futures import ThreadPoolExecutor\n\nimport pytest\nfrom fastapi.testclient import TestClient\n\nimport workflow.service\nfrom workflow.api import create_app\nfrom workflow.service import visible\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 22
+          },
+          "location": {
+            "column": 1,
+            "row": 9
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 9
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 9,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "BLE001",
+    "end_location": {
+      "column": 25,
+      "row": 74
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tests/test_work_entries.py",
+    "fix": null,
+    "location": {
+      "column": 16,
+      "row": 74
+    },
+    "message": "Do not catch blind exception: `Exception`",
+    "name": "blind-except",
+    "noqa_row": 74,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/blind-except"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 36,
+      "row": 11
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tools/benchmark.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import json\nimport math\nimport statistics\nimport tempfile\nimport time\nfrom pathlib import Path\n\nfrom fastapi.testclient import TestClient\n\nfrom workflow.api import create_app\n\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 14
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 3
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 3,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "SIM117",
+    "end_location": {
+      "column": 86,
+      "row": 18
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/tools/benchmark.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 17
+    },
+    "message": "Use a single `with` statement with multiple contexts instead of nested `with` statements",
+    "name": "multiple-with-statements",
+    "noqa_row": 17,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/multiple-with-statements"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 33,
+      "row": 13
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import os\nfrom datetime import datetime\nfrom pathlib import Path\nfrom typing import Literal\n\nfrom fastapi import Depends, FastAPI, Header, Query\nfrom fastapi.responses import JSONResponse, Response\nfrom pydantic import (\n    BaseModel,\n    ConfigDict,\n    Field,\n    StrictInt,\n    field_validator,\n    model_validator,\n)\n\nfrom workflow.service import Problem, Service, parse_time\nfrom workflow.store import Store\n\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 16
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 3
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 3,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "F401",
+    "end_location": {
+      "column": 30,
+      "row": 3
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "",
+          "end_location": {
+            "column": 1,
+            "row": 4
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        }
+      ],
+      "message": "Remove unused import: `datetime.datetime`"
+    },
+    "location": {
+      "column": 22,
+      "row": 3
+    },
+    "message": "`datetime.datetime` imported but unused",
+    "name": "unused-import",
+    "noqa_row": 3,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unused-import"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 88
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 20,
+      "row": 88
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 88,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 58,
+      "row": 92
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 44,
+      "row": 92
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 92,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 72,
+      "row": 103
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 58,
+      "row": 103
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 103,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 45,
+      "row": 107
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 31,
+      "row": 107
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 107,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 35,
+      "row": 115
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 21,
+      "row": 115
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 115,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 119
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 37,
+      "row": 119
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 119,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 70,
+      "row": 123
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 56,
+      "row": 123
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 123,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 68,
+      "row": 127
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 54,
+      "row": 127
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 127,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 47,
+      "row": 131
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 33,
+      "row": 131
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 131,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 50,
+      "row": 136
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/api.py",
+    "fix": null,
+    "location": {
+      "column": 36,
+      "row": 136
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 136,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 37,
+      "row": 9
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/service.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import csv\nimport hashlib\nimport io\nimport json\nfrom datetime import datetime, timezone\n\nfrom workflow.store import KeyReused\n\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 12
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 3
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 3,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 37,
+      "row": 20
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/service.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timezone, UTC",
+          "end_location": {
+            "column": 40,
+            "row": 3
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 37,
+            "row": 20
+          },
+          "location": {
+            "column": 25,
+            "row": 20
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 25,
+      "row": 20
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 20,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "FURB162",
+    "end_location": {
+      "column": 65,
+      "row": 24
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/service.py",
+    "fix": {
+      "applicability": "unsafe",
+      "edits": [
+        {
+          "content": "",
+          "end_location": {
+            "column": 65,
+            "row": 24
+          },
+          "location": {
+            "column": 42,
+            "row": 24
+          }
+        }
+      ],
+      "message": "Remove `.replace()` call"
+    },
+    "location": {
+      "column": 37,
+      "row": 24
+    },
+    "message": "Unnecessary timezone replacement with zero offset",
+    "name": "fromisoformat-replace-z",
+    "noqa_row": 24,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/fromisoformat-replace-z"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 46,
+      "row": 28
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/service.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timezone, UTC",
+          "end_location": {
+            "column": 40,
+            "row": 3
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 46,
+            "row": 28
+          },
+          "location": {
+            "column": 34,
+            "row": 28
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 34,
+      "row": 28
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 28,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 15,
+      "row": 6
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/store.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import sqlite3\nfrom contextlib import contextmanager\nfrom datetime import datetime, timezone\nfrom pathlib import Path\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 9
+          },
+          "location": {
+            "column": 1,
+            "row": 3
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 3
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 3,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "ISC004",
+    "end_location": {
+      "column": 70,
+      "row": 107
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/store.py",
+    "fix": {
+      "applicability": "unsafe",
+      "edits": [
+        {
+          "content": "(",
+          "end_location": {
+            "column": 5,
+            "row": 104
+          },
+          "location": {
+            "column": 5,
+            "row": 104
+          }
+        },
+        {
+          "content": ")",
+          "end_location": {
+            "column": 70,
+            "row": 107
+          },
+          "location": {
+            "column": 70,
+            "row": 107
+          }
+        }
+      ],
+      "message": "Did you forget a comma?"
+    },
+    "location": {
+      "column": 5,
+      "row": 104
+    },
+    "message": "Unparenthesized implicit string concatenation in collection",
+    "name": "implicit-string-concatenation-in-collection-literal",
+    "noqa_row": 104,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/implicit-string-concatenation-in-collection-literal"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 55,
+      "row": 198
+    },
+    "filename": "/home/runner/work/gate-practice-app/gate-practice-app/pr/workflow/store.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timezone, UTC",
+          "end_location": {
+            "column": 40,
+            "row": 4
+          },
+          "location": {
+            "column": 1,
+            "row": 4
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 55,
+            "row": 198
+          },
+          "location": {
+            "column": 43,
+            "row": 198
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 43,
+      "row": 198
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 198,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  }
+]
