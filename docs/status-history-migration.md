@@ -46,3 +46,5 @@ To go back, stop the new version and restore the backup. Do not run the earlier 
 ## Tests
 
 `tests/test_status_history.py` builds a file with the earlier schema, copied verbatim from the baseline. It checks that the upgrade gives one migration event per task and keeps every stored value of tasks and work logs. It also checks that a restart adds nothing and that later events use `origin: operation`.
+
+<!-- Round 2 demonstration, commit 1 of 2: a harmless comment line; the demonstration PR is closed unmerged. -->
