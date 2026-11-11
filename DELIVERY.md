@@ -2,6 +2,8 @@
 
 > **Status: final, written by HQ on 2026-11-10 after the 09:06:00 Israel time reading; approved by the customer as draft 1 ("I approve everything", 2026-11-10 07:06), then completed with the items it marked to confirm.** Figures come from the files named beside them; nothing here is an estimate unless it says so.
 
+> **Round 2 (2026-11-12).** The customer's answer to this delivery found two defects; both are fixed, and section 16 reports how. The fixed application commit is now `candidate/a` = `7ca3ec7f0aecbada02b8d7b0aedb29977cdd35fa`, and the judge is pinned at quality-gate `76ab28b940b0992f4a37c436b12b023ece4fcd52`. Sections 1–15 describe the delivery of 2026-11-10 and are not changed.
+
 - **Customer:** Vladislav (XThoughtLabs). **Candidate:** A — Vladislav with Claude models. In this simulation the customer and the candidate are one person; every report says so.
 - **Pilot clock:** started 2026-11-03 12:56:44 Asia/Jerusalem, on the customer's authorization (declaration v2 as amended by v3, and AA-01). **Delivery due:** 2026-11-12 23:59 Asia/Jerusalem. **Fee:** simulated fixed fee USD 650, capped at 20 working hours (§12).
 - **Delivery PR:** `candidate/a` → `main`, opened after this file reaches `candidate/a`, and **left open**; `main` is never merged into.
@@ -259,3 +261,106 @@ By the customer's decision, the operator's raw logs stay on the candidate's lapt
 4. CWE-1236: whether the CSV export should neutralize spreadsheet formulas, which would change returned titles.
 5. DISC-01: whether to fix the benchmark command.
 6. The transfer check on a second application: its scope and time, before it starts.
+
+## 16. Round 2: the customer's two findings (2026-11-10 to 2026-11-12)
+
+> Written by HQ on 2026-11-12. Figures come from the files and runs named beside them.
+
+**The customer's answer to the delivery** (2026-11-10 10:16): all 16 of the customer's hidden tests passed; two defects reproduced in the customer's independent check block acceptance and are to be fixed in one round:
+1. **Read after revocation.** A request to the status history or the work log that began before an assignment was removed could return records created after the removal. A regression check for both routes, with that order of operations, was asked for.
+2. **A premature final status.** In run 42751543290 `ready-for-human` appeared before the mandatory independent review. The final status must appear only after a successful archive and all mandatory checks on one commit, and a missing, failed or other-commit review must block it.
+
+For re-acceptance: the fixed commit's SHA, links to the run and its archive, and the fixes through the open delivery PR #45 against the frozen `main`.
+
+### 16.1 What changed (identity)
+
+| Item | Value |
+|---|---|
+| Fixed application commit | `candidate/a` = `7ca3ec7f0aecbada02b8d7b0aedb29977cdd35fa` (PR #48's merge, 2026-11-12 00:57:00) |
+| Judge pin | quality-gate `76ab28b940b0992f4a37c436b12b023ece4fcd52` (PR #2's merge, 2026-11-11 04:58:55; self-test green on it, run 42949652058, 2,756 tests), called by `judge.yml` and by the new `finalize.yml` on `candidate/a` since PR #46 (merge `fd0af0d7330af9064206243d0e12758ada17080f`) |
+| Baseline | `main` = `821330ffbb19f545fb81f3c223b0a286ff6c4980`, untouched |
+| Delivery PR | #45, `candidate/a` → `main`, still open |
+| This section | reaches `candidate/a` by a documents-only maintenance PR; the application code at its merge equals `7ca3ec7` |
+
+### 16.2 Defect 1: a read that began before an assignment was removed
+
+- **Cause** (HQ, by reading the code at `c2d66819`): `GET /tasks/{id}/work` and `GET /tasks/{id}/history` checked the task's visibility in one database read and read the records in a second one. A removal of the assignment and a new record committed between the two reached the former assignee.
+- **Fix** (issue #47, PR #48, written by the executor; 3 files: `workflow/service.py`, `workflow/store.py`, a new test file). Each route still refuses a missing or unreadable task first. Then the task's row is judged again and the records are read in one SQLite read transaction: an explicit `BEGIN`; with the rollback journal, the shared lock taken by its first read is kept to the end, so no write can commit in between. Schema, journal mode and connection settings are unchanged.
+- **Tests** (`tests/test_records_read_in_one_snapshot.py`, 20 cases):
+  - 4 regression cases, work and history, with the assignment removed to no one and to another member. Threading events fix the order, with no sleeps: the request's check passes, then the administrator removes the assignment and commits a new record, then the request reads. On the fixed code the former assignee gets 404 with `{"detail":"task not found"}`;
+  - 2 store cases prove the single transaction: a write that tries to commit inside the check is refused, "database is locked";
+  - 2 store cases for a missing task or an id outside SQLite's range;
+  - 12 controls: with no removal the member's answer holds the new record; the administrator's and the observer's answers are unchanged.
+- **The tests catch the defect**, reproduced by HQ before the merge, outside GitHub (Windows 11, CPython 3.13.15, the 30 pins of `requirements.lock`; `evidence-local/part-4/issue-47/hq-check-*`):
+  - on the code before the fix (`fd0af0d`), 8 of the 20 fail: the 4 regression cases with 200 and the record committed after the removal, the 4 store cases with `TypeError`;
+  - on the fixed code, all 20 pass;
+  - a mutant without the `BEGIN` fails the 2 store snapshot cases;
+  - a mutant without the second check fails the 4 regression cases.
+  
+  The executor ran the new file ten times in a row: 20 passed each time.
+- **The judge** (run 43109775459, head `ef6387aa27b2d12f0a6e2b3aac3e086a188aa4af`): 502 tests (482 + 20), no failure; acceptance 357 passed, 0 listed, 0 new failures; security tools no findings; changed lines covered 21 of 21; the independent review (Codex) passed with no findings.
+
+### 16.3 Defect 2: the final status before the independent review
+
+- **Cause:** at quality-gate `906ebae`, the judge's archive job set `gate/final` from the preliminary verdict and the archive alone; the independent review only informed the report. In run 42751543290, `gate/final` became success at 03:50:50Z, and the review came at 03:59:45Z. The merge itself still waited for the review (the ruleset requires `independent-review`).
+- **Fix** (quality-gate PR #2, merge `76ab28b`; rules FN-1 to FN-9 in `docs/CONTRACTS.md` §8.5):
+  - `gate/final` success (`ready-for-human`) only when all of these hold on one commit, the PR's head: the archive is complete; each mandatory check's newest run is green; the newest `independent-review` status is a success created by the reviewer's bot account;
+  - a ready gate whose review is missing or pending leaves `gate/final` **in progress**, "waiting for the independent review on <sha>"; a failed review gives `blocked`;
+  - a new reusable `finalize.yml`, started by `status` events, decides again for the head. Its permissions are exactly `checks: write`, `contents: read`, `pull-requests: read`; it uses no secret and runs no PR code;
+  - FN-9: the newest review decides last. Every success post re-reads the newest review just before and just after it. A failed read keeps `gate/final` in progress, and a failed post is tried once more.
+- **Evidence in quality-gate:**
+  - the tests were written before the code. On the old code the archive chain posted success with no review at all, reproducing the finding;
+  - self-test: 2,756 passed on Linux at the PR's head `725c02f` and on the merge;
+  - 85 mutants of the new code (groups FIN, 52, and FN9, 33), all killed, each kill confirmed by the killing test alone;
+  - four rounds of fresh reviewers (one on the whole change, three narrow ones on the repair of its medium finding M-1); every medium finding was repaired before the merge; all the findings are recorded as L53 and L57–L76 in `docs/LIMITATIONS.md`.
+- **On real runs in gate-practice-app:**
+
+| Case | What GitHub shows | Evidence |
+|---|---|---|
+| Review missing | PR #48, head `ef6387aa`: `gate/final` in progress from 22:17:40Z, "waiting for the independent review on ef6387aa…"; the stored `final.json` has verdict `awaiting-review`, reason `REVIEW_MISSING` | [judge run 43109775459](https://github.com/XThoughtLabs/gate-practice-app/actions/runs/43109775459); [its archive](https://github.com/XThoughtLabs/gate-practice-app/tree/75aa46224ead868b5982ead9ef5ec67a011f2c00/reports/48/43109775459-1) |
+| Review on the same commit | `independent-review` success at 22:30:50Z, then finalize, then `gate/final` success, "Final verdict: ready-for-human", at 22:31:13Z | [finalize run 43112390498](https://github.com/XThoughtLabs/gate-practice-app/actions/runs/43112390498) |
+| Review of another commit | demonstration PR #49, closed unmerged: commit 1 `b5f1c285` reviewed, so `gate/final` success on commit 1 only; commit 2 `c7e0bf39` left `gate/final` in progress and never completed; no status and no finalize run on commit 2 | [PR #49](https://github.com/XThoughtLabs/gate-practice-app/pull/49); judge runs 43118092138 and 43120170533; finalize run 43119085287 |
+| Review failed | shown by quality-gate's tests only (`tests/spec/test_final_after_review.py`): an honest reviewer cannot be made to fail on demand, so the customer chose tests over a staged run | quality-gate PR #2 |
+
+### 16.4 Merges and bypasses in round 2
+
+- **quality-gate PR #2** (the gate's change) was merged by the owner on 2026-11-11 at 04:58:55. Its description was corrected before the merge, so that it matches the code.
+- **gate-practice-app:**
+  - **#46** (maintenance: the judge's pin and the thin `finalize.yml` caller): the owner's bypass, **the 15th**. It was merged at 05:11:35, while its own judge run was still running. That run used the old pin from the default branch and later posted `gate/final` success with no review: the behaviour this round replaces.
+  - **#48** (the executor's fix): the owner's bypass, **the 16th**, and the first executor PR of the pilot merged by bypass. All 9 required checks and the independent review passed; the only rule not met was the pull-request rule, which was waiting for the code owner's approving review. The bypass button was used by mistake. The owner's sign-off, written after HQ's check, is a comment on the PR: [comment 6809271327](https://github.com/XThoughtLabs/gate-practice-app/pull/48#issuecomment-6809271327). With #48, §9's sentence "No change to `workflow/` or `tests/` entered by bypass" is no longer true.
+  - **#49** (the demonstration): closed unmerged; its branch is kept.
+  - **This section's PR** (documents only): the owner's bypass, **the 17th**.
+- The gate's own reports list every bypass merge; PR 46 and PR 48 appear there.
+
+### 16.5 New limitations
+
+1. **The executor's turn limit.** The run for issue #47 reported 90 turns under `--max-turns 80`, with result `success`. The launcher passes the flag as its contract says (LR-26); why Claude Code did not stop at 80 is not known. The 60-minute timeout is the bound that held: the run took 17 min 10 s.
+2. **A superseded `gate/final` stays in progress.** finalize posts a new check run instead of completing the waiting one. GitHub's check list and the required check use the newest run (PR #48's required checks were green), but the history keeps an open run.
+3. **What remains of the race after FN-9** (quality-gate L53, L65, L67–L69, L73–L75): a post that GitHub refuses twice, or a run that GitHub never starts, can leave a success newest at that moment. The other cases never show green. The ruleset's own `independent-review` requirement still blocks the merge.
+4. **A failed review was not shown on GitHub**, only by tests (16.3).
+5. **The customer's 16 hidden tests were not rerun by us** after round 2; our own 502 tests and the 357 acceptance tests pass on the fix.
+
+### 16.6 Effort in round 2
+
+- **The customer's active time:** not measured.
+- **His touches, counted from the records:**
+  - 17 answers to Claude Code's questions in its window, and 8 to HQ's questions, in 6 sittings;
+  - 8 task messages pasted to Claude Code;
+  - 1 executor start and 2 reviewer runs;
+  - 3 merges (quality-gate PR #2, #46, #48), and 1 for this section's PR.
+- **Machine time** (separate from the cap; from the readings in the records):
+
+| Actor | Time |
+|---|---|
+| Claude Code on the laptop: the gate's change (2 h 17 min 46 s, not counting a pause of 1 h 18 min 1 s), the repair of M-1 (4 h 14 min 8 s), the texts, the caller and the read-backs (32 min 59 s), batch 14 with HQ's check (1 h 14 min 37 s), the sign-off and the demonstration (33 min 29 s) | 8 h 52 min 59 s |
+| The executor, issue #47 | 17 min 10 s, 90 turns |
+| The independent reviewer (Codex), 2 runs | not measured |
+| HQ (Claude) | not measured as active time |
+
+- **Charges:** none new, and none to the customer; the same subscriptions as in §12.
+
+### 16.7 What the customer decides now
+
+1. Re-acceptance of round 2 on the fixed commit `7ca3ec7`, in the delivery PR #45, which stays open.
+2. Whether the executor's turn limit needs a check of its own (16.5, item 1).
+3. Whether finalize should complete the waiting `gate/final` run instead of posting a new one (16.5, item 2).
