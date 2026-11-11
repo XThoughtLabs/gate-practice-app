@@ -135,6 +135,13 @@ AND (instr(lower(title), lower(:query)) > 0 OR instr(lower(description), lower(:
 ORDER BY id ASC
 """
 
+# A task's records, in the order GET /tasks/{id}/work and GET /tasks/{id}/history list them.
+WORK_LOGS = "SELECT * FROM work_logs WHERE task_id=? ORDER BY id"
+HISTORY = (
+    "SELECT sequence, actor_id, from_status, to_status, changed_at, origin "
+    "FROM status_history WHERE task_id=? ORDER BY sequence"
+)
+
 # SQLite integers are signed 64-bit, so no task has an id outside this range, and sqlite3
 # refuses to bind such a Python int (OverflowError). The task methods answer for it as for
 # any missing task instead of binding it.
@@ -330,14 +337,29 @@ class Store:
             "to_status": to_status, "changed_at": timestamp, "origin": "operation",
         })
 
-    def history(self, task_id):
+    def history(self, task_id, check=None):
+        return self.records(HISTORY, task_id, check)
+
+    def records(self, query, task_id, check=None):
+        """The task's rows from query, read in one transaction with the task's own row.
+
+        check(task), if given, runs inside that transaction with the stored row, or None
+        for a missing task, and may raise to refuse the read; nothing more is read then.
+        The rows returned come from the same state of the database as the row it judged.
+        """
         if task_id not in SQLITE_INTEGERS:
+            if check is not None:
+                check(None)
             return []
         with self.connect() as conn:
-            return [dict(row) for row in conn.execute(
-                "SELECT sequence, actor_id, from_status, to_status, changed_at, origin "
-                "FROM status_history WHERE task_id=? ORDER BY sequence", (task_id,)
-            )]
+            # The reads of one transaction see one state of the database: with the rollback
+            # journal, the shared lock its first read takes is kept to the end, and no write
+            # can commit while it is held.
+            conn.execute("BEGIN")
+            if check is not None:
+                task = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
+                check(dict(task) if task else None)
+            return [dict(row) for row in conn.execute(query, (task_id,))]
 
     def append_work(self, task_id, user, minutes, timestamp, check=None):
         """Record one work entry and add it to the stored work_minutes, in one transaction.
@@ -366,10 +388,5 @@ class Store:
             row = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
         return dict(row)
 
-    def work_logs(self, task_id):
-        if task_id not in SQLITE_INTEGERS:
-            return []
-        with self.connect() as conn:
-            return [dict(row) for row in conn.execute(
-                "SELECT * FROM work_logs WHERE task_id=? ORDER BY id", (task_id,)
-            )]
+    def work_logs(self, task_id, check=None):
+        return self.records(WORK_LOGS, task_id, check)

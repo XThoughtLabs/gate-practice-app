@@ -45,6 +45,12 @@ def editable(user, task):
     )
 
 
+def authorize_read(user, task):
+    # task is the stored row, None for a missing one: missing or unreadable is the uniform 404.
+    if task is None or not visible(user, task):
+        raise Problem(404, "task not found")
+
+
 def authorize_patch(user, task):
     # Judged against the stored task, so an assignee_id in the request itself grants nothing.
     if not visible(user, task):
@@ -160,16 +166,18 @@ class Service:
         return task
 
     def work(self, user, task_id):
-        task = self.existing(task_id)
-        if not visible(user, task):
-            raise Problem(404, "task not found")
-        return self.store.work_logs(task_id)
+        # A missing or unreadable task is refused here, before any record is read. The
+        # task is judged again in the records' own read transaction, against the row read
+        # there, so the check and the records of one answer come from one state of the
+        # database: a member whose assignment was removed after the first check gets the
+        # uniform 404, never a record written since (#47).
+        self.get(user, task_id)
+        return self.store.work_logs(task_id, lambda task: authorize_read(user, task))
 
     def history(self, user, task_id):
-        task = self.existing(task_id)
-        if not visible(user, task):
-            raise Problem(404, "task not found")
-        return self.store.history(task_id)
+        # As for work: the events and the check they follow come from one transaction (#47).
+        self.get(user, task_id)
+        return self.store.history(task_id, lambda task: authorize_read(user, task))
 
     def export(self, user):
         # The csv module quotes commas, double quotes and line breaks (RFC 4180),
