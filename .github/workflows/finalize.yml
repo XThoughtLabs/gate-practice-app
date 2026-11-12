@@ -16,6 +16,6 @@ jobs:
       checks: write
       contents: read
       pull-requests: read
-    uses: XThoughtLabs/quality-gate/.github/workflows/finalize.yml@76ab28b940b0992f4a37c436b12b023ece4fcd52
+    uses: XThoughtLabs/quality-gate/.github/workflows/finalize.yml@21b42312fb92bf428831d4420bd185c6e5f584f5
     with:
       config-path: quality.toml
