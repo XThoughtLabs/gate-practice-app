@@ -1,0 +1,6 @@
+{
+  "image_os": "ubuntu24",
+  "image_version": "20261101.360.1",
+  "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+  "python": "3.13.15"
+}
