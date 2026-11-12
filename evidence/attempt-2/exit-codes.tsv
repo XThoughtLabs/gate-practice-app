@@ -1,0 +1,7 @@
+dependency-check	0	0.303
+starter-tests	0	3.167
+coverage-json	0	0.177
+coverage-report	0	0.169
+bandit	1	0.272
+benchmark-as-recorded	1	0.42
+benchmark-with-pythonpath	0	4.414

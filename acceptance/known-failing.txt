@@ -1,0 +1,2 @@
+# No known-failing acceptance tests. Emptied on 2026-11-08 after the defect search:
+# all 117 entries of the first list (judge run 42361091565) were fixed by PRs #11 to #33; all 357 pass.

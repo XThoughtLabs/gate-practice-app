@@ -1,0 +1,25 @@
+# The judge, for every PR into candidate/a. pull_request_target runs this file from the
+# default branch, never from the PR it judges. The work is done by quality-gate's
+# reusable judge at a full commit SHA; this file only calls it.
+name: judge
+
+on:
+  pull_request_target:
+    branches: [candidate/a]
+    types: [opened, synchronize, reopened]
+
+permissions: {}
+
+jobs:
+  judge:
+    # The union of the reusable judge's jobs (design section 5 with AA-01):
+    # run contents read; publish checks write, pull-requests write, actions read, contents read;
+    # archive contents write, checks write. No actions: write (decision N). No secrets.
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+      actions: read
+    uses: XThoughtLabs/quality-gate/.github/workflows/judge.yml@21b42312fb92bf428831d4420bd185c6e5f584f5
+    with:
+      config-path: quality.toml

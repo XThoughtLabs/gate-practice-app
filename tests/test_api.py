@@ -83,9 +83,13 @@ def test_admin_reopens(client, alice, admin, task):
     assert client.patch(path, json={"status": "in_progress"}, headers=admin).status_code == 200
 
 
-def test_observer_create(client, observer):
+def test_observer_create(client, observer, admin):
+    # SPEC.md sections 1, 3 and 5: POST /tasks is admin/member only and observers never
+    # write, so the observer gets exactly 403 and the administrator sees no stored task.
     result = client.post("/tasks", json={"title": "Observer task"}, headers=observer)
-    assert result.status_code in (201, 403)
+    assert result.status_code == 403
+    tasks = client.get("/tasks", headers=admin).json()
+    assert (tasks["items"], tasks["total"]) == ([], 0)
 
 
 def test_observer_cannot_patch(client, observer, task):

@@ -1,0 +1,147 @@
+# The quality gate's configuration for this repository. The gate reads it from the
+# default branch only, never from the PR it judges. It is a protected path: an
+# executor's PR that touches it fails gate/guard, and CODEOWNERS names the CEO for it.
+#
+# The pipeline: XThoughtLabs/quality-gate, called by .github/workflows/judge.yml
+# at the full commit SHA fdc99189d797e0df35baaf64233cb6e657628e31.
+# The executor and the spec-test author run on the CEO's laptop, not on GitHub (DEV-06):
+# a local launcher reads [limits], [spec_tests] and [feedback] from this file on the
+# default branch, and acts on GitHub only as the xtl-gate-executor app.
+# {raw} is the check's raw output folder. {env:NAME} is a value from the judge's trusted context.
+
+[project]
+baseline_sha = "821330ffbb19f545fb81f3c223b0a286ff6c4980"
+integration_branch = "candidate/a"
+
+[environment]
+# The customer's baseline ran on CPython 3.13.15 (evidence/environment.json); the judge pins 3.13.15.
+python = "3.13"
+image_os = "ubuntu24"
+
+[limits]
+max_turns = 80
+timeout_minutes = 60
+max_fix_rounds = 3
+
+[guard]
+# Added to the gate's fixed list (design section 6), never replacing it.
+extra_protected = ["prompts/", ".claude/", ".mcp.json"]
+dependency_files = ["requirements.lock"]
+dependency_sources = ["requirements.in"]
+threshold_keys = []
+
+[feedback]
+judge_workflow_path = ".github/workflows/judge.yml"
+reviewer_app = "xtl-gate-reviewer"
+executor_app = "xtl-gate-executor"
+
+[acceptance]
+# The CEO sets this true, through a maintenance PR, before the final PR (decision O, condition d).
+require_empty = false
+
+[spec_tests]
+# The spec-test author must not see the application's code (design section 3). evidence/ is
+# hidden too: its Bandit and test logs quote lines of the code.
+deny_read = ["workflow/**", "tests/**", "tools/**", "evidence/**"]
+
+# The customer's commands (evidence/commands.json), as the gate runs them on the PR's head.
+# Each command's numeric exit code goes to exit-codes.tsv.
+
+[setup]
+# commands.json, item 1, after the install. requirements.lock carries no hashes on the baseline;
+# the guard refuses any change to it that does not hash every line (G-7).
+commands = [
+  ["python", "-m", "pip", "install", "--quiet", "-r", "requirements.lock"],
+  ["python", "-m", "pip", "check"],
+]
+timeout_seconds = 600
+
+[checks."gate/tests"]
+# commands.json, item 2, without --basetemp: its Windows path is the examiner's machine.
+class = "mandatory"
+commands = [["python", "-m", "pytest", "-q", "-p", "no:cacheprovider", "--ignore=acceptance", "--junitxml={raw}/junit.xml"]]
+junit = "junit.xml"
+forbid_skips = true
+expected_tests_from_base = true
+required_outputs = ["junit.xml"]
+timeout_seconds = 1800
+
+[checks."gate/acceptance"]
+class = "mandatory"
+commands = [[
+  "{env:GATE_PY}", "-P", "-m", "gate.acceptance",
+  "--junit", "{raw}/junit.xml",
+  "--known-failing", "{env:GATE_KNOWN_FAILING}",
+  "--mode", "{env:GATE_ACCEPTANCE_MODE}",
+  "--config", "{env:GATE_CONFIG}",
+  "--tests-dir", "acceptance",
+  "--out", "{raw}/acceptance.json",
+  "--",
+  "python", "-m", "pytest", "acceptance", "-q", "-p", "no:cacheprovider", "--junitxml={raw}/junit.xml",
+]]
+env = { PYTHONPATH = "{env:GATE_HOME}" }
+required_outputs = ["junit.xml", "acceptance.json"]
+timeout_seconds = 1800
+
+[checks."gate/security"]
+# commands.json, item 5 (Bandit over workflow), with the gate's pinned Bandit, plus pip-audit and gitleaks.
+class = "mandatory"
+commands = [[
+  "{env:GATE_PY}", "-P", "-m", "gate.security_check",
+  "--bandit", "{raw}/bandit.json",
+  "--pip-audit", "{raw}/pip-audit.json",
+  "--gitleaks", "{raw}/gitleaks.json",
+  "--review", "security-review.md",
+  "--repo", ".",
+  "--base", "{env:GATE_BASE_SHA}",
+  "--head", "{env:GATE_HEAD_SHA}",
+  "--out", "{raw}/security.json",
+  "--tool-command", '["{env:GATE_TOOLS}/bandit", "-r", "workflow", "-f", "json", "-o", "{raw}/bandit.json"]',
+  "--tool-command", '["{env:GATE_TOOLS}/pip-audit", "-r", "requirements.lock", "--no-deps", "-f", "json", "-o", "{raw}/pip-audit.json"]',
+  "--tool-command", '["{env:GATE_TOOLS_BIN}/gitleaks", "dir", ".", "--report-format", "json", "--report-path", "{raw}/gitleaks.json", "--exit-code", "0"]',
+]]
+env = { PYTHONPATH = "{env:GATE_HOME}" }
+required_outputs = ["security.json"]
+timeout_seconds = 900
+
+[checks."diag/coverage"]
+# commands.json, items 2 to 4, with the JSON written to the raw folder, never to evidence/.
+class = "diagnostic"
+commands = [
+  ["python", "-m", "coverage", "run", "-m", "pytest", "-q", "-p", "no:cacheprovider", "--ignore=acceptance"],
+  ["python", "-m", "coverage", "json", "-o", "{raw}/coverage.json"],
+  ["python", "-m", "coverage", "report"],
+  [
+    "{env:GATE_PY}", "-P", "-m", "gate.diag_summary", "coverage",
+    "--coverage-json", "{raw}/coverage.json",
+    "--repo", ".",
+    "--base", "{env:GATE_BASE_SHA}",
+    "--head", "{env:GATE_HEAD_SHA}",
+    "--out", "{raw}/summary.json",
+  ],
+]
+env = { PYTHONPATH = "{env:GATE_HOME}" }
+timeout_seconds = 1800
+
+[checks."diag/ruff"]
+class = "diagnostic"
+commands = [["{env:GATE_TOOLS}/ruff", "check", ".", "--no-cache", "--output-format", "json"]]
+
+[checks."diag/mypy"]
+# The application's own environment, so that mypy sees its installed packages.
+class = "diagnostic"
+commands = [["{env:GATE_TOOLS}/mypy", "--python-executable", "{env:RUNNER_TEMP}/app-venv/bin/python", "workflow"]]
+
+[checks."diag/semgrep"]
+class = "diagnostic"
+commands = [["{env:GATE_SEMGREP}/semgrep", "scan", "--metrics", "off", "--config", "{env:GATE_HOME}/semgrep/rules.yml", "--json", "workflow"]]
+
+[checks."diag/benchmark"]
+# commands.json, item 6. The recorded command fails without PYTHONPATH=. (DISC-01, evidence/RUN-RECORD.md).
+class = "diagnostic"
+commands = [["python", "tools/benchmark.py"]]
+env = { PYTHONPATH = "." }
+timeout_seconds = 600
+
+# diag/schemathesis and diag/mutation are not configured yet: the report shows them as "unknown".
+# Schemathesis needs the server running; mutmut needs its settings in a root file of the application.

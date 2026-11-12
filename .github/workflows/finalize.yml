@@ -1,0 +1,21 @@
+# The final verdict after the independent review (quality-gate CONTRACTS.md section 8.5, FN-3 to
+# FN-6 and FN-9). A status event runs this file from the default branch, never from a PR. The work
+# is done by quality-gate's reusable finalize at a full commit SHA, the same as the judge's; this
+# file only calls it.
+name: finalize
+
+on: status
+
+permissions: {}
+
+jobs:
+  finalize:
+    # Exactly the reusable finalize's one job (FN-6): checks write, contents read, pull-requests read.
+    # No contents: write, no actions: write. No secrets.
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: read
+    uses: XThoughtLabs/quality-gate/.github/workflows/finalize.yml@21b42312fb92bf428831d4420bd185c6e5f584f5
+    with:
+      config-path: quality.toml
