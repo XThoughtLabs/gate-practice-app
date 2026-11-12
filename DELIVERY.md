@@ -4,6 +4,8 @@
 
 > **Round 2 (2026-11-12).** The customer's answer to this delivery found two defects; both are fixed, and section 16 reports how. The fixed application commit is now `candidate/a` = `7ca3ec7f0aecbada02b8d7b0aedb29977cdd35fa`, and the judge is pinned at quality-gate `76ab28b940b0992f4a37c436b12b023ece4fcd52`. Sections 1–15 describe the delivery of 2026-11-10 and are not changed.
 
+> **Round 2b (2026-11-12).** The customer's re-acceptance accepted the fix of defect 1 and found one more path to a false green status for defect 2; it is fixed, and section 17 reports how. The judge is now pinned at quality-gate `21b42312fb92bf428831d4420bd185c6e5f584f5`; the fixed application commit is still `7ca3ec7f0aecbada02b8d7b0aedb29977cdd35fa`.
+
 - **Customer:** Vladislav (XThoughtLabs). **Candidate:** A — Vladislav with Claude models. In this simulation the customer and the candidate are one person; every report says so.
 - **Pilot clock:** started 2026-11-03 12:56:44 Asia/Jerusalem, on the customer's authorization (declaration v2 as amended by v3, and AA-01). **Delivery due:** 2026-11-12 23:59 Asia/Jerusalem. **Fee:** simulated fixed fee USD 650, capped at 20 working hours (§12).
 - **Delivery PR:** `candidate/a` → `main`, opened after this file reaches `candidate/a`, and **left open**; `main` is never merged into.
@@ -364,3 +366,74 @@ For re-acceptance: the fixed commit's SHA, links to the run and its archive, and
 1. Re-acceptance of round 2 on the fixed commit `7ca3ec7`, in the delivery PR #45, which stays open.
 2. Whether the executor's turn limit needs a check of its own (16.5, item 1).
 3. Whether finalize should complete the waiting `gate/final` run instead of posting a new one (16.5, item 2).
+
+## 17. Round 2b: the customer's re-acceptance and the fix of its finding (2026-11-12)
+
+> Written by HQ on 2026-11-12. Figures come from the files and runs named beside them.
+
+**The customer's re-acceptance** (2026-11-12; `evidence-local/round-2/customer/WORKFLOW-API-CANDIDATE-A-ROUND2-ACCEPTANCE.RU.md` on the candidate's laptop):
+- **Defect 1 accepted.** The customer's 16 hidden tests passed, and so did the application's 502 tests and the 357 acceptance tests. Its own four scenarios for history and the work log, in SQLite's DELETE and WAL journal modes, returned 404 after the removal and a later record.
+- **Defect 2: the original case fixed, the requirement not fully closed.** After FN-9 the success post re-read only the newest review. The mandatory checks were read once, for the decision, so a newer `gate/tests` with failure on the same SHA, arriving after that read, did not stop `gate/final` success and `ready-for-human`. This held in both paths (the archive job and finalize). The customer reproduced it with a test against the gate's own GitHub stand-in; the ruleset's own required `gate/tests` still blocked a normal merge.
+- **Process.** The customer asked for explicit decisions on PR #48's bypass (16.4) and on how the declared turn limit is enforced (16.5, item 1).
+
+**The customer's decisions** (the customer, 2026-11-12, word for word):
+- On PR #48's bypass, to «Как заказчик: обход правил при слиянии PR #48 (все проверки и рецензия пройдены, не было только одобрения владельца до слияния, подпись дана после) — признаёте исключением?»: «Признать исключением (Recommended)». The bypass is an accepted exception.
+- On the turn limit, to «Как заказчик: лимит ходов исполнителя (80) запускатель только передаёт Claude Code и сам не проверяет; в пакете 14 было 90. Что делаем?»: «Принять как ограничение (Recommended)». The 60-minute timeout is the hard bound. Claude Code itself holds the turn limit, and it exceeded it once (90 under 80). A check in the launcher is recorded for the future.
+
+### 17.1 What changed (identity)
+
+| Item | Value |
+|---|---|
+| Fixed application commit | still `7ca3ec7f0aecbada02b8d7b0aedb29977cdd35fa`; this round changed no application code |
+| Judge pin | quality-gate `21b42312fb92bf428831d4420bd185c6e5f584f5` (PR #3's merge, 2026-11-12 07:16:31; self-test green on it, run 43160291435, 2,883 tests), called by `judge.yml` and `finalize.yml` on `candidate/a` since this section's PR |
+| Delivery PR | #45, `candidate/a` → `main`, still open; `main` = `821330ff…`, untouched |
+| This section's PR | the new pin in both workflows and this section, one maintenance PR merged by the owner's bypass, the 18th |
+
+### 17.2 The fix: FN-10, a success re-reads every condition of the decision
+
+quality-gate PR #3 (merge `21b4231`; `docs/CONTRACTS.md` §8.5: FN-10, with FN-1, FN-4, FN-9, "One decision" and the commands amended):
+- **The decision made again.** Just before every `success` post, just after it, before a second try and after a second failure, the gate reads the SHA's statuses and its check runs again (`filter=all`, every page) and runs the one decision, `gate.report.final_decision`, again. Both paths do this, `post-final` in the archive job and finalize. A decision that no longer allows the success is posted instead of it (before) or after it (after).
+- **An unfinished mandatory run waits.** A newest mandatory check run that is queued or in progress keeps `gate/final` in progress (`CHECK_NOT_COMPLETED`, "waiting for the mandatory checks on <head>"); it used to count as missing.
+- **The archive job's own `gate/archive` is read again too** (the reviewer's medium finding F1). The job's own value stands only while the API lists no newer `gate/archive` than the job's own post, judged by the id of GitHub's answer to that post.
+- The waiting `gate/final` for the review no longer says that the gate's checks passed. No workflow file changed.
+
+**Evidence** (`evidence-local/round-2/gate/r2b-*` on the candidate's laptop):
+- The tests were written before the code. The customer's test from its report is in `tests/spec/test_employer_round2.py`: the block's text, with its two line endings normalized to LF. `tests/spec/test_final_all_conditions.py` adds 121 tests for both paths:
+  - a newer mandatory run that is not completed between the read and the post;
+  - a newer failed or unfinished run just after the success post;
+  - every mandatory check;
+  - a success post that fails;
+  - the archive job's own `gate/archive`;
+  - controls.
+  On the code before the fix (`76ab28b`) they fail for the right reason, and every test that passes there is a named control.
+- 60 mutant results, all killed, each kill confirmed by the killing test alone: 41 for the changed functions, 17 for the repair of the review's findings, 2 for the direction of F1's id comparison.
+- Whole suite on the laptop: 2,868 passed, 9 skipped (Windows-only). Self-test on Linux: 2,883 passed at the PR's head and on the merge.
+- One round by a fresh reviewer: one medium (F1) and four lows. F1 to F4 were repaired; F5 is kept as a limitation with no workflow change (L77). A narrow check on the repair found no high or medium, and four lows. The direction of F1's id comparison was then pinned by tests (L85), and three texts were corrected (L82 to L84).
+- Light research: GitHub's reruns of the judge (all jobs, the failed jobs and their dependents, one job and its dependents) and a reopened PR end with the archive job's `gate/final`, posted after it has read the check runs.
+- Not staged on GitHub: a newer red check between a read and a post cannot be produced honestly on a live run, so tests show it, as for a failed review (16.3).
+
+### 17.3 Limitations updated
+
+1. **What FN-10 does not follow** (quality-gate L77): the window between the last read and the post; failed posts and lost runs; a change after which nothing posts. The remainders of L53, L65, L67 to L69 and L73 to L75 now name a newer failed or unfinished mandatory check next to API failures and lost events. The ruleset's own required checks and `independent-review` still block a merge.
+2. **The turn limit** (16.5, item 1) is accepted by the customer as a limitation; see the decision above.
+3. **The archived `final.json`** shows the state at archiving (for PR #48, `awaiting-review`). The decision made later is in the newer `gate/final` check run and in finalize's log (16.5, item 2).
+
+### 17.4 Merges and bypasses in round 2b
+
+- **quality-gate PR #3** was merged by the owner on 2026-11-12 at 07:16:31.
+- **This section's PR** in gate-practice-app (the pin and this section): the owner's bypass, **the 18th**.
+
+### 17.5 Effort in round 2b
+
+- **The customer's active time:** not measured.
+- **Touches, counted from the records:**
+  - 3 answers to HQ's questions;
+  - 7 answers to Claude Code's questions;
+  - 3 task messages pasted to Claude Code;
+  - 2 merges (quality-gate PR #3 and this section's PR).
+- **Claude Code on the laptop:** 4 h 3 min 28 s, from its first reading at 03:20:32 to the read-back of the merge at 07:24:00, the reviewers' rounds included. No executor run.
+- **Charges:** none new.
+
+### 17.6 What the customer decides now
+
+1. Re-acceptance of defect 2 on quality-gate `21b4231`, with the application unchanged at `7ca3ec7`, in the delivery PR #45, which stays open.
